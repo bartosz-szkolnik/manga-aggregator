@@ -2,7 +2,8 @@
 const nextConfig = {
   experimental: {
     serverActions: true,
+    logging: 'verbose',
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
