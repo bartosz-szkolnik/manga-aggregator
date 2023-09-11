@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
 import {
@@ -11,12 +12,46 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '../lib/database.types';
+import { Checkbox } from './ui/checkbox';
+import { Mangadex } from '../lib/mangadex.types';
+import { MangadexCover } from '../lib/mangadex-cover.types';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
 };
 
 export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
+  async function createManga(formData: FormData) {
+    'use server';
+    const supabase = createServerComponentClient<Database>({ cookies });
+
+    const url = formData.get('url') as string | null;
+    if (!url) {
+      return;
+    }
+
+    const id = getId(url);
+
+    const [mangaData, coverData] = await Promise.all([
+      fetch(`https://api.mangadex.org/manga/${id}`).then(r => r.json()) as Promise<Mangadex>,
+      fetch(
+        `https://api.mangadex.org/cover?limit=10&manga%5B%5D=${id}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`,
+      ).then(r => r.json()) as Promise<MangadexCover>,
+    ]);
+
+    const { error } = await supabase.from('manga').insert({
+      mangadex_id: id,
+      name: mangaData.data.attributes.title.en,
+      image_url: `https://mangadex.org/covers/${id}/${coverData.data[0].attributes.fileName}`,
+    });
+
+    if (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -36,16 +71,30 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
           <DialogTitle>Add Manga</DialogTitle>
           <DialogDescription>Copy and paste the manga mangadex URL to save.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <form action={createManga} id="create-manga-form" className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Label htmlFor="url">Manga URL</Label>
-            <Input id="url" placeholder="https://mangadex.org/title/{id}/{title}"></Input>
+            <Input id="url" name="url" placeholder="https://mangadex.org/title/{id}/{title}"></Input>
+            <div className="flex items-center space-x-2 mt-2">
+              <Checkbox id="add-to-my-library" />
+              <label
+                htmlFor="add-to-my-library"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Add to my Library
+              </label>
+            </div>
           </div>
-        </div>
+        </form>
         <DialogFooter>
-          <Button>Save Manga</Button>
+          <Button form="create-manga-form">Save Manga</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
+}
+
+function getId(url: string) {
+  const parts = url.split('/');
+  return parts[4];
 }
