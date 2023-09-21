@@ -14,15 +14,11 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
   const { data } = await supabase.from('manga').select();
 
   return (
     <>
-      <div className="md:hidden">I don't know when I will be visible</div>
+      <div className="md:hidden">Not yet implemented</div>
       <div className="hidden md:block">
         <div className="border-t">
           <div className="bg-background">

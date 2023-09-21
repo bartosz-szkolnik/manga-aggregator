@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverActions: true,
-    logging: 'verbose',
+    // logging: 'verbose',
   },
   images: {
     domains: ['mangadex.org'],

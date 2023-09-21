@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <>
-      <div className="md:hidden">I don't know when I will be visible</div>
+      <div className="md:hidden">Not yet implemented</div>
       <div className="hidden md:block">
         <div className="border-t">
           <div className="bg-background">
