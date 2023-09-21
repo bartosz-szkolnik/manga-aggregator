@@ -3,6 +3,7 @@
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren } from 'react';
+import { cn } from '@/src/lib/utils';
 
 type LinkProps = NextLinkProps & {
   className?: string;
@@ -12,15 +13,17 @@ type LinkProps = NextLinkProps & {
 export function Link({
   children,
   activeClassName = 'active-link bg-accent text-accent-foreground',
-  className,
+  className = '',
   ...props
 }: PropsWithChildren<LinkProps>) {
-  const currentPathname = usePathname();
-  const linkPathname = new URL((props.as || props.href) as string, location.href).pathname;
+  const pathname = usePathname();
 
   return (
     <NextLink
-      className={linkPathname === currentPathname ? `${className} ${activeClassName}`.trim() : className}
+      className={cn({
+        [className]: true,
+        [activeClassName]: props.href === pathname,
+      })}
       {...props}
     >
       {children}

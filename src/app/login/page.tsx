@@ -1,4 +1,4 @@
-import { Link } from '@/src/components/link';
+import { Link } from '@/src/components/ui/link';
 import Messages from './messages';
 
 export default function Login() {

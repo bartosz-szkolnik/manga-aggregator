@@ -1,15 +1,14 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { LogoutButton } from '../../components/logout-button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { ScrollArea, ScrollBar } from '../../components/ui/scroll-area';
 import { Separator } from '../../components/ui/separator';
 import { MangaEmptyPlaceholder } from '../../components/manga-empty-placeholder';
-import { Sidebar } from '../../components/sidebar';
+import { Sidebar } from '../../components/layout/sidebar';
 import { Database } from '../../lib/database.types';
 import { MangaArtwork } from '../../components/manga-artwork';
 import { AddMangaDialog } from '../../components/add-manga-dialog';
-import { Link } from '@/src/components/link';
+import { Nav } from '@/src/components/layout/nav';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,26 +26,7 @@ export default async function Home() {
       <div className="hidden md:block">
         <div className="border-t">
           <div className="bg-background">
-            <nav className="w-full flex justify-center border-b h-16">
-              <div className="w-full flex max-w-screen-2xl justify-between items-center p-3 text-sm text-foreground">
-                <div />
-                <div>
-                  {user ? (
-                    <div className="flex items-center gap-4">
-                      Hey, {user.email}!
-                      <LogoutButton />
-                    </div>
-                  ) : (
-                    <Link
-                      href="/login"
-                      className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-                    >
-                      Login
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </nav>
+            <Nav></Nav>
             <div className="grid lg:grid-cols-5">
               <Sidebar lists={[]}></Sidebar>
               <div className="col-span-3 lg:col-span-4 lg:border-l">
