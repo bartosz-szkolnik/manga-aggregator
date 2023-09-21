@@ -36,30 +36,119 @@ export interface Database {
     Tables: {
       manga: {
         Row: {
+          check_every: string | null
           created_at: string
           id: string
           image_url: string
+          is_completed: boolean | null
           last_time_checked: string | null
           mangadex_id: string
           name: string
         }
         Insert: {
+          check_every?: string | null
           created_at?: string
           id?: string
           image_url: string
+          is_completed?: boolean | null
           last_time_checked?: string | null
           mangadex_id: string
           name: string
         }
         Update: {
+          check_every?: string | null
           created_at?: string
           id?: string
           image_url?: string
+          is_completed?: boolean | null
           last_time_checked?: string | null
           mangadex_id?: string
           name?: string
         }
         Relationships: []
+      }
+      profile: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          name: string | null
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          name?: string | null
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profile_manga: {
+        Row: {
+          created_at: string
+          current_reading_status: string | null
+          id: string
+          is_finished: boolean
+          is_following: boolean
+          is_in_library: boolean
+          is_read_later: boolean
+          latest_chapter_read: string | null
+          manga_id: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_reading_status?: string | null
+          id?: string
+          is_finished?: boolean
+          is_following?: boolean
+          is_in_library?: boolean
+          is_read_later?: boolean
+          latest_chapter_read?: string | null
+          manga_id: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          current_reading_status?: string | null
+          id?: string
+          is_finished?: boolean
+          is_following?: boolean
+          is_in_library?: boolean
+          is_read_later?: boolean
+          latest_chapter_read?: string | null
+          manga_id?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_manga_manga_id_fkey"
+            columns: ["manga_id"]
+            referencedRelation: "manga"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_manga_profile_id_fkey"
+            columns: ["profile_id"]
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
