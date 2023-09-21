@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen-types": "pnpm supabase gen types typescript --local > src/lib/database.types.ts"
+    "gen-types": "pnpm supabase gen types typescript --local > src/lib/database.types.ts",
+    "db-diff": "pnpm supabase db diff --schema public,auth -f"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",
