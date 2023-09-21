@@ -1,18 +1,13 @@
-'use server';
-
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../lib/database.types';
 import { cookies } from 'next/headers';
-import { Manga } from './manga-artwork';
 
-export async function addToLibraryAction(mangaId: Manga['id']) {
+export async function createServerClient() {
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) {
-    return;
-  }
+  const id = user!.id!;
 
-  await supabase.from('profile_manga').insert({ profile_id: user.id, manga_id: mangaId });
+  return { supabase, user, id };
 }

@@ -1,14 +1,9 @@
-import { Database } from '@/src/lib/database.types';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { LogoutButton } from '../logout-button';
 import { Link } from '../ui/link';
+import { createServerClient } from '@/src/utils/supabase';
 
 export async function Nav() {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await createServerClient();
 
   return (
     <nav className="w-full flex justify-center border-b h-16">

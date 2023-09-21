@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
 import {
@@ -12,11 +11,10 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '../lib/database.types';
 import { Checkbox } from './ui/checkbox';
 import { Mangadex } from '../lib/mangadex.types';
 import { MangadexCover } from '../lib/mangadex-cover.types';
+import { createServerClient } from '../utils/supabase';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -25,7 +23,7 @@ type AddMangaDialogProps = {
 export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   async function createManga(formData: FormData) {
     'use server';
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const { supabase } = await createServerClient();
 
     const url = formData.get('url') as string | null;
     if (!url) {

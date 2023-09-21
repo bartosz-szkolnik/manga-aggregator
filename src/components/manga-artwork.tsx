@@ -5,7 +5,7 @@ import { cn } from '../lib/utils';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from './ui/context-menu';
 import { Database } from '../lib/database.types';
 import { useTransition } from 'react';
-import { addToLibraryAction } from './add-to-library-action';
+import { addToLibraryAction } from '../actions/add-to-library-action';
 
 export type Manga = Database['public']['Tables']['manga']['Row'];
 

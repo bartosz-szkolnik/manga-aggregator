@@ -1,19 +1,17 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { ScrollArea, ScrollBar } from '../components/ui/scroll-area';
 import { Separator } from '../components/ui/separator';
 import { MangaEmptyPlaceholder } from '../components/manga-empty-placeholder';
 import { Sidebar } from '../components/layout/sidebar';
-import { Database } from '../lib/database.types';
 import { MangaArtwork } from '../components/manga-artwork';
 import { AddMangaDialog } from '../components/add-manga-dialog';
 import { Nav } from '../components/layout/nav';
+import { createServerClient } from '../utils/supabase';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const { supabase } = await createServerClient();
   const { data } = await supabase.from('profile_manga').select('*, manga(*)');
 
   return (
