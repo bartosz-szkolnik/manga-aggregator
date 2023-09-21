@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '../lib/utils';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
+import Link from 'next/link';
 
 type SidebarProps = React.HTMLAttributes<HTMLDivElement> & {
   lists: any[];
@@ -13,7 +14,7 @@ export function Sidebar({ className, lists }: SidebarProps) {
         <div className="px-3 pt-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Discover</h2>
           <div className="space-y-1">
-            <Button variant="secondary" className="w-full justify-start">
+            <Link href="/" className={buttonVariants({ variant: 'ghost', className: 'w-full justify-start' })}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -28,8 +29,8 @@ export function Sidebar({ className, lists }: SidebarProps) {
                 <polygon points="10 8 16 12 10 16 10 8" />
               </svg>
               Listen Now
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            </Link>
+            <Link href="/browse" className={buttonVariants({ variant: 'ghost', className: 'w-full justify-start' })}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -46,7 +47,7 @@ export function Sidebar({ className, lists }: SidebarProps) {
                 <rect width="7" height="7" x="3" y="14" rx="1" />
               </svg>
               Browse
-            </Button>
+            </Link>
             <Button variant="ghost" className="w-full justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

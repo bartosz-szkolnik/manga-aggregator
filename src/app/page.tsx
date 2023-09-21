@@ -19,7 +19,7 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data } = await supabase.from('manga').select();
+  const { data } = await supabase.from('profile_manga').select('*, manga(*)');
 
   return (
     <>
@@ -77,10 +77,10 @@ export default async function Home() {
                       <div className="relative">
                         <ScrollArea>
                           <div className="flex space-x-4 pb-4">
-                            {data?.map(manga => (
+                            {data?.map(mangaProfile => (
                               <MangaArtwork
-                                key={manga.id}
-                                manga={manga}
+                                key={mangaProfile.id}
+                                manga={mangaProfile.manga!}
                                 className="w-[250px]"
                                 aspectRatio="portrait"
                                 width={250}
@@ -96,23 +96,6 @@ export default async function Home() {
                         <p className="text-sm text-muted-foreground">Your personal lists. Updated daily.</p>
                       </div>
                       <Separator className="my-4" />
-                      <div className="relative">
-                        <ScrollArea>
-                          <div className="flex space-x-4 pb-4">
-                            {data?.map(manga => (
-                              <MangaArtwork
-                                key={manga.id}
-                                manga={manga}
-                                className="w-[150px]"
-                                aspectRatio="square"
-                                width={150}
-                                height={150}
-                              ></MangaArtwork>
-                            ))}
-                          </div>
-                          <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
-                      </div>
                     </TabsContent>
                     <TabsContent value="current-2" className="h-full flex-col border-none p-0 data-[state=active]:flex">
                       <div className="flex items-center justify-between">
