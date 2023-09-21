@@ -1,9 +1,13 @@
+'use client';
+
 import Image from 'next/image';
 import { cn } from '../lib/utils';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from './ui/context-menu';
 import { Database } from '../lib/database.types';
+import { useTransition } from 'react';
+import { addToLibraryAction } from './add-to-library-action';
 
-type Manga = Database['public']['Tables']['manga']['Row'];
+export type Manga = Database['public']['Tables']['manga']['Row'];
 
 type MangaArtworkProps = React.HTMLAttributes<HTMLDivElement> & {
   manga: Manga;
@@ -20,6 +24,12 @@ export function MangaArtwork({
   className,
   ...props
 }: MangaArtworkProps) {
+  let [, startTransition] = useTransition();
+
+  async function addToLibrary() {
+    startTransition(() => addToLibraryAction(manga.id));
+  }
+
   return (
     <div className={cn('space-y-3', className)} {...props}>
       <ContextMenu>
@@ -38,7 +48,7 @@ export function MangaArtwork({
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="w-40">
-          <ContextMenuItem>Add to Library</ContextMenuItem>
+          <ContextMenuItem onClick={addToLibrary}>Add to Library</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
       <div className="space-y-1 text-sm">
