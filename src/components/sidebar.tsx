@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '../lib/utils';
 import { Button, buttonVariants } from './ui/button';
-import Link from 'next/link';
+import { Link } from './link';
 
 type SidebarProps = React.HTMLAttributes<HTMLDivElement> & {
   lists: any[];

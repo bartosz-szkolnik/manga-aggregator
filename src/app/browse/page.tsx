@@ -1,6 +1,5 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import { LogoutButton } from '../../components/logout-button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { ScrollArea, ScrollBar } from '../../components/ui/scroll-area';
@@ -10,6 +9,7 @@ import { Sidebar } from '../../components/sidebar';
 import { Database } from '../../lib/database.types';
 import { MangaArtwork } from '../../components/manga-artwork';
 import { AddMangaDialog } from '../../components/add-manga-dialog';
+import { Link } from '@/src/components/link';
 
 export const dynamic = 'force-dynamic';
 
