@@ -3,11 +3,9 @@
 import Image from 'next/image';
 import { cn } from '../lib/utils';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from './ui/context-menu';
-import { Database } from '../lib/database.types';
 import { useTransition } from 'react';
 import { addToLibraryAction } from '../actions/add-to-library-action';
-
-export type Manga = Database['public']['Tables']['manga']['Row'];
+import { Manga } from '../lib/types';
 
 type MangaArtworkProps = React.HTMLAttributes<HTMLDivElement> & {
   manga: Manga;
@@ -37,7 +35,7 @@ export function MangaArtwork({
           <div className="overflow-hidden rounded-md">
             <Image
               src={manga.image_url}
-              alt={manga.name}
+              alt={manga.title}
               width={width}
               height={height}
               className={cn(
@@ -52,7 +50,7 @@ export function MangaArtwork({
         </ContextMenuContent>
       </ContextMenu>
       <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{manga.name}</h3>
+        <h3 className="font-medium leading-none">{manga.title}</h3>
         <p className="text-xs text-muted-foreground">{manga.last_time_checked}</p>
       </div>
     </div>

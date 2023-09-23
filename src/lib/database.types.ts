@@ -43,7 +43,7 @@ export interface Database {
           is_completed: boolean | null
           last_time_checked: string | null
           mangadex_id: string
-          name: string
+          title: string
         }
         Insert: {
           check_every?: string | null
@@ -53,7 +53,7 @@ export interface Database {
           is_completed?: boolean | null
           last_time_checked?: string | null
           mangadex_id: string
-          name: string
+          title: string
         }
         Update: {
           check_every?: string | null
@@ -63,7 +63,7 @@ export interface Database {
           is_completed?: boolean | null
           last_time_checked?: string | null
           mangadex_id?: string
-          name?: string
+          title?: string
         }
         Relationships: []
       }
@@ -73,6 +73,7 @@ export interface Database {
           created_at: string
           id: string
           name: string | null
+          subscriptions: Json
           username: string
         }
         Insert: {
@@ -80,6 +81,7 @@ export interface Database {
           created_at?: string
           id: string
           name?: string | null
+          subscriptions?: Json
           username: string
         }
         Update: {
@@ -87,6 +89,7 @@ export interface Database {
           created_at?: string
           id?: string
           name?: string | null
+          subscriptions?: Json
           username?: string
         }
         Relationships: [

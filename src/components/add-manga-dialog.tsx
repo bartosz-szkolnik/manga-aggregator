@@ -41,7 +41,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
 
     const { error } = await supabase.from('manga').insert({
       mangadex_id: id,
-      name: mangaData.data.attributes.title.en,
+      title: mangaData.data.attributes.title.en,
       image_url: `https://mangadex.org/covers/${id}/${coverData.data[0].attributes.fileName}`,
     });
 

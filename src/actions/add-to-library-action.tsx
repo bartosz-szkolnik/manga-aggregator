@@ -1,6 +1,6 @@
 'use server';
 
-import { Manga } from '../components/manga-artwork';
+import { Manga } from '../lib/types';
 import { createServerClient } from '../utils/supabase';
 
 export async function addToLibraryAction(mangaId: Manga['id']) {

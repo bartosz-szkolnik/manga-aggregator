@@ -7,7 +7,7 @@ export async function createServerClient() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const id = user!.id!;
+  const id = user?.id;
 
-  return { supabase, user, id };
+  return { supabase, user, id, isLoggedIn: Boolean(user) };
 }
