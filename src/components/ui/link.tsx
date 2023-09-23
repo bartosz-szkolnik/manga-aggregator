@@ -8,12 +8,14 @@ import { cn } from '@/src/lib/utils';
 type LinkProps = NextLinkProps & {
   className?: string;
   activeClassName?: string;
+  hasNestedRoutes?: boolean;
 };
 
 export function Link({
   children,
   activeClassName = 'active-link bg-accent text-accent-foreground',
   className = '',
+  hasNestedRoutes = false,
   ...props
 }: PropsWithChildren<LinkProps>) {
   const pathname = usePathname();
@@ -22,7 +24,7 @@ export function Link({
     <NextLink
       className={cn({
         [className]: true,
-        [activeClassName]: props.href === pathname,
+        [activeClassName]: hasNestedRoutes ? pathname.includes(props.href.toString()) : props.href === pathname,
       })}
       {...props}
     >
