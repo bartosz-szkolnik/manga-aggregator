@@ -31,8 +31,7 @@ create table "public"."profile_manga" (
     "is_in_library" boolean not null default false,
     "current_reading_status" text,
     "latest_chapter_read" text,
-    "is_finished" boolean not null default false,
-    "is_read_later" boolean not null default false
+    "priority" text
 );
 
 

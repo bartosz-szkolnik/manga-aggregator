@@ -42,6 +42,7 @@ export interface Database {
           image_url: string
           is_completed: boolean | null
           last_time_checked: string | null
+          latest_chapter_no: string | null
           mangadex_id: string
           title: string
         }
@@ -52,6 +53,7 @@ export interface Database {
           image_url: string
           is_completed?: boolean | null
           last_time_checked?: string | null
+          latest_chapter_no?: string | null
           mangadex_id: string
           title: string
         }
@@ -62,6 +64,7 @@ export interface Database {
           image_url?: string
           is_completed?: boolean | null
           last_time_checked?: string | null
+          latest_chapter_no?: string | null
           mangadex_id?: string
           title?: string
         }
@@ -73,7 +76,6 @@ export interface Database {
           created_at: string
           id: string
           name: string | null
-          subscriptions: Json
           username: string
         }
         Insert: {
@@ -81,7 +83,6 @@ export interface Database {
           created_at?: string
           id: string
           name?: string | null
-          subscriptions?: Json
           username: string
         }
         Update: {
@@ -89,7 +90,6 @@ export interface Database {
           created_at?: string
           id?: string
           name?: string | null
-          subscriptions?: Json
           username?: string
         }
         Relationships: [
@@ -106,36 +106,33 @@ export interface Database {
           created_at: string
           current_reading_status: string | null
           id: string
-          is_finished: boolean
           is_following: boolean
           is_in_library: boolean
-          is_read_later: boolean
           latest_chapter_read: string | null
           manga_id: string
+          priority: string | null
           profile_id: string
         }
         Insert: {
           created_at?: string
           current_reading_status?: string | null
           id?: string
-          is_finished?: boolean
           is_following?: boolean
           is_in_library?: boolean
-          is_read_later?: boolean
           latest_chapter_read?: string | null
           manga_id: string
+          priority?: string | null
           profile_id: string
         }
         Update: {
           created_at?: string
           current_reading_status?: string | null
           id?: string
-          is_finished?: boolean
           is_following?: boolean
           is_in_library?: boolean
-          is_read_later?: boolean
           latest_chapter_read?: string | null
           manga_id?: string
+          priority?: string | null
           profile_id?: string
         }
         Relationships: [
