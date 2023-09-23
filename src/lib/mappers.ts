@@ -83,7 +83,7 @@ function validateCheckEveryField(value: string | null): CheckEvery | null {
   }
 
   const [check, number, period] = value.split(' ');
-  if (check === 'check' && Number.isInteger(number) && timePeriodPossibleValues.includes(period as TimePeriod)) {
+  if (check === 'check' && Number.isFinite(number) && timePeriodPossibleValues.includes(period as TimePeriod)) {
     return value as CheckEvery;
   }
 

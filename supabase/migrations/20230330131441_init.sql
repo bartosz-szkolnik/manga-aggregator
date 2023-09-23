@@ -6,7 +6,8 @@ create table "public"."manga" (
     "mangadex_id" text not null,
     "last_time_checked" timestamp with time zone,
     "check_every" text,
-    "is_completed" boolean default false
+    "is_completed" boolean default false,
+    "latest_chapter_no" text
 );
 
 alter table "public"."manga" enable row level security;
