@@ -1,8 +1,8 @@
 import { Link } from '../ui/link';
 import { createServerClient } from '@/src/utils/supabase';
-import { Search } from './search';
-import { UserNav } from './user-nav';
-import { MainNav } from './main-nav';
+import { Search } from './nav/search';
+import { UserNav } from './nav/user-nav';
+import { MainNav } from './nav/main-nav';
 import { buttonVariants } from '../ui/button';
 
 export async function Nav() {

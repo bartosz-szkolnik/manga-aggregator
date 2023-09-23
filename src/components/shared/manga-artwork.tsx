@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { cn } from '../lib/utils';
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from './ui/context-menu';
+import { cn } from '../../lib/utils';
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../ui/context-menu';
 import { useTransition } from 'react';
-import { addToLibraryAction } from '../actions/add-to-library-action';
-import { Manga } from '../lib/types';
+import { addToLibraryAction } from '../../actions/add-to-library-action';
+import { Manga } from '../../lib/types';
 
 type MangaArtworkProps = React.HTMLAttributes<HTMLDivElement> & {
   manga: Manga;

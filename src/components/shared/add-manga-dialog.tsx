@@ -1,5 +1,5 @@
 import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,13 +8,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Checkbox } from './ui/checkbox';
-import { Mangadex } from '../lib/mangadex.types';
-import { MangadexCover } from '../lib/mangadex-cover.types';
-import { createServerClient } from '../utils/supabase';
+} from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Checkbox } from '../ui/checkbox';
+import { Mangadex } from '../../lib/mangadex.types';
+import { MangadexCover } from '../../lib/mangadex-cover.types';
+import { createServerClient } from '../../utils/supabase';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -31,6 +31,11 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
     }
 
     const id = getId(url);
+    const { data } = await supabase.from('manga').select('mangadex_id').eq('mangadex_id', id);
+    if (Number(data?.length) > 0) {
+      console.log('We already have this manga in out database.');
+      return;
+    }
 
     const [mangaData, coverData] = await Promise.all([
       fetch(`https://api.mangadex.org/manga/${id}`).then(r => r.json()) as Promise<Mangadex>,

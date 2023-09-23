@@ -1,10 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { ScrollArea, ScrollBar } from '../../components/ui/scroll-area';
 import { Separator } from '../../components/ui/separator';
-import { MangaEmptyPlaceholder } from '../../components/manga-empty-placeholder';
-import { Sidebar } from '../../components/layout/sidebar';
-import { MangaArtwork } from '../../components/manga-artwork';
-import { AddMangaDialog } from '../../components/add-manga-dialog';
+import { MangaEmptyPlaceholder } from '../../components/shared/manga-empty-placeholder';
+import { Sidebar } from '../../components/shared/sidebar';
+import { MangaArtwork } from '../../components/shared/manga-artwork';
+import { AddMangaDialog } from '../../components/shared/add-manga-dialog';
 import { createServerClient } from '../../utils/supabase';
 
 export default async function HomePage() {
@@ -23,9 +23,9 @@ export default async function HomePage() {
                 <div className="space-between flex items-center">
                   <TabsList>
                     <TabsTrigger value="current" className="relative">
-                      Current
+                      Recently updated
                     </TabsTrigger>
-                    <TabsTrigger value="current-2">Current 2</TabsTrigger>
+                    <TabsTrigger value="current-2">Currently reading</TabsTrigger>
                     <TabsTrigger value="current-3" disabled>
                       Current 3
                     </TabsTrigger>

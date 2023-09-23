@@ -1,11 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
 import { ScrollArea, ScrollBar } from '../../../components/ui/scroll-area';
 import { Separator } from '../../../components/ui/separator';
-import { MangaEmptyPlaceholder } from '../../../components/manga-empty-placeholder';
-import { Sidebar } from '../../../components/layout/sidebar';
-import { MangaArtwork } from '../../../components/manga-artwork';
-import { AddMangaDialog } from '../../../components/add-manga-dialog';
-import { Nav } from '@/src/components/layout/nav';
+import { MangaEmptyPlaceholder } from '../../../components/shared/manga-empty-placeholder';
+import { Sidebar } from '../../../components/shared/sidebar';
+import { MangaArtwork } from '../../../components/shared/manga-artwork';
+import { AddMangaDialog } from '../../../components/shared/add-manga-dialog';
 import { createServerClient } from '@/src/utils/supabase';
 
 export const dynamic = 'force-dynamic';
