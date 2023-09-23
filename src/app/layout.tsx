@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import './globals.css';
 import { Nav } from '../components/layout/nav';
+import { Toaster } from '../components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Manga Aggregator',
@@ -16,11 +17,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="bg-background">
               <Nav></Nav>
               <div className="w-full flex justify-center">
-                <div className="max-w-screen-2xl">{children}</div>
+                <div className="max-w-screen-2xl w-full">{children}</div>
               </div>
             </div>
           </div>
         </main>
+        <Toaster />
       </body>
     </html>
   );
