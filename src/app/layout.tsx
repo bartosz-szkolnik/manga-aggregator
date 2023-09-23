@@ -12,10 +12,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body>
         <main className="min-h-screen bg-background flex flex-col items-center">
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <div className="bg-background">
               <Nav></Nav>
-              {children}
+              <div className="w-full flex justify-center">
+                <div className="max-w-screen-2xl">{children}</div>
+              </div>
             </div>
           </div>
         </main>

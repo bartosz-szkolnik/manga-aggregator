@@ -8,12 +8,12 @@ export function MainNav({ className, ...props }: HTMLAttributes<HTMLElement>) {
       <Link href="/home" className="text-sm font-medium transition-colors hover:text-primary px-4 py-2" hasNestedRoutes>
         Home
       </Link>
-      <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
-        Customers
+      <Link href="/all-mangas" className="text-sm font-medium transition-colors hover:text-primary">
+        All mangas
       </Link>
-      <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
+      {/* <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
         Products
-      </Link>
+      </Link> */}
       <Link href="/settings" className="text-sm font-medium transition-colors hover:text-primary px-4 py-2">
         Settings
       </Link>
