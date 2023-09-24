@@ -4,6 +4,7 @@ import { Search } from './nav/search';
 import { UserNav } from './nav/user-nav';
 import { MainNav } from './nav/main-nav';
 import { buttonVariants } from '../ui/button';
+import { DarkModeToggle } from './nav/dark-mode-toggle';
 
 export async function Nav() {
   const { isLoggedIn, supabase, id = '' } = await createServerClient();
@@ -19,6 +20,7 @@ export async function Nav() {
               <div className="ml-auto flex items-center space-x-4 gap-4">
                 <Search />
                 <UserNav data={data}></UserNav>
+                <DarkModeToggle />
               </div>
             </div>
           </div>
