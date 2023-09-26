@@ -18,6 +18,7 @@ import { Row } from '@tanstack/react-table';
 import { labels } from './data/data';
 import { useTransition } from 'react';
 import { addToLibraryAction } from '@/src/actions/add-to-library-action';
+import { useToast } from '@/src/components/ui/use-toast';
 
 type DataTableRowActionsProps<TData> = {
   row: Row<TData>;
@@ -25,10 +26,20 @@ type DataTableRowActionsProps<TData> = {
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
   const manga = row.original as { label: string; id: string };
-  let [, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
+  const { toast } = useToast();
 
   async function addToLibrary() {
-    startTransition(() => addToLibraryAction(manga.id));
+    startTransition(() =>
+      addToLibraryAction(manga.id).then(errorMsg => {
+        if (errorMsg?.error === 'ALREADY IN LIBRARY') {
+          toast({
+            title: 'Already in your library!',
+            description: 'You already have this manga in your library.',
+          });
+        }
+      }),
+    );
   }
 
   return (

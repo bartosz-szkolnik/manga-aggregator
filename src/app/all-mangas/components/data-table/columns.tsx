@@ -74,10 +74,7 @@ export const columns: ColumnDef<Data>[] = [
       }
 
       const current = row.original.current_reading_status?.toLowerCase() ?? null;
-      console.log(current);
       const status = readingStatuses.find(status => status.value === current)!;
-
-      console.log(status);
 
       return (
         <div className="flex w-[100px] items-center">

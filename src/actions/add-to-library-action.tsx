@@ -9,5 +9,10 @@ export async function addToLibraryAction(mangaId: Manga['id']) {
     return;
   }
 
+  const { data } = await supabase.from('profile_manga').select().eq('manga_id', mangaId).maybeSingle();
+  if (data) {
+    return { error: 'ALREADY IN LIBRARY' } as const;
+  }
+
   await supabase.from('profile_manga').insert({ profile_id: user.id, manga_id: mangaId });
 }

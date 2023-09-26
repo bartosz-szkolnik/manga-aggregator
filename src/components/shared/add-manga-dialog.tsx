@@ -1,3 +1,5 @@
+'use client';
+
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';
 import {
@@ -12,47 +14,32 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
-import { Mangadex } from '../../lib/mangadex.types';
-import { MangadexCover } from '../../lib/mangadex-cover.types';
-import { createServerClient } from '../../utils/supabase';
+import { FormEvent, useTransition } from 'react';
+import { useToast } from '../ui/use-toast';
+import { createMangaAction } from '@/src/actions/add-manga-action';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
 };
 
 export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
-  async function createManga(formData: FormData) {
-    'use server';
-    const { supabase } = await createServerClient();
+  const [, startTransition] = useTransition();
+  const { toast } = useToast();
 
-    const url = formData.get('url') as string | null;
-    if (!url) {
-      return;
-    }
+  async function addManga(event: FormEvent) {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
 
-    const id = getId(url);
-    const { data } = await supabase.from('manga').select('mangadex_id').eq('mangadex_id', id);
-    if (Number(data?.length) > 0) {
-      console.log('We already have this manga in out database.');
-      return;
-    }
-
-    const [mangaData, coverData] = await Promise.all([
-      fetch(`https://api.mangadex.org/manga/${id}`).then(r => r.json()) as Promise<Mangadex>,
-      fetch(
-        `https://api.mangadex.org/cover?limit=10&manga%5B%5D=${id}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`,
-      ).then(r => r.json()) as Promise<MangadexCover>,
-    ]);
-
-    const { error } = await supabase.from('manga').insert({
-      mangadex_id: id,
-      title: mangaData.data.attributes.title.en,
-      image_url: `https://mangadex.org/covers/${id}/${coverData.data[0].attributes.fileName}`,
-    });
-
-    if (error) {
-      console.error(error);
-    }
+    startTransition(() =>
+      createMangaAction(formData).then(errorMsg => {
+        if (errorMsg?.error === 'ALREADY IN DATABASE') {
+          toast({
+            title: 'Already in our library!',
+            description: 'We already have this manga in your database.',
+          });
+        }
+      }),
+    );
   }
 
   return (
@@ -74,7 +61,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
           <DialogTitle>Add Manga</DialogTitle>
           <DialogDescription>Copy and paste the manga mangadex URL to save.</DialogDescription>
         </DialogHeader>
-        <form action={createManga} id="create-manga-form" className="grid gap-4 py-4">
+        <form onSubmit={addManga} id="create-manga-form" className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Label htmlFor="url">Manga URL</Label>
             <Input id="url" name="url" placeholder="https://mangadex.org/title/{id}/{title}"></Input>
@@ -95,9 +82,4 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
       </DialogContent>
     </Dialog>
   );
-}
-
-function getId(url: string) {
-  const parts = url.split('/');
-  return parts[4];
 }

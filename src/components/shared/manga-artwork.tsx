@@ -6,6 +6,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } 
 import { useTransition } from 'react';
 import { addToLibraryAction } from '../../actions/add-to-library-action';
 import { Manga } from '../../lib/types';
+import { useToast } from '../ui/use-toast';
 
 type MangaArtworkProps = React.HTMLAttributes<HTMLDivElement> & {
   manga: Manga;
@@ -22,10 +23,20 @@ export function MangaArtwork({
   className,
   ...props
 }: MangaArtworkProps) {
-  let [, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
+  const { toast } = useToast();
 
   async function addToLibrary() {
-    startTransition(() => addToLibraryAction(manga.id));
+    startTransition(() =>
+      addToLibraryAction(manga.id).then(errorMsg => {
+        if (errorMsg?.error === 'ALREADY IN LIBRARY') {
+          toast({
+            title: 'Already in your library!',
+            description: 'You already have this manga in your library.',
+          });
+        }
+      }),
+    );
   }
 
   return (
