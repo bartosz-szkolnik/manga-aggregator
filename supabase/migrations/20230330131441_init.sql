@@ -1,3 +1,12 @@
+CREATE TYPE current_reading_status AS ENUM (
+    'reading',
+    'want to read',
+    'finished reading',
+    'postponed',
+    'canceled',
+    'read later'
+);
+
 create table "public"."manga" (
     "id" uuid not null default uuid_generate_v4(),
     "created_at" timestamp with time zone not null default now(),
@@ -17,9 +26,9 @@ create table "public"."profile" (
     "created_at" timestamp with time zone not null default now(),
     "name" text,
     "username" text not null,
-    "avatar_url" text
+    "avatar_url" text,
+    "subscriptions" jsonb not null default '[]'::jsonb
 );
-
 
 alter table "public"."profile" enable row level security;
 
@@ -30,7 +39,7 @@ create table "public"."profile_manga" (
     "manga_id" uuid not null,
     "is_following" boolean not null default false,
     "is_in_library" boolean not null default false,
-    "current_reading_status" text,
+    "current_reading_status" current_reading_status,
     "latest_chapter_read" text,
     "priority" text
 );

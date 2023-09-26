@@ -76,6 +76,7 @@ export interface Database {
           created_at: string
           id: string
           name: string | null
+          subscriptions: Json
           username: string
         }
         Insert: {
@@ -83,6 +84,7 @@ export interface Database {
           created_at?: string
           id: string
           name?: string | null
+          subscriptions?: Json
           username: string
         }
         Update: {
@@ -90,6 +92,7 @@ export interface Database {
           created_at?: string
           id?: string
           name?: string | null
+          subscriptions?: Json
           username?: string
         }
         Relationships: [
@@ -104,7 +107,9 @@ export interface Database {
       profile_manga: {
         Row: {
           created_at: string
-          current_reading_status: string | null
+          current_reading_status:
+            | Database["public"]["Enums"]["current_reading_status"]
+            | null
           id: string
           is_following: boolean
           is_in_library: boolean
@@ -115,7 +120,9 @@ export interface Database {
         }
         Insert: {
           created_at?: string
-          current_reading_status?: string | null
+          current_reading_status?:
+            | Database["public"]["Enums"]["current_reading_status"]
+            | null
           id?: string
           is_following?: boolean
           is_in_library?: boolean
@@ -126,7 +133,9 @@ export interface Database {
         }
         Update: {
           created_at?: string
-          current_reading_status?: string | null
+          current_reading_status?:
+            | Database["public"]["Enums"]["current_reading_status"]
+            | null
           id?: string
           is_following?: boolean
           is_in_library?: boolean
@@ -158,7 +167,13 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      current_reading_status:
+        | "reading"
+        | "want to read"
+        | "finished reading"
+        | "postponed"
+        | "canceled"
+        | "read later"
     }
     CompositeTypes: {
       [_ in never]: never
