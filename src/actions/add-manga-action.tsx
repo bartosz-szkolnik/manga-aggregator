@@ -13,7 +13,7 @@ export async function createMangaAction(formData: FormData) {
   }
 
   const id = getId(url);
-  const { data } = await supabase.from('manga').select('mangadex_id').eq('mangadex_id', id);
+  const { data } = await supabase.from('manga').select('mangadex_id').eq('mangadex_id', id).maybeSingle();
   if (data) {
     return { error: 'ALREADY IN DATABASE' } as const;
   }

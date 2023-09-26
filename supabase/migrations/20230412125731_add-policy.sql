@@ -34,7 +34,7 @@ on "public"."profile_manga"
 as permissive
 for select
 to authenticated
-using (true);
+using ((profile_id = auth.uid()));
 
 
 create policy "Enable write access to authenticated users"
@@ -42,9 +42,6 @@ on "public"."profile_manga"
 as permissive
 for insert
 to authenticated
-with check (true);
-
-
-
+with check ((profile_id = auth.uid()));
 
 

@@ -3,6 +3,7 @@ import { Database } from './database.types';
 export type Manga = Database['public']['Tables']['manga']['Row'];
 export type Profile = Database['public']['Tables']['profile']['Row'];
 export type ProfileManga = Database['public']['Tables']['profile_manga']['Row'];
+export type CurrentReadingStatus = Database['public']['Enums']['current_reading_status'];
 
 type DbManga = Manga;
 type DbProfile = Profile;
@@ -11,14 +12,6 @@ type DbProfileManga = ProfileManga;
 export type TimePeriod = 'days' | 'weeks' | 'months';
 type Days = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 export type CheckEvery = 'everyday' | `every ${number} ${TimePeriod}` | `every ${Days}`;
-
-export type CurrentReadingStatus =
-  | 'reading'
-  | 'want to read'
-  | 'finished reading'
-  | 'postponed'
-  | 'canceled'
-  | 'read later';
 
 export type Priority = 'medium' | 'high' | 'low';
 
@@ -38,7 +31,7 @@ export type _Profile = {
   createdAt: DbProfile['created_at'];
   id: DbProfile['id'];
   name: DbProfile['name'];
-  // subscriptions: DbProfile['subscriptions'];
+  subscriptions: DbProfile['subscriptions'];
   username: DbProfile['username'];
 };
 
