@@ -13,18 +13,20 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  Table as TableType,
 } from '@tanstack/react-table';
-import { useState } from 'react';
-import { DataTableToolbar } from './data-table/data-table-toolbar';
+import { ComponentType, useState } from 'react';
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/src/components/ui/table';
 import { DataTablePagination } from '@/src/components/shared/data-table/data-table-pagination';
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  toolbar: ComponentType<{ table: TableType<TData> }>;
 };
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, toolbar: Toolbar }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -54,7 +56,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
   return (
     <div className="space-y-4 w-full">
-      <DataTableToolbar table={table}></DataTableToolbar>
+      <Toolbar table={table}></Toolbar>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

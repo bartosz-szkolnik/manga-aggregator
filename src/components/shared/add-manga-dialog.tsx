@@ -16,7 +16,7 @@ import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
 import { FormEvent, useTransition } from 'react';
 import { useToast } from '../ui/use-toast';
-import { createMangaAction } from '@/src/actions/add-manga-action';
+import { addMangaAction } from '@/src/actions/add-manga-action';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -31,11 +31,11 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
     const formData = new FormData(event.target as HTMLFormElement);
 
     startTransition(() =>
-      createMangaAction(formData).then(errorMsg => {
+      addMangaAction(formData).then(errorMsg => {
         if (errorMsg?.error === 'ALREADY IN DATABASE') {
           toast({
-            title: 'Already in our library!',
-            description: 'We already have this manga in your database.',
+            title: 'Already in our database!',
+            description: 'We already have this manga in our database.',
           });
         }
       }),

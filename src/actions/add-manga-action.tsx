@@ -4,7 +4,7 @@ import { MangadexCover } from '../lib/mangadex-cover.types';
 import { Mangadex } from '../lib/mangadex.types';
 import { createServerClient } from '../utils/supabase';
 
-export async function createMangaAction(formData: FormData) {
+export async function addMangaAction(formData: FormData) {
   const { supabase } = await createServerClient();
 
   const url = formData.get('url') as string | null;

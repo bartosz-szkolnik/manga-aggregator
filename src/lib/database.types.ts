@@ -115,7 +115,7 @@ export interface Database {
           is_in_library: boolean
           latest_chapter_read: string | null
           manga_id: string
-          priority: string | null
+          priority: Database["public"]["Enums"]["priority"] | null
           profile_id: string
         }
         Insert: {
@@ -128,7 +128,7 @@ export interface Database {
           is_in_library?: boolean
           latest_chapter_read?: string | null
           manga_id: string
-          priority?: string | null
+          priority?: Database["public"]["Enums"]["priority"] | null
           profile_id: string
         }
         Update: {
@@ -141,7 +141,7 @@ export interface Database {
           is_in_library?: boolean
           latest_chapter_read?: string | null
           manga_id?: string
-          priority?: string | null
+          priority?: Database["public"]["Enums"]["priority"] | null
           profile_id?: string
         }
         Relationships: [
@@ -174,6 +174,7 @@ export interface Database {
         | "postponed"
         | "canceled"
         | "read later"
+      priority: "high" | "normal" | "low"
     }
     CompositeTypes: {
       [_ in never]: never
