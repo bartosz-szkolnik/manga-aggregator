@@ -70,6 +70,30 @@ export interface Database {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          created_at: string
+          data: Json | null
+          id: string
+          status: Database["public"]["Enums"]["notification_status"]
+          subscription: Json | null
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          id?: string
+          status?: Database["public"]["Enums"]["notification_status"]
+          subscription?: Json | null
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          id?: string
+          status?: Database["public"]["Enums"]["notification_status"]
+          subscription?: Json | null
+        }
+        Relationships: []
+      }
       profile: {
         Row: {
           avatar_url: string | null
@@ -174,6 +198,7 @@ export interface Database {
         | "postponed"
         | "canceled"
         | "read later"
+      notification_status: "pending" | "error" | "sent"
       priority: "high" | "normal" | "low"
     }
     CompositeTypes: {

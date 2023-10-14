@@ -7,6 +7,18 @@ CREATE TYPE current_reading_status AS ENUM (
     'read later'
 );
 
+CREATE TYPE priority AS ENUM (
+    'high',
+    'normal',
+    'low'
+);
+
+CREATE TYPE notification_status AS ENUM (
+    'pending',
+    'error',
+    'sent'
+);
+
 create table "public"."manga" (
     "id" uuid not null default uuid_generate_v4(),
     "created_at" timestamp with time zone not null default now(),
@@ -41,9 +53,16 @@ create table "public"."profile_manga" (
     "is_in_library" boolean not null default false,
     "current_reading_status" current_reading_status,
     "latest_chapter_read" text,
-    "priority" text
+    "priority" priority
 );
 
+create table "public"."notifications" (
+    "id" uuid not null default gen_random_uuid(),
+    "created_at" timestamp with time zone not null default now(),
+    "status" notification_status not null default 'pending'::notification_status,
+    "subscription" jsonb,
+    "data" jsonb
+);
 
 CREATE UNIQUE INDEX manga_pkey ON public.manga USING btree (id);
 
@@ -71,3 +90,8 @@ alter table "public"."profile_manga" add constraint "profile_manga_profile_id_fk
 
 alter table "public"."profile_manga" validate constraint "profile_manga_profile_id_fkey";
 
+alter table "public"."notifications" enable row level security;
+
+CREATE UNIQUE INDEX notifications_pkey ON public.notifications USING btree (id);
+
+alter table "public"."notifications" add constraint "notifications_pkey" PRIMARY KEY using index "notifications_pkey";

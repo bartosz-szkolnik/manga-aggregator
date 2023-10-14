@@ -45,3 +45,10 @@ to authenticated
 with check ((profile_id = auth.uid()));
 
 
+create policy "Enable update access to edge function"
+on "public"."manga"
+as permissive
+for update
+to service_role
+using (true)
+with check (true);

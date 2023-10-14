@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "gen-types": "pnpm supabase gen types typescript --local > src/lib/database.types.ts",
-    "db-diff": "pnpm supabase db diff --schema public,auth -f"
+    "db-diff": "pnpm supabase db diff --schema public,auth -f",
+    "serve-functions": "pnpm supabase functions serve --env-file ./supabase/.env.local"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.3",
