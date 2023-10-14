@@ -20,7 +20,7 @@ export function MangaEmptyPlaceholder() {
         </svg>
 
         <h3 className="mt-4 text-lg font-semibold">No Mangas added</h3>
-        <p className="mb-4 mt-2 text-sm text-muted foreground">You have not added any mangas. Add one below.</p>
+        <p className="foreground mb-4 mt-2 text-sm text-muted">You have not added any mangas. Add one below.</p>
         <AddMangaDialog smallButton={true} />
       </div>
     </div>

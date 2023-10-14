@@ -19,7 +19,7 @@ export default async function AllMangasPage() {
   return (
     <>
       <div className="md:hidden">Not yet implemented</div>
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex w-full">
+      <div className="hidden h-full w-full flex-1 flex-col space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">All Mangas!</h2>

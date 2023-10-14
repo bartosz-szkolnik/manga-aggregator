@@ -45,7 +45,7 @@ export function NotificationsButton({
   };
 
   return (
-    <div className="flex flex-col gap-5 items-start">
+    <div className="flex flex-col items-start gap-5">
       {isSubscribed ? (
         <>
           <p>

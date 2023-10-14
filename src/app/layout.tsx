@@ -16,12 +16,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <ServiceWorkerProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <main className="min-h-screen bg-background flex flex-col items-center">
-              <div className="flex flex-col w-full">
+            <main className="flex min-h-screen flex-col items-center bg-background">
+              <div className="flex w-full flex-col">
                 <div className="bg-background">
                   <Nav></Nav>
-                  <div className="w-full flex justify-center">
-                    <div className="max-w-screen-2xl w-full">{children}</div>
+                  <div className="flex w-full justify-center">
+                    <div className="w-full max-w-screen-2xl">{children}</div>
                   </div>
                 </div>
               </div>

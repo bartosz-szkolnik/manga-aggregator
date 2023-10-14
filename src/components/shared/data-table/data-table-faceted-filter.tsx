@@ -66,7 +66,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0 z-50" align="start">
+      <PopoverContent className="z-50 w-[200px] p-0" align="start">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
@@ -92,7 +92,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     <div
                       className={cn(
                         'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
-                        isSelected ? 'bg-primary text-primary-foreground' : 'opacity-50 [&_svg]: invisible',
+                        isSelected ? 'bg-primary text-primary-foreground' : '[&_svg]: invisible opacity-50',
                       )}
                     >
                       <CheckIcon className="h-4 w-4"></CheckIcon>

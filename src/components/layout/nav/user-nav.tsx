@@ -21,7 +21,7 @@ export function UserNav({ data: { avatar_url, name, username } }: UserNavProps) 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full justify-center">
+        <Button variant="ghost" className="relative h-8 w-8 justify-center rounded-full">
           <Avatar className="h-9 w-9">
             {avatar_url ? (
               <AvatarImage src={avatar_url}></AvatarImage>
@@ -49,7 +49,7 @@ export function UserNav({ data: { avatar_url, name, username } }: UserNavProps) 
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <form action="/auth/sign-out" method="post">
-            <Button variant="ghost" className="font-normal p-0 h-8">
+            <Button variant="ghost" className="h-8 p-0 font-normal">
               Log out
             </Button>
           </form>

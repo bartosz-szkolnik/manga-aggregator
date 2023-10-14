@@ -65,7 +65,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
           <div className="grid gap-2">
             <Label htmlFor="url">Manga URL</Label>
             <Input id="url" name="url" placeholder="https://mangadex.org/title/{id}/{title}"></Input>
-            <div className="flex items-center space-x-2 mt-2">
+            <div className="mt-2 flex items-center space-x-2">
               <Checkbox id="add-to-my-library" />
               <label
                 htmlFor="add-to-my-library"
