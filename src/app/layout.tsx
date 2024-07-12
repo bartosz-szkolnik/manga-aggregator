@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { cn } from '@lib/utils';
+import { cn } from '@utils/utils';
 
 import '../styles/globals.css';
 
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('bg-background min-h-screen font-sans antialiased', inter.variable)}>{children}</body>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>{children}</body>
     </html>
   );
 }
