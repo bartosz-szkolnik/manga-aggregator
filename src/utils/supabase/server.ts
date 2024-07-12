@@ -29,3 +29,5 @@ export async function createServerClient() {
 
   return { supabase: client, user, userId, isLoggedIn: Boolean(user) };
 }
+
+export type SupabaseServerClient = Awaited<ReturnType<typeof createSupabaseServerClient<Database>>>;
