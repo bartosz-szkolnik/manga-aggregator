@@ -15,8 +15,8 @@ export async function createServerClient() {
           try {
             cookieToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
           } catch (error) {
-            // add redirect to login page, I think the settings of the cookies break the app after the token has expired
-            console.error(error);
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing user sessions.
           }
         },
       },

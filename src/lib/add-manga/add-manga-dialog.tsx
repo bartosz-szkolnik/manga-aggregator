@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, ForwardedRef, forwardRef, useState, useTransition } from 'react';
+import { FormEvent, forwardRef, MouseEventHandler, useState, useTransition } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -43,17 +43,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        {/* <TriggerButton smallButton={smallButton} /> */}
-        {smallButton ? (
-          <Button size="sm" className="relative">
-            Add Manga
-          </Button>
-        ) : (
-          <Button>
-            <PlusCircledIcon className="mr-2 h-4 w-4" />
-            Add Manga
-          </Button>
-        )}
+        <TriggerButton smallButton={smallButton} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -110,14 +100,14 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   );
 }
 
-const TriggerButton = forwardRef(
-  ({ smallButton = false }: { smallButton?: boolean }, ref: ForwardedRef<HTMLButtonElement>) =>
+const TriggerButton = forwardRef<HTMLButtonElement, { smallButton: boolean; onClick?: MouseEventHandler }>(
+  ({ smallButton = false, onClick }, ref) =>
     smallButton ? (
-      <Button size="sm" className="relative" ref={ref}>
+      <Button ref={ref} size="sm" className="relative" onClick={onClick}>
         Add Manga
       </Button>
     ) : (
-      <Button ref={ref}>
+      <Button onClick={onClick} ref={ref}>
         <PlusCircledIcon className="mr-2 h-4 w-4" />
         Add Manga
       </Button>
