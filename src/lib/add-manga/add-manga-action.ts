@@ -4,16 +4,13 @@ import { createServerClient, SupabaseServerClient } from '@utils/supabase/server
 import { revalidatePath } from 'next/cache';
 import { MangaDexCoverResponse } from '@type/mangadex-cover.types';
 import { MangaAttributes, MangaDexResponse } from '@type/mangadex.types';
+import { z } from 'zod';
+import { addMangaSchema } from './add-manga-schema';
 
-export async function addManga(formData: FormData) {
+export async function addManga(values: z.infer<typeof addMangaSchema>) {
   const { supabase, userId } = await createServerClient();
 
-  const url = formData.get('url') as string | null;
-  if (!url) {
-    return { error: 'URL is required' } as const;
-  }
-
-  const id = getId(url);
+  const id = getId(values.url);
   if (await checkIfMangaIsAlreadyInTheDatabase(supabase, id)) {
     return { error: 'Manga is already in Database' } as const;
   }
@@ -22,12 +19,11 @@ export async function addManga(formData: FormData) {
   const { error, addedMangaId } = await addMangaToDatabase(supabase, id, mangaAttributes, cover);
 
   if (error || !addedMangaId) {
-    console.error(error);
     return { error: 'Something went wrong' } as const;
   }
 
-  const addToUserLibrary = toBoolean(formData.get('add-to-user-library'));
-  const addToFollowed = toBoolean(formData.get('add-to-following'));
+  const addToUserLibrary = toBoolean(values['add-to-user-library']);
+  const addToFollowed = toBoolean(values['start-following']);
   if (addToUserLibrary && addedMangaId && userId) {
     await addProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed);
   }
@@ -44,9 +40,8 @@ async function getMangaAttributes(id: string): Promise<MangaAttributes> {
 }
 
 async function getMangaCover(id: string): Promise<string> {
-  const response = await fetch(
-    `https://api.mangadex.org/cover?limit=10&manga%5B%5D=${id}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`,
-  );
+  // prettier-ignore
+  const response = await fetch(`https://api.mangadex.org/cover?limit=10&manga%5B%5D=${id}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`);
   const { data } = (await response.json()) as MangaDexCoverResponse;
 
   return data[0].attributes.fileName;
@@ -101,6 +96,6 @@ function getId(url: string) {
   return parts[4];
 }
 
-function toBoolean(value: FormDataEntryValue | null) {
+function toBoolean(value: string | null) {
   return value === 'on';
 }

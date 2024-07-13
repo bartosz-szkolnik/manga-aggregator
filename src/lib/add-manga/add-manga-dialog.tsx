@@ -13,6 +13,9 @@ import {
 import { Button } from '@components/ui/button';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { addManga as addMangaAction } from './add-manga-action';
+import { ErrorMessage, Form, FormControl, Input, Label, Switch } from '@components/ui/form';
+import { addMangaSchema } from './add-manga-schema';
+import { ZodIssue } from 'zod';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -21,14 +24,21 @@ type AddMangaDialogProps = {
 export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   const [, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState<ZodIssue[]>([]);
   // const { toast } = useToast();
 
   async function addManga(event: FormEvent) {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
 
+    const { success, data, error } = addMangaSchema.safeParse(Object.fromEntries(formData));
+    if (!success) {
+      setErrors(error.issues);
+      return;
+    }
+
     startTransition(async () => {
-      const { error, success } = await addMangaAction(formData);
+      const { error, success } = await addMangaAction(data);
       if (error) {
         handleAddMangaError(error);
       } else {
@@ -38,8 +48,6 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
     });
   }
 
-  // pattern="https://mangadex.org/title/.*/.*"
-
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
@@ -48,50 +56,23 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Manga to our Database</DialogTitle>
-          <DialogDescription>Copy the url on MangaDex and paste it here to save.</DialogDescription>
+          <DialogDescription>Copy the url from MangaDex and paste it here to save Manga.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={addManga} id="add-manga-form" className="grid gap-4 py-4">
-          {/* <div className="grid gap-2">
-            <Label htmlFor="url">Manga URL</Label>
-            <Input
-              required
-              
-              id="url"
-              name="url"
-              placeholder="https://mangadex.org/title/{id}/{title}"
-            ></Input>
-            <div className="mt-2 flex items-center space-x-2">
-              <Checkbox id="add-to-my-library" name="add-to-my-library" value="add-to-my-library" />
-              <label
-                htmlFor="add-to-my-library"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Add to my Library
-              </label>
-            </div>
-            <div className="mt-2 flex items-center space-x-2">
-              <Checkbox id="start-following" name="start-following" value="start-following" />
-              <label
-                htmlFor="start-following"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Start following
-              </label>
-            </div>
-          </div> */}
-          <label htmlFor="url">Manga url</label>
-          <input type="text" name="url" id="url" placeholder="https://mangadex.org/title/{id}/{title}" />
-          <br />
-          <div>
-            <input defaultChecked type="checkbox" id="add-to-user-library" name="add-to-user-library" />
-            <label htmlFor="add-to-user-library">Add to my Library</label>
-          </div>
-          <br />
-          <div>
-            <input defaultChecked={false} type="checkbox" id="add-to-following" name="add-to-following" />
-            <label htmlFor="add-to-following">Start following</label>
-          </div>
-        </form>
+        <Form onSubmit={addManga} errors={errors} id="add-manga-form" className="grid gap-4 py-4">
+          <FormControl controlName="url">
+            <Label>Manga URL</Label>
+            <Input placeholder="https://mangadex.org/title/{id}/{title}"></Input>
+            <ErrorMessage />
+          </FormControl>
+          <FormControl controlName="add-to-user-library" controlType="switch">
+            <Label>Add to my library</Label>
+            <Switch />
+          </FormControl>
+          <FormControl controlName="start-following" controlType="switch">
+            <Label>Start following</Label>
+            <Switch />
+          </FormControl>
+        </Form>
         <DialogFooter>
           <Button form="add-manga-form">Save Manga</Button>
         </DialogFooter>
@@ -115,7 +96,7 @@ const TriggerButton = forwardRef<HTMLButtonElement, { smallButton: boolean; onCl
 );
 TriggerButton.displayName = 'TriggerButton';
 
-async function handleAddMangaError(error: 'URL is required' | 'Manga is already in Database' | 'Something went wrong') {
+async function handleAddMangaError(error: 'Manga is already in Database' | 'Something went wrong') {
   console.error(error);
 }
 

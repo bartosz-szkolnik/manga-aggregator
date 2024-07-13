@@ -1,3 +1,4 @@
+import { Button } from '@components/ui/button';
 import { Manga } from '@lib/types/manga.types';
 import { cn } from '@utils/utils';
 import Image from 'next/image';
@@ -30,10 +31,22 @@ export function MangaArtwork({
             aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square',
           )}
         />
+        <div className="mt-4 flex items-center justify-between">
+          <Button size={'sm'} variant="link">
+            Open MangaDex
+          </Button>
+          <Button size={'sm'} variant="default">
+            More...
+          </Button>
+        </div>
       </div>
       <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{manga.title}</h3>
-        <p className="text-xs text-muted-foreground">Updated ...</p>
+        <h3 className="font-medium leading-none">
+          <a target="_blank" href={`https://mangadex.org/title/${manga.mangadex_id}`}>
+            {manga.title}
+          </a>
+        </h3>
+        <p className="text-xs text-muted-foreground">You&apos;re behind 3 chapters</p>
       </div>
     </div>
   );
