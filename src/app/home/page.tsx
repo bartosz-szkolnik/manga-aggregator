@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
 import { RecentlyUpdated } from './components/recently-updated';
 import { SignOutButton } from '@components/sign-out-button';
+import { NotificationsSwitch } from '@lib/sending-notifications/notifications-switch';
 
 export default async function HomePage() {
   const { isLoggedIn } = await createServerClient();
@@ -12,6 +13,7 @@ export default async function HomePage() {
       <h1>Home page</h1>
       is logged in? {isLoggedIn ? 'Yes' : 'No'}
       <SignOutButton />
+      <NotificationsSwitch />
       <hr />
       <div className="h-full px-4 py-6 lg:px-8">
         <Tabs defaultValue={isLoggedIn ? 'updated' : 'show-all'} className="h-full space-y-6">

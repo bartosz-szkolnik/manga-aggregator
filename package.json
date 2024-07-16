@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-types": "pnpm supabase gen types --lang=typescript --local > src/lib/types/database.types.ts"
+    "gen-types": "supabase gen types --lang=typescript --local > src/lib/types/database.types.ts && cp src/lib/types/database.types.ts supabase/functions/_shared/database.types.ts",
+    "db-diff": "supabase db diff --schema public,auth -f",
+    "serve-functions": "supabase functions serve --env-file ./supabase/.env.local"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
@@ -28,12 +30,14 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "web-push": "^3.6.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/web-push": "^3.6.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8.4.39",
@@ -41,5 +45,6 @@
     "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3"
-  }
+  },
+  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
 }

@@ -27,7 +27,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   const [errors, setErrors] = useState<ZodIssue[]>([]);
   // const { toast } = useToast();
 
-  async function addManga(event: FormEvent) {
+  async function addManga(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
 

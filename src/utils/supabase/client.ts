@@ -7,3 +7,5 @@ export function createBrowserClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }
+
+export type SupabaseBrowserClient = ReturnType<typeof createSupabaseBrowserClient<Database>>;
