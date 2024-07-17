@@ -1,6 +1,6 @@
-import { sendSuccessResponse } from '../_shared/common.ts';
-import { createSupabaseBrowserClient, SupabaseBrowserClient, throwError } from '../_shared/common.ts';
-import { Json } from '../_shared/database.types.ts';
+import { sendSuccessResponse, serveHandler } from '../_shared/common.ts';
+import type { SupabaseBrowserClient } from '../_shared/common.ts';
+import type { Json } from '../_shared/database.types.ts';
 
 type Notification = {
   subscription: Json;
@@ -8,20 +8,16 @@ type Notification = {
   id: string;
 };
 
-Deno.serve(async req => {
-  console.info('Starting the sending notifications process...');
-  const client = createSupabaseBrowserClient(req);
-  try {
+Deno.serve(
+  serveHandler(async client => {
+    console.info('Starting the sending notifications process...');
     const pendingNotifications = await getPendingNotifications(client);
     await sendNotifications(client, pendingNotifications);
 
     console.info('Finishing the sending notifications process...');
-  } catch (error) {
-    return throwError(error);
-  }
-
-  return sendSuccessResponse('Notifications sent.');
-});
+    return sendSuccessResponse('Notifications sent.');
+  }),
+);
 
 async function getPendingNotifications(client: SupabaseBrowserClient): Promise<Notification[]> {
   const { data, error } = await client.from('notifications').select('subscription, data, id').eq('status', 'pending');

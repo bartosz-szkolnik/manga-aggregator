@@ -1,10 +1,5 @@
-import {
-  createSupabaseBrowserClient,
-  sendSuccessResponse,
-  SupabaseBrowserClient,
-  throwError,
-} from '../_shared/common.ts';
-import { Json } from '../_shared/database.types.ts';
+import { sendSuccessResponse, type SupabaseBrowserClient, serveHandler, isTruthy } from '../_shared/common.ts';
+import type { Json } from '../_shared/database.types.ts';
 
 type MangaDexChapterResponse = {
   result: 'ok';
@@ -30,24 +25,21 @@ type MangaDexChapterResponse = {
 
 type MangasToUpdate = { mangaId: string; data: MangaDexChapterResponse['data'] }[];
 
-Deno.serve(async req => {
-  console.info('Starting the manga update process...');
-  const client = createSupabaseBrowserClient(req);
+Deno.serve(
+  serveHandler(async client => {
+    console.info('Starting the manga update process...');
 
-  try {
     const mangaIds = await getMangaIds(client);
     const mangaDexIds = await getMangaDexIds(client, mangaIds);
-    const mangasToUpdate = (await retrieveNewChaptersFromMangaDex(mangaDexIds)).filter(Boolean);
+    const mangasToUpdate = await retrieveNewChaptersFromMangaDex(mangaDexIds);
 
     await insertNewChapterData(client, mangasToUpdate);
-    await sendNotificationsToSubscribers(client, mangasToUpdate);
+    await scheduleNotifications(client, mangasToUpdate);
     console.info('Finished the manga update process...');
-  } catch (error) {
-    return throwError(error);
-  }
 
-  return sendSuccessResponse('Mangas updated.');
-});
+    return sendSuccessResponse('Mangas updated.');
+  }),
+);
 
 /////////////////////
 // Logic functions //
@@ -79,15 +71,17 @@ async function getMangaDexIds(client: SupabaseBrowserClient, mangaIds: string[])
   return mangaDexIds.map(({ data }) => data!.mangadex_id);
 }
 
-function retrieveNewChaptersFromMangaDex(mangaDexIds: string[]): Promise<MangasToUpdate> {
+async function retrieveNewChaptersFromMangaDex(mangaDexIds: string[]): Promise<MangasToUpdate> {
   console.info('Retrieving new chapters from mangadex...');
 
-  return Promise.all(
+  const mangasToUpdate = await Promise.all(
     mangaDexIds.map(async id => {
       const data = await getLatestMangaChapter(id, '2024-04-20T00:00:00');
-      return (data.length ? { mangaId: id, data } : null) as MangasToUpdate[number];
+      return data.length ? { mangaId: id, data } : null;
     }),
   );
+
+  return mangasToUpdate.filter(isTruthy);
 }
 
 async function insertNewChapterData(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
@@ -110,8 +104,8 @@ async function insertNewChapterData(client: SupabaseBrowserClient, mangasToUpdat
   }
 }
 
-function sendNotificationsToSubscribers(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
-  console.info('Sending notifications to subscribers...');
+function scheduleNotifications(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
+  console.info('Inserting notifications to database to send later...');
 
   return Promise.all(
     mangasToUpdate.map(async ({ mangaId, data: [latestChapter] }) => {
@@ -127,18 +121,14 @@ function sendNotificationsToSubscribers(client: SupabaseBrowserClient, mangasToU
 
       const { title, profile_manga } = data;
       return Promise.all(
-        profile_manga.map(async ({ is_following, latest_chapter_read, profile }) => {
-          if (!is_following) {
-            return;
-          }
-
-          if (latest_chapter_read === latestChapter.attributes.chapter) {
-            return;
-          }
-
-          const subs = profile?.subscriptions as Json[];
-          await insertNotifications(client, subs ?? [], title, mangaId);
-        }),
+        profile_manga
+          .filter(({ is_following, latest_chapter_read }) => {
+            return is_following && latest_chapter_read !== latestChapter.attributes.chapter;
+          })
+          .map(({ profile }) => {
+            const subs = profile?.subscriptions as Json[];
+            return insertNotifications(client, subs ?? [], title, mangaId);
+          }),
       );
     }),
   );
@@ -174,7 +164,7 @@ function insertNotifications(
 ) {
   return Promise.all(
     subscriptions.map(async sub => {
-      // check if can use upsert
+      // check if can use upsert, batched
       const { error, data } = await client.from('notifications').insert({
         subscription: sub,
         data: {
@@ -184,7 +174,7 @@ function insertNotifications(
       });
 
       if (error) {
-        throwError(error);
+        throw error;
       }
 
       return data;
