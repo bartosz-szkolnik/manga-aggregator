@@ -26,11 +26,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
         <ServiceWorkerProvider>
-          <div className="flex h-screen bg-gradient-to-r from-zinc-200 to-cyan-200">
+          <div className="flex h-screen bg-gradient-to-r from-blue-200 to-cyan-200">
             <Sidebar className="px-2 py-6" links={LINKS}>
               <SidebarContent />
             </Sidebar>
-            <div className="m-4 flex-1 rounded-md bg-white shadow-lg shadow-slate-400">{children}</div>
+            <div className="m-3 flex-1 rounded-md bg-white shadow-lg shadow-slate-400">{children}</div>
           </div>
         </ServiceWorkerProvider>
       </body>

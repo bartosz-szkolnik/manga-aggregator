@@ -36,7 +36,6 @@ export async function SidebarContent() {
         <AddMangaDialog className="w-full" />
         <SignOutButton className="w-full" />
       </div>
-      <Separator dir="horizontal" className="my-4 bg-slate-400" />
     </div>
   );
 }

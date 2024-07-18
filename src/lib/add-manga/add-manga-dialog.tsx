@@ -44,7 +44,7 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
       if (error) {
         handleAddMangaError(error);
       } else {
-        console.log(`We have added this manga to our database. The id is ${success}`);
+        console.info(`We have added this manga to our database. The id is ${success}`);
       }
       setOpen(false);
     });
@@ -96,8 +96,8 @@ const TriggerButton = forwardRef<HTMLButtonElement, TriggerButtonProps>(
         Add Manga
       </Button>
     ) : (
-      <Button onClick={onClick} ref={ref}>
-        <PlusCircledIcon className={cn('mr-2 h-4 w-4', className)} />
+      <Button onClick={onClick} ref={ref} className={className}>
+        <PlusCircledIcon className="mr-2 h-4 w-4" />
         Add Manga
       </Button>
     ),
