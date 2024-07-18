@@ -1,9 +1,11 @@
 import { Button } from './ui/button';
 
-export function SignOutButton() {
+export function SignOutButton({ className }: { className?: string }) {
   return (
     <form action="/auth/sign-out" method="post">
-      <Button variant="ghost">Sign out</Button>
+      <Button className={className} variant="ghost">
+        Sign out
+      </Button>
     </form>
   );
 }

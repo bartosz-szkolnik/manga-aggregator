@@ -6,5 +6,5 @@ export async function POST(request: Request) {
   const { supabase } = await createServerClient();
 
   await supabase.auth.signOut();
-  return NextResponse.redirect(`${requestUrl.origin}/auth/sign-in`);
+  return NextResponse.redirect(`${requestUrl.origin}/home`);
 }

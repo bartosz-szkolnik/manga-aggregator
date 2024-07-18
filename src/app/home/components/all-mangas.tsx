@@ -2,27 +2,26 @@ import { Separator } from '@components/ui/separator';
 import { MangaArtwork } from '@lib/manga/manga-artwork';
 import { createServerClient } from '@utils/supabase/server';
 
-export async function RecentlyUpdated() {
+export async function AllMangas() {
   const { supabase } = await createServerClient();
-  const { data, error } = await supabase.from('profile_manga').select('manga(*)').eq('is_following', true);
+  const { data, error } = await supabase.from('manga').select('*');
 
   if (error) {
     return <p>Some kind of error occured</p>;
   }
 
-  const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   return (
     <>
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">Updated Recently</h2>
-          <p className="text-sm text-muted-foreground">Recently updated mangas you follow. You can read them here.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">All available Manga</h1>
+          <p className="text-sm text-muted-foreground">You can...</p>
         </div>
       </div>
       <Separator className="my-4" />
       <div className="relative">
         <div className="flex flex-wrap space-x-4 pb-4">
-          {mangas.map(manga => (
+          {data.map(manga => (
             <MangaArtwork
               key={manga.id}
               manga={manga}

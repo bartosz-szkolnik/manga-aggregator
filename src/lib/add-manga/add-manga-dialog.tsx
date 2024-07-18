@@ -16,12 +16,14 @@ import { addManga as addMangaAction } from './add-manga-action';
 import { ErrorMessage, Form, FormControl, Input, Label, Switch } from '@components/ui/form';
 import { addMangaSchema } from './add-manga-schema';
 import { ZodIssue } from 'zod';
+import { cn } from '@utils/utils';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
+  className?: string;
 };
 
-export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
+export function AddMangaDialog({ smallButton = false, className }: AddMangaDialogProps) {
   const [, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [errors, setErrors] = useState<ZodIssue[]>([]);
@@ -51,7 +53,7 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <TriggerButton smallButton={smallButton} />
+        <TriggerButton smallButton={smallButton} className={className} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -81,15 +83,21 @@ export function AddMangaDialog({ smallButton = false }: AddMangaDialogProps) {
   );
 }
 
-const TriggerButton = forwardRef<HTMLButtonElement, { smallButton: boolean; onClick?: MouseEventHandler }>(
-  ({ smallButton = false, onClick }, ref) =>
+type TriggerButtonProps = {
+  smallButton: boolean;
+  onClick?: MouseEventHandler;
+  className?: string;
+};
+
+const TriggerButton = forwardRef<HTMLButtonElement, TriggerButtonProps>(
+  ({ smallButton = false, onClick, className }, ref) =>
     smallButton ? (
-      <Button ref={ref} size="sm" className="relative" onClick={onClick}>
+      <Button ref={ref} size="sm" className={cn('relative', className)} onClick={onClick}>
         Add Manga
       </Button>
     ) : (
       <Button onClick={onClick} ref={ref}>
-        <PlusCircledIcon className="mr-2 h-4 w-4" />
+        <PlusCircledIcon className={cn('mr-2 h-4 w-4', className)} />
         Add Manga
       </Button>
     ),

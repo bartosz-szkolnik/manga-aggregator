@@ -1,0 +1,39 @@
+:root {
+  --sidebar-width: 300px;
+  --sidebar-width-delay: 200ms;
+  --sidebar-opacity-enter-delay: 100ms;
+  --sidebar-opacity-exit-delay: 50ms;
+}
+
+.sidebar-enter {
+  max-width: 0;
+  opacity: 0;
+}
+
+.sidebar-enter-active {
+  max-width: var(--sidebar-width);
+  width: var(--sidebar-width);
+  opacity: 1;
+  transition:
+    max-width var(--sidebar-width-delay),
+    opacity var(--sidebar-opacity-enter-delay);
+}
+
+.sidebar-enter-done {
+  width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+}
+
+.sidebar-exit {
+  max-width: var(--sidebar-width);
+  width: var(--sidebar-width);
+  opacity: 1;
+}
+
+.sidebar-exit-active {
+  max-width: 0;
+  opacity: 0;
+  transition:
+    max-width var(--sidebar-width-delay),
+    opacity var(--sidebar-opacity-exit-delay);
+}
