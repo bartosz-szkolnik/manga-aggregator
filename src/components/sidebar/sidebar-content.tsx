@@ -1,6 +1,6 @@
 import { createServerClient } from '@utils/supabase/server';
 import { Profile, ProfileFallback } from '@components/profile/profile';
-import { SignOutButton } from '@components/sign-out-button';
+import { SignOutButton } from '@components/auth';
 import { Separator } from '@components/ui/separator';
 import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
 

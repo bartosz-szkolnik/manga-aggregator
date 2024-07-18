@@ -63,7 +63,7 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
         <Form onSubmit={addManga} errors={errors} id="add-manga-form" className="grid gap-4 py-4">
           <FormControl controlName="url">
             <Label>Manga URL</Label>
-            <Input placeholder="https://mangadex.org/title/{id}/{title}"></Input>
+            <Input placeholder="https://mangadex.org/title/{id}/{title}" />
             <ErrorMessage />
           </FormControl>
           <FormControl controlName="add-to-user-library" controlType="switch">
