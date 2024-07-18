@@ -4,6 +4,11 @@ import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
 import { AllMangas } from './components/all-mangas';
 import { UpdatedForYou } from './components/updated-for-you';
 import { CurrentlyReading } from './components/currently-reading';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Home · Manga Aggregator',
+};
 
 export default async function HomePage() {
   const { isLoggedIn } = await createServerClient();

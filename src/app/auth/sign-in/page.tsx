@@ -1,4 +1,9 @@
+import { Metadata } from 'next';
 import { signin } from './action';
+
+export const metadata: Metadata = {
+  title: 'Sign in · Manga Aggregator',
+};
 
 export default function LoginPage() {
   return (

@@ -1,3 +1,4 @@
+import { Button } from '@components/ui/button';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -8,10 +9,12 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-      <Link href="/home">Return Home</Link>
+    <div className="flex h-screen w-screen flex-col items-center justify-center">
+      <h2 className="text-2xl font-semibold tracking-tight">404 · Not Found</h2>
+      <p>This page doesn’t exist. </p>
+      <Button className="mt-4" asChild>
+        <Link href="/home">Return Home</Link>
+      </Button>
     </div>
   );
 }
