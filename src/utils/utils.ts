@@ -10,3 +10,7 @@ export function invariant(value: unknown, message = 'No message provided.'): ass
     throw new Error(`Invariant: ${message}`);
   }
 }
+
+export function isTruthy<T>(value: T): value is NonNullable<T> {
+  return Boolean(value);
+}

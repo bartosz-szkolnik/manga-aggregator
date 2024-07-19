@@ -1,10 +1,15 @@
 import { Separator } from '@components/ui/separator';
-import { MangaArtwork } from '@lib/manga/manga-artwork';
+import { Manga } from '@lib/manga/manga';
 import { createServerClient } from '@utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export async function UpdatedForYou() {
-  const { supabase } = await createServerClient();
-  const { data, error } = await supabase.from('profile_manga').select('manga(*)').eq('is_following', true);
+  const { supabase, userId } = await createServerClient();
+  if (!userId) {
+    return redirect('./auth/sign-in');
+  }
+
+  const { data, error } = await supabase.from('profile_manga').select('manga(*)').eq('profile_id', userId!);
 
   if (error) {
     return <p>Some kind of error occured</p>;
@@ -23,14 +28,7 @@ export async function UpdatedForYou() {
       <div className="relative">
         <div className="flex flex-wrap space-x-4 pb-4">
           {mangas.map(manga => (
-            <MangaArtwork
-              key={manga.id}
-              manga={manga}
-              className="w-[250px]"
-              aspectRatio="portrait"
-              width={250}
-              height={330}
-            />
+            <Manga key={manga.id} manga={manga} />
           ))}
         </div>
       </div>

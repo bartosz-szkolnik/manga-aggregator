@@ -17,6 +17,7 @@ import { ErrorMessage, Form, FormControl, Input, Label, Switch } from '@componen
 import { addMangaSchema } from './add-manga-schema';
 import { ZodIssue } from 'zod';
 import { cn } from '@utils/utils';
+import { ActionButton } from '@components/ui/action-button';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -76,7 +77,7 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
           </FormControl>
         </Form>
         <DialogFooter>
-          <Button form="add-manga-form">Save Manga</Button>
+          <ActionButton form="add-manga-form">Save Manga</ActionButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
