@@ -30,9 +30,9 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
   const [errors, setErrors] = useState<ZodIssue[]>([]);
   // const { toast } = useToast();
 
-  async function addManga(event: FormEvent<HTMLFormElement>) {
+  async function handleAddManga(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+    const formData = new FormData(event.currentTarget);
 
     const { success, data, error } = addMangaSchema.safeParse(Object.fromEntries(formData));
     if (!success) {
@@ -61,7 +61,7 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
           <DialogTitle>Add Manga to our Database</DialogTitle>
           <DialogDescription>Copy the url from MangaDex and paste it here to save Manga.</DialogDescription>
         </DialogHeader>
-        <Form onSubmit={addManga} errors={errors} id="add-manga-form" className="grid gap-4 py-4">
+        <Form onSubmit={handleAddManga} errors={errors} id="add-manga-form" className="grid gap-4 py-4">
           <FormControl controlName="url">
             <Label>Manga URL</Label>
             <Input placeholder="https://mangadex.org/title/{id}/{title}" />

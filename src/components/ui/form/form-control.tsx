@@ -36,6 +36,12 @@ export function FormControl({
           });
         }
 
+        if (type.displayName === 'Select') {
+          return cloneElement(child, {
+            name: controlName,
+          });
+        }
+
         if (type.displayName === 'ErrorMessage') {
           return cloneElement(child, {
             id: controlName,

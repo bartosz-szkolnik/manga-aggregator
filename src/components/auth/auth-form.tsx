@@ -4,7 +4,7 @@ import { Button } from '@components/ui/button';
 import { ErrorMessage, Form, FormControl, Input, Label } from '@components/ui/form';
 import { Icons } from '@components/ui/icons';
 import { cn } from '@utils/utils';
-import { HTMLAttributes, SyntheticEvent, useState, useTransition } from 'react';
+import { FormEvent, HTMLAttributes, useState, useTransition } from 'react';
 import { ZodIssue } from 'zod';
 import { authFormSchema } from './auth-form-schema';
 
@@ -17,11 +17,11 @@ export function AuthForm({ className, formAction, ...props }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ZodIssue[]>([]);
 
-  async function onSubmit(event: SyntheticEvent) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
 
-    const formData = new FormData(event.target as HTMLFormElement);
+    const formData = new FormData(event.currentTarget);
 
     const { success, data, error } = authFormSchema.safeParse(Object.fromEntries(formData));
     if (!success) {

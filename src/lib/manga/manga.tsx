@@ -5,6 +5,7 @@ import { MangaDrawer } from './manga-drawer';
 import { FollowMangaButton } from '@lib/follow-manga/follow-manga-button';
 import { createServerClient } from '@utils/supabase/server';
 import { Button } from '@components/ui/button';
+import { UpdateProgressForm } from '@lib/update-progress/update-progress-form';
 
 export type MangaProps = {
   manga: MangaType;
@@ -15,7 +16,7 @@ export async function Manga({ manga }: MangaProps) {
   const { supabase } = await createServerClient();
   const { data, error } = await supabase
     .from('profile_manga')
-    .select('is_following, latest_chapter_read')
+    .select('is_following, latest_chapter_read, current_reading_status, priority')
     .eq('manga_id', id)
     .single();
 
@@ -25,7 +26,7 @@ export async function Manga({ manga }: MangaProps) {
 
   const chaptersBehind = Number(latest_chapter ?? 0) - Number(data.latest_chapter_read ?? 0);
   return (
-    <Sheet>
+    <Sheet key={mangadex_id}>
       <MangaArtwork
         manga={manga}
         className="w-[250px]"
@@ -37,6 +38,13 @@ export async function Manga({ manga }: MangaProps) {
       <MangaDrawer mangaDexId={mangadex_id} title={title}>
         <div className="mt-4 grid gap-4 py-4">
           <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
+          <UpdateProgressForm
+            latestChapterRead={data.latest_chapter_read ?? '0'}
+            currentReadingStatus={data.current_reading_status ?? 'want to read'}
+            latestChapter={manga.latest_chapter ?? '0'}
+            priority={data.priority ?? 'normal'}
+            mangaId={manga.id}
+          />
         </div>
       </MangaDrawer>
     </Sheet>

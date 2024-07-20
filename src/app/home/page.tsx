@@ -5,6 +5,8 @@ import { AllMangas } from './components/all-mangas';
 import { UpdatedForYou } from './components/updated-for-you';
 import { CurrentlyReading } from './components/currently-reading';
 import { Metadata } from 'next';
+import { Link } from '@components/ui/link';
+import { Button } from '@components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Home · Manga Aggregator',
@@ -16,7 +18,11 @@ export default async function HomePage() {
   if (!isLoggedIn) {
     return (
       <main className="px-4 py-6 lg:px-8">
-        <AllMangas />
+        {/* <AllMangas /> */}
+        <p className="mb-4">You&apos;re not logged in</p>
+        <Button asChild>
+          <Link href={'/auth/sign-in'}>Go to sign in page</Link>
+        </Button>
       </main>
     );
   }

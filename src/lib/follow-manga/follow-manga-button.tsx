@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { StarIcon } from '@radix-ui/react-icons';
+import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
 export function FollowMangaButton({
@@ -58,7 +58,10 @@ export function FollowMangaButton({
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <Button className={className}>Unfollow</Button>
+        <Button className={className}>
+          <StarFilledIcon className="mr-2 h-4 w-4" />
+          Unfollow
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
