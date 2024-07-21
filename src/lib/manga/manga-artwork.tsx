@@ -28,6 +28,7 @@ export function MangaArtwork({
       <div className="overflow-hidden rounded-md">
         <CustomLogicSheetTrigger customOnClick={() => openMangaDex(manga.mangadex_id)}>
           <Image
+            priority
             src={manga.image_url}
             alt={manga.title}
             width={width}

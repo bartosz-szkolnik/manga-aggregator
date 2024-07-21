@@ -19,8 +19,6 @@ export async function allCaughtUp(mangaId: Manga['id']) {
   const { manga, current_reading_status } = profileManga;
   const isCompleted = manga.manga_status === 'completed';
 
-  console.log(isCompleted);
-
   {
     const { error } = await supabase
       .from('profile_manga')

@@ -61,6 +61,7 @@ export function UpdateProgressForm({
     );
   }
 
+  const isCaughtUp = latestChapter <= latestChapterRead;
   return (
     <div className="flex items-center justify-center [&>div]:w-full">
       <Card>
@@ -72,7 +73,7 @@ export function UpdateProgressForm({
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
-          <AllCaughtUpButton mangaId={mangaId} handleSuccess={() => setOpen(false)} />
+          <AllCaughtUpButton mangaId={mangaId} handleSuccess={() => setOpen(false)} isCaughtUp={isCaughtUp} />
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
