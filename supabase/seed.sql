@@ -50,7 +50,7 @@ insert into profile_manga (
   manga_id,
   is_following,
   is_in_library,
-  current_reading_status,
+  reading_status,
   latest_chapter_read,
   priority
 ) values (
@@ -72,7 +72,7 @@ insert into profile_manga (
   manga_id,
   is_following,
   is_in_library,
-  current_reading_status,
+  reading_status,
   latest_chapter_read,
   priority
 ) values (

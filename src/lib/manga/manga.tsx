@@ -17,7 +17,7 @@ export async function Manga({ manga }: MangaProps) {
   const { supabase } = await createServerClient();
   const { data, error } = await supabase
     .from('profile_manga')
-    .select('is_following, latest_chapter_read, current_reading_status, priority, is_in_library')
+    .select('is_following, latest_chapter_read, reading_status, priority, is_in_library')
     .eq('manga_id', id)
     .single();
 
@@ -42,7 +42,7 @@ export async function Manga({ manga }: MangaProps) {
           <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
           <UpdateProgressForm
             latestChapterRead={data.latest_chapter_read ?? '0'}
-            currentReadingStatus={data.current_reading_status ?? 'want to read'}
+            readingStatus={data.reading_status ?? 'want to read'}
             latestChapter={manga.latest_chapter ?? '0'}
             priority={data.priority ?? 'normal'}
             mangaId={manga.id}

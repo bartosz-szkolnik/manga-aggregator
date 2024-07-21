@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
-import { CurrentReadingStatus } from '@lib/types/manga.types';
+import { ReadingStatus } from '@lib/types/manga.types';
 
 const items = [
   {
@@ -22,19 +22,19 @@ const items = [
     value: 'dropped',
     text: 'Dropped',
   },
-] satisfies { value: CurrentReadingStatus; text: string }[];
+] satisfies { value: ReadingStatus; text: string }[];
 
 export function ChangeReadingStatusSelect({
   readingStatus,
   name = 'reading-status',
 }: {
-  readingStatus: CurrentReadingStatus;
+  readingStatus: ReadingStatus;
   name?: string;
 }) {
   return (
     <Select name={name} defaultValue={readingStatus ?? 'want to read'}>
       <SelectTrigger>
-        <SelectValue placeholder="Your current reading status" />
+        <SelectValue placeholder="Your reading status" />
       </SelectTrigger>
       <SelectContent>
         {items.map(({ text, value }) => (

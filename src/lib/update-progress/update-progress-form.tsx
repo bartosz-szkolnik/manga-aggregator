@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ErrorMessage, Form, FormControl, Input, Label } from '@components/ui/form';
 import { ChangePrioritySelect } from '@lib/change-priority/change-priority-select';
 import { ChangeReadingStatusSelect } from '@lib/change-reading-status/change-reading-status-select';
-import { CurrentReadingStatus, Priority } from '@lib/types/manga.types';
+import { ReadingStatus, Priority } from '@lib/types/manga.types';
 import { FormEvent, useState, useTransition } from 'react';
 import { ZodIssue } from 'zod';
 import { updateProgressSchema } from './update-progress-schema';
@@ -14,7 +14,7 @@ import { updateProgress } from './update-progress-action';
 import { AllCaughtUpButton } from './all-caught-up-button';
 
 export type UpdateProgressFormProps = {
-  currentReadingStatus: CurrentReadingStatus;
+  readingStatus: ReadingStatus;
   latestChapterRead: string;
   latestChapter: string;
   priority: Priority;
@@ -22,7 +22,7 @@ export type UpdateProgressFormProps = {
 };
 
 export function UpdateProgressForm({
-  currentReadingStatus,
+  readingStatus,
   latestChapterRead,
   latestChapter,
   priority,
@@ -84,7 +84,7 @@ export function UpdateProgressForm({
           </div>
           <Form onSubmit={handleSubmit} errors={errors} id="update-progress-form" className="grid gap-4 py-4">
             <FormControl controlName="latest-chapter-read">
-              <Label>Currently reading status</Label>
+              <Label>Chapters read</Label>
               <div className="flex items-center gap-4">
                 <Input
                   id="latest-chapter-read"
@@ -98,8 +98,8 @@ export function UpdateProgressForm({
               <ErrorMessage />
             </FormControl>
             <FormControl controlName="reading-status">
-              <Label>Currently reading status</Label>
-              <ChangeReadingStatusSelect readingStatus={currentReadingStatus ?? 'want to read'} />
+              <Label>Reading status</Label>
+              <ChangeReadingStatusSelect readingStatus={readingStatus ?? 'want to read'} />
               <ErrorMessage />
             </FormControl>
             <FormControl controlName="priority">

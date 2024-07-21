@@ -11,7 +11,7 @@ export async function updateProgress(values: z.infer<typeof updateProgressSchema
   const { data, error } = await supabase
     .from('profile_manga')
     .update({
-      current_reading_status: values['reading-status'],
+      reading_status: values['reading-status'],
       latest_chapter_read: values['latest-chapter-read'],
       priority: values['priority'],
     })

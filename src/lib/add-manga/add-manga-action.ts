@@ -76,7 +76,7 @@ async function addProfileMangaToDatabase(
   const { error } = await supabase.from('profile_manga').insert({
     profile_id: userId!,
     manga_id: mangaId,
-    current_reading_status: 'want to read',
+    reading_status: 'want to read',
     is_in_library: addToUserLibrary,
     is_following: addToFollowed,
   });

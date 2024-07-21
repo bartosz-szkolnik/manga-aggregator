@@ -132,9 +132,6 @@ export type Database = {
       profile_manga: {
         Row: {
           created_at: string
-          current_reading_status:
-            | Database["public"]["Enums"]["current_reading_status"]
-            | null
           id: string
           is_following: boolean
           is_in_library: boolean
@@ -142,12 +139,10 @@ export type Database = {
           manga_id: string
           priority: Database["public"]["Enums"]["priority"] | null
           profile_id: string
+          reading_status: Database["public"]["Enums"]["reading_status"] | null
         }
         Insert: {
           created_at?: string
-          current_reading_status?:
-            | Database["public"]["Enums"]["current_reading_status"]
-            | null
           id?: string
           is_following?: boolean
           is_in_library?: boolean
@@ -155,12 +150,10 @@ export type Database = {
           manga_id: string
           priority?: Database["public"]["Enums"]["priority"] | null
           profile_id: string
+          reading_status?: Database["public"]["Enums"]["reading_status"] | null
         }
         Update: {
           created_at?: string
-          current_reading_status?:
-            | Database["public"]["Enums"]["current_reading_status"]
-            | null
           id?: string
           is_following?: boolean
           is_in_library?: boolean
@@ -168,6 +161,7 @@ export type Database = {
           manga_id?: string
           priority?: Database["public"]["Enums"]["priority"] | null
           profile_id?: string
+          reading_status?: Database["public"]["Enums"]["reading_status"] | null
         }
         Relationships: [
           {
@@ -194,15 +188,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      current_reading_status:
+      manga_status: "completed" | "ongoing" | "hiatus" | "cancelled" | "unknown"
+      notification_status: "pending" | "error" | "sent"
+      priority: "high" | "normal" | "low"
+      reading_status:
         | "reading"
         | "want to read"
         | "finished reading"
         | "postponed"
         | "dropped"
-      manga_status: "completed" | "ongoing" | "hiatus" | "cancelled" | "unknown"
-      notification_status: "pending" | "error" | "sent"
-      priority: "high" | "normal" | "low"
     }
     CompositeTypes: {
       [_ in never]: never
