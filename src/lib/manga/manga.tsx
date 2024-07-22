@@ -7,6 +7,7 @@ import { createServerClient } from '@utils/supabase/server';
 import { Button } from '@components/ui/button';
 import { UpdateProgressForm } from '@lib/update-progress/update-progress-form';
 import { AddMangaToLibraryButton } from '@lib/add-manga-to-library/add-manga-to-library-button';
+import { FavoriteMangaButton } from '@lib/favorite-manga/favorite-manga-button';
 
 export type MangaProps = {
   manga: MangaType;
@@ -17,7 +18,7 @@ export async function Manga({ manga }: MangaProps) {
   const { supabase } = await createServerClient();
   const { data, error } = await supabase
     .from('profile_manga')
-    .select('is_following, latest_chapter_read, reading_status, priority, is_in_library')
+    .select('is_following, latest_chapter_read, reading_status, priority, is_in_library, is_favorite')
     .eq('manga_id', id)
     .single();
 
@@ -40,6 +41,7 @@ export async function Manga({ manga }: MangaProps) {
         <div className="mt-4 grid gap-4 py-4">
           <AddMangaToLibraryButton mangaId={manga.id} isInLibrary={data.is_in_library} />
           <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
+          <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />
           <UpdateProgressForm
             latestChapterRead={data.latest_chapter_read ?? '0'}
             readingStatus={data.reading_status ?? 'want to read'}

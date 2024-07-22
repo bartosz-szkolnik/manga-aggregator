@@ -58,6 +58,7 @@ create table "public"."profile_manga" (
     "manga_id" uuid not null, -- id of the manga
     "is_following" boolean not null default false, -- whether the profile wants to receive notifications for the manga
     "is_in_library" boolean not null default true, -- whether to show the manga in the library of a profile
+    "is_favorite" boolean not null default false, -- whether the manga is marked as favorite, which prioritizes it is some sortings and also receives it's own notification 
     "reading_status" reading_status default 'want to read', -- reading status of the manga
     "latest_chapter_read" text default null, -- latest chapter number read by the profile, corresponds to manga.latest_chapter
     "priority" priority default null -- priority of the manga for a profile

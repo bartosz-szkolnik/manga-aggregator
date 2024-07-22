@@ -133,6 +133,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_favorite: boolean
           is_following: boolean
           is_in_library: boolean
           latest_chapter_read: string | null
@@ -144,6 +145,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_favorite?: boolean
           is_following?: boolean
           is_in_library?: boolean
           latest_chapter_read?: string | null
@@ -155,6 +157,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_favorite?: boolean
           is_following?: boolean
           is_in_library?: boolean
           latest_chapter_read?: string | null
