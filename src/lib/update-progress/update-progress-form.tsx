@@ -86,14 +86,9 @@ export function UpdateProgressForm({
             <FormControl controlName="latest-chapter-read">
               <Label>Chapters read</Label>
               <div className="flex items-center gap-4">
-                <Input
-                  id="latest-chapter-read"
-                  name="latest-chapter-read"
-                  className="max-w-20"
-                  defaultValue={latestChapterRead}
-                />
+                <Input className="max-w-20" defaultValue={latestChapterRead} />
                 <span className="flex-1"> read out of </span>
-                <Input className="max-w-20" disabled defaultValue={latestChapter} />
+                <Input setFormAttributes={false} className="max-w-20" disabled defaultValue={latestChapter} />
               </div>
               <ErrorMessage />
             </FormControl>

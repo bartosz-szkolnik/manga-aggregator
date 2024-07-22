@@ -1,5 +1,6 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
+import { FormControlContext, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
 import { Priority } from '@lib/types/manga.types';
+import { useContext } from 'react';
 
 const items = [
   {
@@ -16,9 +17,11 @@ const items = [
   },
 ] satisfies { value: Priority; text: string }[];
 
-export function ChangePrioritySelect({ priority, name = 'priority' }: { priority: Priority; name?: string }) {
+export function ChangePrioritySelect({ priority }: { priority: Priority }) {
+  const controlName = useContext(FormControlContext);
+
   return (
-    <Select name={name} defaultValue={priority ?? 'normal'}>
+    <Select name={controlName} defaultValue={priority ?? 'normal'}>
       <SelectTrigger>
         <SelectValue placeholder="How badly you want to read this manga?" />
       </SelectTrigger>

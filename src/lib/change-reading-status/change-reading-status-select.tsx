@@ -1,5 +1,6 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
+import { FormControlContext, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
 import { ReadingStatus } from '@lib/types/manga.types';
+import { useContext } from 'react';
 
 const items = [
   {
@@ -24,15 +25,10 @@ const items = [
   },
 ] satisfies { value: ReadingStatus; text: string }[];
 
-export function ChangeReadingStatusSelect({
-  readingStatus,
-  name = 'reading-status',
-}: {
-  readingStatus: ReadingStatus;
-  name?: string;
-}) {
+export function ChangeReadingStatusSelect({ readingStatus }: { readingStatus: ReadingStatus }) {
+  const controlName = useContext(FormControlContext);
   return (
-    <Select name={name} defaultValue={readingStatus ?? 'want to read'}>
+    <Select name={controlName} defaultValue={readingStatus ?? 'want to read'}>
       <SelectTrigger>
         <SelectValue placeholder="Your reading status" />
       </SelectTrigger>
