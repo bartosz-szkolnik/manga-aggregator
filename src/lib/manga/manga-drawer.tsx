@@ -12,15 +12,15 @@ export type MangaDrawerProps = {
 
 export function MangaDrawer({ children, title, mangaDexId }: MangaDrawerProps) {
   return (
-    <SheetContent>
+    <SheetContent className="flex h-full flex-col overflow-auto">
       <SheetHeader>
         <SheetTitle className="cursor-pointer" onClick={() => openMangaDex(mangaDexId)}>
           {title}
         </SheetTitle>
         <SheetDescription>You can do some things in here...</SheetDescription>
       </SheetHeader>
-      {children}
-      <SheetFooter className="absolute bottom-4 left-4">
+      <div className="flex-1">{children}</div>
+      <SheetFooter className="flex flex-col sm:justify-start">
         <SheetClose asChild>
           <Button>Close</Button>
         </SheetClose>
