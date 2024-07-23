@@ -75,6 +75,10 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
             <Label>Start following</Label>
             <Switch />
           </FormControl>
+          <FormControl controlName="is-favorite" controlType="switch">
+            <Label>Add to favorite?</Label>
+            <Switch />
+          </FormControl>
         </Form>
         <DialogFooter>
           <ActionButton form="add-manga-form">Save Manga</ActionButton>

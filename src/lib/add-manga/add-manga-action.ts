@@ -19,13 +19,15 @@ export async function addManga(values: z.infer<typeof addMangaSchema>) {
   const { error, addedMangaId } = await addMangaToDatabase(supabase, id, mangaAttributes, cover);
 
   if (error || !addedMangaId) {
+    console.error(error);
     return { error: 'Something went wrong' } as const;
   }
 
   const addToUserLibrary = toBoolean(values['add-to-user-library']);
   const addToFollowed = toBoolean(values['start-following']);
+  const isFavorite = toBoolean(values['is-favorite']);
   if (addToUserLibrary && addedMangaId && userId) {
-    await addProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed);
+    await addProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed, isFavorite);
   }
 
   revalidatePath('/home');
@@ -57,7 +59,7 @@ async function addMangaToDatabase(
     .from('manga')
     .insert({
       mangadex_id: id,
-      title: mangaAttributes.title.en,
+      title: mangaAttributes.title.en ?? mangaAttributes.title['ja-ro'],
       image_url: `https://mangadex.org/covers/${id}/${cover}`,
     })
     .select('id')
@@ -72,6 +74,7 @@ async function addProfileMangaToDatabase(
   mangaId: string,
   addToUserLibrary: boolean,
   addToFollowed: boolean,
+  isFavorite: boolean,
 ) {
   const { error } = await supabase.from('profile_manga').insert({
     profile_id: userId!,
@@ -79,6 +82,7 @@ async function addProfileMangaToDatabase(
     reading_status: 'want to read',
     is_in_library: addToUserLibrary,
     is_following: addToFollowed,
+    is_favorite: isFavorite,
   });
 
   if (error) {

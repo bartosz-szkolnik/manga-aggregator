@@ -43,6 +43,7 @@ export interface Title {
   ru: string;
   zh: string;
   'jp-ro': string;
+  'ja-ro': string;
 }
 
 export interface AltTitle {

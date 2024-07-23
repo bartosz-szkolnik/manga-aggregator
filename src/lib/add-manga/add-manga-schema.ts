@@ -6,4 +6,5 @@ export const addMangaSchema = z.object({
   }),
   'add-to-user-library': z.string().optional().default(''),
   'start-following': z.string().optional().default(''),
+  'is-favorite': z.string().optional().default(''),
 });
