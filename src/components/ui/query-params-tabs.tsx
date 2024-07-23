@@ -1,8 +1,8 @@
 'use client';
 
-import { Tabs } from '@radix-ui/react-tabs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReactNode, useCallback, useState } from 'react';
+import { Tabs } from './tabs';
 
 const QUERY_PARAMS_TAB_KEY = 'tab';
 

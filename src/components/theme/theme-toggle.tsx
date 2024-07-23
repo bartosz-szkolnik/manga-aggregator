@@ -16,8 +16,6 @@ export function ThemeToggle() {
     // if (value === 'system') setTheme('light');
   }
 
-  console.log('asd');
-
   return (
     <Button
       disabled

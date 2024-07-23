@@ -7,7 +7,7 @@ import { CurrentlyReading } from './components/currently-reading';
 import { Metadata } from 'next';
 import { Link } from '@components/ui/link';
 import { Button } from '@components/ui/button';
-import { QueryParamsTabs } from '@components/ui/query-params-tab';
+import { QueryParamsTabs } from '@components/ui/query-params-tabs';
 
 export const metadata: Metadata = {
   title: 'Home · Manga Aggregator',
