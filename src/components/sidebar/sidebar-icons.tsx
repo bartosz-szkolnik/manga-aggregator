@@ -3,6 +3,7 @@
 import { Button } from '@components/ui/button';
 import { PanelLeftDashed, ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { ThemeToggle } from '@components/theme/theme-toggle';
 
 type SidebarIconsProps = {
   setSidebarOpen: (open: boolean) => void;
@@ -12,8 +13,8 @@ export function SidebarIcons({ setSidebarOpen }: SidebarIconsProps) {
   const router = useRouter();
 
   return (
-    <div className="mb-4 flex">
-      <Button variant={'ghost'} onClick={() => setSidebarOpen(false)}>
+    <div className="mb-4 flex justify-between">
+      <Button variant="ghost" onClick={() => setSidebarOpen(false)}>
         <PanelLeftDashed></PanelLeftDashed>
       </Button>
       <Button variant={'ghost'} onClick={() => router.back()}>
@@ -25,6 +26,7 @@ export function SidebarIcons({ setSidebarOpen }: SidebarIconsProps) {
       <Button variant={'ghost'} onClick={() => router.refresh()}>
         <RotateCw></RotateCw>
       </Button>
+      <ThemeToggle />
     </div>
   );
 }

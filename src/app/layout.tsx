@@ -5,6 +5,7 @@ import { ServiceWorkerProvider } from '@lib/sending-notifications/service-worker
 import { ReactNode } from 'react';
 import { Sidebar, SidebarContent, SidebarLink } from '@components/sidebar';
 import { HomeIcon, LockIcon, Settings } from 'lucide-react';
+import { ThemeProvider } from '@components/theme/theme-provider';
 
 import '../styles/globals.css';
 
@@ -23,15 +24,18 @@ const LINKS = [
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
         <ServiceWorkerProvider>
+          {/* TODO: enable after the colors have been properly aligned to dark mode */}
+          {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange> */}
           <div className="flex h-screen bg-gradient-to-r from-blue-200 to-cyan-200">
             <Sidebar className="px-2 py-6" links={LINKS}>
               <SidebarContent />
             </Sidebar>
             <div className="m-3 flex-1 rounded-md bg-white shadow-lg shadow-slate-400">{children}</div>
           </div>
+          {/* </ThemeProvider> */}
         </ServiceWorkerProvider>
       </body>
     </html>
