@@ -22,6 +22,11 @@ export async function UpdatedForYou() {
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Updated for You</h2>
           <p className="text-sm text-muted-foreground">Recently updated mangas you follow. You can read them here.</p>
+          <p className="mt-16">
+            <strong className="text-sm text-muted-foreground">
+              If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
+            </strong>
+          </p>
         </div>
       </div>
       <Separator className="my-4" />
@@ -33,5 +38,15 @@ export async function UpdatedForYou() {
         </div>
       </div>
     </>
+  );
+}
+
+function getTheMetaSymbol() {
+  return (
+    <span className="text-sm text-muted-foreground">
+      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+        <span className="text-xs">⌘</span>
+      </kbd>
+    </span>
   );
 }
