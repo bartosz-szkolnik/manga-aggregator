@@ -29,7 +29,9 @@ export async function SidebarContent() {
 
   return (
     <div>
-      <h1 className="tracking-light mb-6 truncate px-4 text-center text-2xl font-semibold">Manga Aggregator</h1>
+      <h1 className="tracking-light mb-6 mt-2 truncate px-4 text-center text-2xl text-[1.7rem] font-semibold">
+        Manga Aggregator
+      </h1>
       <Profile profile={profile} email={user.email ?? ''} />
       <Separator dir="horizontal" className="my-4 bg-slate-400" />
       <div className="flex justify-evenly gap-4">
