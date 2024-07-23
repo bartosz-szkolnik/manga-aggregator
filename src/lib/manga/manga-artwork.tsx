@@ -3,8 +3,8 @@
 import { CustomLogicSheetTrigger } from '@components/ui/sheet';
 import { Manga } from '@lib/types/manga.types';
 import { cn } from '@utils/utils';
-import Image from 'next/image';
 import { openMangaDex } from './manga-utils';
+import { MangaImage } from './manga-image';
 
 type MangaArtworkProps = React.HTMLAttributes<HTMLDivElement> & {
   manga: Manga;
@@ -24,36 +24,27 @@ export function MangaArtwork({
   ...props
 }: MangaArtworkProps) {
   return (
-    <div className={cn('space-y-3', className)} {...props}>
-      <div className="overflow-hidden rounded-md">
-        <CustomLogicSheetTrigger customOnClick={() => openMangaDex(manga.mangadex_id)}>
-          <Image
-            priority
-            src={manga.image_url}
-            alt={manga.title}
-            width={width}
-            height={height}
-            className={cn(
-              'h-auto w-auto object-cover transition-all hover:scale-105 hover:opacity-50',
-              aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square',
-            )}
-          />
+    <figure className={cn('space-y-3', className)} {...props}>
+      <CustomLogicSheetTrigger customOnClick={() => openMangaDex(manga.mangadex_id)}>
+        <MangaImage
+          imageUrl={manga.image_url}
+          title={manga.title}
+          width={width}
+          height={height}
+          aspectRatio={aspectRatio}
+        />
+      </CustomLogicSheetTrigger>
+      <figcaption className="space-y-1 text-sm">
+        <CustomLogicSheetTrigger className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
+          <h3 className="justify-center text-base font-medium leading-none">{manga.title}</h3>
         </CustomLogicSheetTrigger>
-        <div className="mt-4 flex items-center justify-between"></div>
-      </div>
-      <div className="space-y-1 text-sm">
-        <h3 className="justify-center font-medium leading-none">
-          <CustomLogicSheetTrigger className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
-            {manga.title}
-          </CustomLogicSheetTrigger>
-        </h3>
         {chaptersBehind > 0 ? (
-          <p className="text-center text-xs text-muted-foreground">You&apos;re behind {chaptersBehind} chapters</p>
+          <p className="text-center text-sm text-muted-foreground">You&apos;re behind {chaptersBehind} chapters</p>
         ) : (
-          <p className="text-center text-xs text-muted-foreground">You&apos;re all caught up!</p>
+          <p className="text-center text-sm text-muted-foreground">You&apos;re all caught up!</p>
         )}
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   );
 }
 
