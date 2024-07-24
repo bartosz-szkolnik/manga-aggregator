@@ -17,7 +17,14 @@ export const metadata: Metadata = {
 };
 
 const LINKS = [
-  <SidebarLink href="/home" icon={HomeIcon} text="Home" key="home" className="mb-2" />,
+  <SidebarLink
+    href="/"
+    match={['/updated', '/currently-reading', '/all-manga']}
+    icon={HomeIcon}
+    text="Home"
+    key="home"
+    className="mb-2"
+  />,
   <SidebarLink href="/private" icon={LockIcon} text="Private" key="private" className="mb-2" />,
   <SidebarLink href="/settings" icon={Settings} text="Settings" key="settings" className="mb-2" />,
 ];

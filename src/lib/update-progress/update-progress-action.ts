@@ -21,6 +21,6 @@ export async function updateProgress(values: z.infer<typeof updateProgressSchema
     return { error };
   }
 
-  revalidatePath('/home');
+  revalidatePath('/');
   return { success: data };
 }

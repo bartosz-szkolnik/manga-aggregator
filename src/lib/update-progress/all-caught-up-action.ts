@@ -33,6 +33,6 @@ export async function allCaughtUp(mangaId: Manga['id']) {
     }
   }
 
-  revalidatePath('/home');
+  revalidatePath('/');
   return { data: 'Success!' };
 }

@@ -30,7 +30,7 @@ export async function addManga(values: z.infer<typeof addMangaSchema>) {
     await addProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed, isFavorite);
   }
 
-  revalidatePath('/home');
+  revalidatePath('/');
   return { success: addedMangaId } as const;
 }
 

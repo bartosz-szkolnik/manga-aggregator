@@ -3,7 +3,7 @@ import { Manga } from '@lib/manga/manga';
 import { createServerClient } from '@utils/supabase/server';
 import { redirect } from 'next/navigation';
 
-export async function UpdatedForYou() {
+export default async function UpdatedForYou() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return redirect('./auth/sign-in');

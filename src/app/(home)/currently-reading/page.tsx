@@ -1,7 +1,7 @@
 import { Separator } from '@components/ui/separator';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
 
-export function CurrentlyReading() {
+export default function CurrentlyReading() {
   return (
     <>
       <div className="flex items-center justify-between">

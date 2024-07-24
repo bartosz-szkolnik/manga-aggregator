@@ -19,6 +19,6 @@ export async function followManga(mangaId: Manga['id'], isFollowing: boolean) {
     return { error: 'Something went wrong' } as const;
   }
 
-  revalidatePath('/home');
+  revalidatePath('/');
   return { success: data } as const;
 }

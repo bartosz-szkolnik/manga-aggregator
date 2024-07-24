@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 import { cn } from '@utils/utils';
 
-type LinkProps = NextLinkProps & {
+export type LinkProps = NextLinkProps & {
   className?: string;
   activeClassName?: string;
-  hasNestedRoutes?: boolean;
+  match?: string[];
   children: ReactNode;
 };
 
@@ -16,7 +16,7 @@ export function Link({
   children,
   activeClassName = 'active-link bg-accent text-accent-foreground',
   className = '',
-  hasNestedRoutes = false,
+  match,
   ...props
 }: LinkProps) {
   const pathname = usePathname();
@@ -25,7 +25,7 @@ export function Link({
     <NextLink
       className={cn({
         [className]: true,
-        [activeClassName]: hasNestedRoutes ? pathname.includes(props.href.toString()) : props.href === pathname,
+        [activeClassName]: match?.includes(pathname) ?? props.href === pathname,
       })}
       {...props}
     >

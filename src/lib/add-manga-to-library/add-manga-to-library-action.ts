@@ -19,6 +19,6 @@ export async function addToLibrary(mangaId: Manga['id'], isInLibrary: boolean) {
     return { error: 'Something went wrong' } as const;
   }
 
-  revalidatePath('/home');
+  revalidatePath('/');
   return { success: data } as const;
 }

@@ -13,7 +13,7 @@ export default function NotFound() {
       <h2 className="text-2xl font-semibold tracking-tight">404 · Not Found</h2>
       <p>This page doesn’t exist. </p>
       <Button className="mt-4" asChild>
-        <Link href="/home">Return Home</Link>
+        <Link href="/">Return Home</Link>
       </Button>
     </div>
   );
