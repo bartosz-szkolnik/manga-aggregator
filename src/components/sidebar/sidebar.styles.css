@@ -1,6 +1,6 @@
 :root {
   --sidebar-width: 300px;
-  --sidebar-width-delay: 200ms;
+  --sidebar-width-delay: 100ms;
   --sidebar-opacity-enter-delay: 100ms;
   --sidebar-opacity-exit-delay: 50ms;
 }

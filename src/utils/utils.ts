@@ -14,3 +14,7 @@ export function invariant(value: unknown, message = 'No message provided.'): ass
 export function isTruthy<T>(value: T): value is NonNullable<T> {
   return Boolean(value);
 }
+
+export function clamp(num: number, min: number, max: number) {
+  return Math.min(Math.max(num, min), max);
+}
