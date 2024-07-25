@@ -1,12 +1,14 @@
+import { Statistic } from '@components/statistics/statistic';
 import { Button } from '@components/ui/button';
 import { Link } from '@components/ui/link';
 import { TabLink, TabLinkContainer } from '@components/ui/tab-link';
 import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
 import { createServerClient } from '@utils/supabase/server';
+import { Book, BookCheck } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export default async function HomeLayout({ children }: { children: ReactNode }) {
-  const { isLoggedIn } = await createServerClient();
+  const { isLoggedIn, supabase } = await createServerClient();
 
   if (!isLoggedIn) {
     return (
@@ -19,11 +21,30 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
     );
   }
 
+  const { count: mangasRead } = await supabase
+    .from('profile_manga')
+    .select('', { count: 'exact' })
+    .eq('reading_status', 'finished reading');
+
+  const { count: mangasPlanToRead } = await supabase
+    .from('profile_manga')
+    .select('', { count: 'exact' })
+    .eq('reading_status', 'want to read');
+
   return (
     <>
-      <main className="h-full p-4 py-6 lg:p-8">
-        <p>Here's some simple layout</p>
-        <div className="space-between mb-4 flex items-center">
+      <main className="flex h-full max-h-full flex-col px-4 py-6 lg:px-8">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Statistic title="Mangas read" icon={BookCheck}>
+            <div className="text-2xl font-bold">{mangasRead}</div>
+            <p className="text-xs text-muted-foreground">Good job and keep going!</p>
+          </Statistic>
+          <Statistic title="Mangas planned to read" icon={Book}>
+            <div className="text-2xl font-bold">{mangasPlanToRead}</div>
+            <p className="text-xs text-muted-foreground">Good job and keep going!</p>
+          </Statistic>
+        </div>
+        <div className="space-between my-6 flex items-center">
           <TabLinkContainer>
             <TabLink href="/updated">Updated For You</TabLink>
             <TabLink href="/currently-reading">Currently Reading</TabLink>
@@ -34,7 +55,8 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
           </TabLinkContainer>
           <AddMangaDialog className="ml-auto mr-4" />
         </div>
-        {children}
+        {/* TODO fix the height issue */}
+        <div className="max-h-[81%] flex-1">{children}</div>
       </main>
     </>
   );

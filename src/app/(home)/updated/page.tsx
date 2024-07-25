@@ -17,7 +17,7 @@ export default async function UpdatedForYou() {
 
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   return (
-    <>
+    <div className="flex max-h-full flex-col">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Updated for You</h2>
@@ -30,14 +30,14 @@ export default async function UpdatedForYou() {
         </div>
       </div>
       <Separator className="my-4" />
-      <div className="relative">
-        <div className="flex flex-wrap space-x-4 pb-4">
+      <div className="flex-1 overflow-auto">
+        <div className="flex flex-wrap gap-4 pb-4">
           {mangas.map(manga => (
             <Manga key={manga.id} manga={manga} />
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
