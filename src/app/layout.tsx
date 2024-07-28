@@ -6,6 +6,7 @@ import { ReactNode } from 'react';
 import { Sidebar, SidebarContent, SidebarLink } from '@components/sidebar';
 import { HomeIcon, LockIcon, Settings } from 'lucide-react';
 import { ThemeProvider } from '@components/theme/theme-provider';
+import { Toaster } from '@components/ui/toast';
 
 import '../styles/globals.css';
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           </div>
           {/* </ThemeProvider> */}
         </ServiceWorkerProvider>
+        <Toaster />
       </body>
     </html>
   );

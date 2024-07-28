@@ -1,8 +1,8 @@
 'use client';
 
+import { useFormState as useActionState } from 'react-dom';
 import { Button } from '@components/ui/button';
 import { followManga } from './follow-manga-action';
-import { ActionButton } from '@components/ui/action-button';
 import {
   Dialog,
   DialogContent,
@@ -14,6 +14,10 @@ import {
 } from '@components/ui/dialog';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
+import { ActionButton } from '@components/ui/form';
+import { ActionResultErrors } from '@utils/types';
+import { toast } from 'sonner';
+import { exhaustiveCheck } from '@utils/utils';
 
 export function FollowMangaButton({
   mangaId,
@@ -26,29 +30,28 @@ export function FollowMangaButton({
 }) {
   const [open, setOpen] = useState(false);
 
-  async function handleFollowManga() {
+  const [, submitFollowAction] = useActionState(async () => {
     const { error } = await followManga(mangaId, isFollowing);
     if (error) {
-      console.error(error);
-    } else {
-      console.info(`You have followed this manga.`);
+      return handleErrors(error);
     }
-  }
 
-  async function handleUnFollowManga() {
+    toast.success(`You have followed this manga.`);
+  }, null);
+
+  const [, submitUnfollowAction] = useActionState(async () => {
     const { error } = await followManga(mangaId, isFollowing);
     setOpen(false);
-
     if (error) {
-      console.error(error);
-    } else {
-      console.info(`You have unfollowed this manga.`);
+      return handleErrors(error);
     }
-  }
+
+    toast.success(`You have unfollowed this manga.`);
+  }, null);
 
   if (!isFollowing) {
     return (
-      <ActionButton actionFn={handleFollowManga} className={className}>
+      <ActionButton submitAction={submitFollowAction} className={className}>
         <StarIcon className="mr-2 h-4 w-4" />
         Follow
       </ActionButton>
@@ -71,13 +74,24 @@ export function FollowMangaButton({
             heroine cry.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>
             Cancel
           </Button>
-          <ActionButton actionFn={handleUnFollowManga}>Unfollow</ActionButton>
+          <ActionButton submitAction={submitUnfollowAction}>Unfollow</ActionButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
+}
+
+function handleErrors(error: ActionResultErrors<typeof followManga>) {
+  if (error === 'NOT_SIGNED_IN_ERROR') {
+    return toast.error('You need to be signed in to perform this action.');
+  }
+  if (error === 'SOMETHING_WENT_WRONG') {
+    return toast.error('Something went wrong. Please try again.');
+  }
+
+  exhaustiveCheck(error);
 }

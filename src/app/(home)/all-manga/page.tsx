@@ -3,6 +3,7 @@ import { AllMangaPagination } from './table/all-manga-pagination';
 import { AllMangaTable } from './table/all-manga-table';
 import { Metadata } from 'next';
 import { clamp } from '@utils/utils';
+import { logger } from '@utils/server/logger';
 
 export const metadata: Metadata = {
   title: 'All Manga · Manga Aggregator',
@@ -19,6 +20,7 @@ export default async function AllManga({ searchParams }: { searchParams: { page:
   const { from, to } = getPagination(page, size);
   const { data, error } = await getData({ supabase, count, from, to });
   if (error) {
+    logger.error(error.message);
     return <p>Some kind of error occured</p>;
   }
 
@@ -52,17 +54,17 @@ async function getData({
     : await supabase.from('manga').select('*').order('id', { ascending: true }).range(from, to);
 }
 
-export function getSize(size: string) {
+function getSize(size: string) {
   const value = Number(size) || 10;
   return clamp(value, 5, 50);
 }
 
-export function getPage(page: string, amountOfPages: number) {
+function getPage(page: string, amountOfPages: number) {
   const value = Number(page) || 1;
   return clamp(value, 1, amountOfPages);
 }
 
-export function getPagination(page: number, size: number) {
+function getPagination(page: number, size: number) {
   const from = (page - 1) * size;
   const to = from + size - 1;
 

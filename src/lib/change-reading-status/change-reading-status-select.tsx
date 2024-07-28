@@ -29,7 +29,7 @@ export function ChangeReadingStatusSelect({ readingStatus }: { readingStatus: Re
   const controlName = useContext(FormControlContext);
   return (
     <Select name={controlName} defaultValue={readingStatus ?? 'want to read'}>
-      <SelectTrigger>
+      <SelectTrigger id={controlName}>
         <SelectValue placeholder="Your reading status" />
       </SelectTrigger>
       <SelectContent>

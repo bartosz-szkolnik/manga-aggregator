@@ -1,4 +1,4 @@
-import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
 import { BookOpenText } from 'lucide-react';
 
 type NoMangaPlaceholderProps = {
@@ -16,7 +16,7 @@ export function NoMangaPlaceholder({
         <BookOpenText className="h-24 w-24"></BookOpenText>
         <h3 className="mt-4 text-lg font-semibold">{text}</h3>
         <p className="mb-4 mt-2 text-sm text-muted-foreground">{description}</p>
-        <AddMangaDialog smallButton={true}></AddMangaDialog>
+        <AddMangaToDatabaseDialog smallButton={true}></AddMangaToDatabaseDialog>
       </div>
     </div>
   );

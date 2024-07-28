@@ -22,7 +22,7 @@ export function ChangePrioritySelect({ priority }: { priority: Priority }) {
 
   return (
     <Select name={controlName} defaultValue={priority ?? 'normal'}>
-      <SelectTrigger>
+      <SelectTrigger id={controlName}>
         <SelectValue placeholder="How badly you want to read this manga?" />
       </SelectTrigger>
       <SelectContent>

@@ -1,15 +1,14 @@
 import { Metadata } from 'next';
-import { signUp } from './action';
 import { Link } from '@components/ui/link';
 import { cn } from '@utils/utils';
 import { buttonVariants } from '@components/ui/button';
-import { AuthForm } from '@components/auth';
+import { SignUpForm } from './form';
 
 export const metadata: Metadata = {
   title: 'Sign up · Manga Aggregator',
 };
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <div className="container relative hidden h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link
@@ -51,7 +50,7 @@ export default function SignInPage() {
             <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
             <p className="text-sm text-muted-foreground">Enter your email and password below to create your account</p>
           </div>
-          <AuthForm formAction={signUp} />
+          <SignUpForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{' '}
             <Link href="/terms" className="underline underline-offset-4 hover:text-primary">

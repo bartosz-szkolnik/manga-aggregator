@@ -6,7 +6,7 @@ import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
 
-export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
+export async function addToUserLibrary(mangaId: Manga['id'], isInLibrary: boolean) {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return { success: false, error: 'NOT_SIGNED_IN_ERROR' } satisfies Awaited<ActionResult>;
@@ -14,7 +14,7 @@ export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
 
   const { error } = await supabase
     .from('profile_manga')
-    .update({ is_favorite: !isFavorite })
+    .update({ is_in_library: !isInLibrary })
     .match({ profile_id: userId, manga_id: mangaId });
 
   if (error) {

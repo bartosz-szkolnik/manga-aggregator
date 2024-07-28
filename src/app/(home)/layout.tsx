@@ -2,7 +2,7 @@ import { Statistic } from '@components/statistics/statistic';
 import { Button } from '@components/ui/button';
 import { Link } from '@components/ui/link';
 import { TabLink, TabLinkContainer } from '@components/ui/tab-link';
-import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
 import { createServerClient } from '@utils/supabase/server';
 import { Book, BookCheck } from 'lucide-react';
 import { ReactNode } from 'react';
@@ -53,7 +53,7 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
             </TabLink>
             <TabLink href="/all-manga">All Available Manga</TabLink>
           </TabLinkContainer>
-          <AddMangaDialog className="ml-auto mr-4" />
+          <AddMangaToDatabaseDialog className="ml-auto mr-4" />
         </div>
         {/* TODO fix the height issue */}
         <div className="max-h-[81%] flex-1">{children}</div>

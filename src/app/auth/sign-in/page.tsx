@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
-import { signIn } from './action';
 import { cn } from '@utils/utils';
 import { buttonVariants } from '@components/ui/button';
 import { Link } from '@components/ui/link';
-import { AuthForm } from '@components/auth';
+import { SignInForm } from './form';
 
 export const metadata: Metadata = {
   title: 'Sign in · Manga Aggregator',
@@ -53,7 +52,7 @@ export default function SignInPage() {
               Enter your email and password below to sign into your account
             </p>
           </div>
-          <AuthForm formAction={signIn} />
+          <SignInForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{' '}
             <Link href="/terms" className="underline underline-offset-4 hover:text-primary">

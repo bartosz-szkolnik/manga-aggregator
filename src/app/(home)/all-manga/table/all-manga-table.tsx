@@ -47,10 +47,15 @@ async function Row({ supabase, manga, userId }: RowProps) {
     .single();
 
   if (error) {
-    console.error(error);
     return (
       <TableRow>
-        <TableCell>Some error happened and we can&apos;t display this manga right now.</TableCell>
+        <TableCell className="font-medium">{manga.title}</TableCell>
+        <TableCell>{manga.manga_status}</TableCell>
+        <TableCell>{manga.latest_chapter}</TableCell>
+        <TableCell colSpan={2}></TableCell>
+        <TableCell className="flex flex-row-reverse">
+          <Manga manga={manga} buttonAsTrigger={true} />
+        </TableCell>
       </TableRow>
     );
   }

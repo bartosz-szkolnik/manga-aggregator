@@ -14,4 +14,3 @@ export function ErrorMessage({ className }: { className?: string }) {
 
   return <p className={cn('text-sm font-medium text-destructive', className)}>{error.message}</p>;
 }
-ErrorMessage.displayName = 'ErrorMessage';

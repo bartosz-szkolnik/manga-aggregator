@@ -1,17 +1,29 @@
 'use server';
 
+import { authFormSchema } from '@components/auth/auth-form-schema';
+import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
+import { FormActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-export async function signIn(data: { email: string; password: string }) {
-  const { supabase } = await createServerClient();
-  const { error } = await supabase.auth.signInWithPassword(data);
-
+export async function signIn(formData: FormData) {
+  const { error, data } = authFormSchema.safeParse(Object.fromEntries(formData));
   if (error) {
-    return {
-      error: error.message ?? 'Invalid email or password. Please try again.',
-    };
+    return { success: false, error: error.issues } satisfies Awaited<FormActionResult>;
+  }
+
+  const { supabase } = await createServerClient();
+  {
+    const { error } = await supabase.auth.signInWithPassword(data);
+    if (error) {
+      if (error.message === 'Invalid login credentials') {
+        return { success: false, error: 'INVALID_SIGN_IN_CREDENTIALS' } satisfies Awaited<FormActionResult>;
+      } else {
+        logger.error(error);
+        return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<FormActionResult>;
+      }
+    }
   }
 
   revalidatePath('/', 'layout');

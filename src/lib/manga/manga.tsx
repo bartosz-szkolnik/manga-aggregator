@@ -6,10 +6,10 @@ import { FollowMangaButton } from '@lib/follow-manga/follow-manga-button';
 import { createServerClient } from '@utils/supabase/server';
 import { Button } from '@components/ui/button';
 import { UpdateProgressForm } from '@lib/update-progress/update-progress-form';
-import { AddMangaToLibraryButton } from '@lib/add-manga-to-library/add-manga-to-library-button';
 import { FavoriteMangaButton } from '@lib/favorite-manga/favorite-manga-button';
 import { ChevronRight } from 'lucide-react';
 import { MangaImage } from './manga-image';
+import { AddMangaToUserLibraryButton } from '@lib/add-manga-to-user-library/add-manga-to-user-library-button';
 
 export type MangaProps = {
   manga: MangaType;
@@ -26,7 +26,12 @@ export async function Manga({ manga, buttonAsTrigger = false }: MangaProps) {
     .single();
 
   if (error) {
-    return <Button disabled>Following unavailable right now</Button>;
+    // TODO: Fix this thing
+    return (
+      <Button size="xs" disabled>
+        Not ready yet
+      </Button>
+    );
   }
 
   const chaptersBehind = Number(latest_chapter ?? 0) - Number(data.latest_chapter_read ?? 0);
@@ -46,10 +51,10 @@ export async function Manga({ manga, buttonAsTrigger = false }: MangaProps) {
       {trigger}
       <MangaDrawer mangaDexId={mangadex_id} title={title}>
         <div className="mt-4">
-          <MangaImage imageUrl={manga.image_url} title={manga.title} width={200} height={280} showAnimation={false} />
+          <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
         </div>
         <div className="mt-4 grid gap-4 py-4">
-          <AddMangaToLibraryButton mangaId={manga.id} isInLibrary={data.is_in_library} />
+          <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={data.is_in_library} />
           <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
           <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />
           <UpdateProgressForm

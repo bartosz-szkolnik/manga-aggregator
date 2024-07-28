@@ -4,9 +4,10 @@ import { Button } from '@components/ui/button';
 import { PanelLeftDashed, ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '@components/theme/theme-toggle';
+import { HandlerFn } from '@utils/types';
 
 type SidebarIconsProps = {
-  setSidebarOpen: (open: boolean) => void;
+  setSidebarOpen: HandlerFn<boolean>;
 };
 
 export function SidebarIcons({ setSidebarOpen }: SidebarIconsProps) {

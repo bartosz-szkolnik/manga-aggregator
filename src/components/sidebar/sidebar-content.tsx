@@ -2,7 +2,7 @@ import { createServerClient } from '@utils/supabase/server';
 import { Profile, ProfileFallback } from '@components/profile/profile';
 import { SignOutButton } from '@components/auth';
 import { Separator } from '@components/ui/separator';
-import { AddMangaDialog } from '@lib/add-manga/add-manga-dialog';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
 
 export async function SidebarContent() {
   const { supabase } = await createServerClient();
@@ -33,7 +33,7 @@ export async function SidebarContent() {
       <Profile profile={profile} email={user.email ?? ''} />
       <Separator dir="horizontal" className="my-4 bg-slate-400" />
       <div className="flex justify-evenly gap-4">
-        <AddMangaDialog className="w-full" />
+        <AddMangaToDatabaseDialog className="w-full" />
         <SignOutButton className="w-full" />
       </div>
     </div>

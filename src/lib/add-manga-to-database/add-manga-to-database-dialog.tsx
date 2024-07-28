@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, forwardRef, MouseEventHandler, useState, useTransition } from 'react';
+import { forwardRef, MouseEventHandler, useState } from 'react';
+import { useFormState as useActionState } from 'react-dom';
 import {
   Dialog,
   DialogContent,
@@ -12,44 +13,30 @@ import {
 } from '@components/ui/dialog';
 import { Button } from '@components/ui/button';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { addManga as addMangaAction } from './add-manga-action';
-import { ErrorMessage, Form, FormControl, Input, Label, Switch } from '@components/ui/form';
-import { addMangaSchema } from './add-manga-schema';
-import { ZodIssue } from 'zod';
-import { cn } from '@utils/utils';
-import { ActionButton } from '@components/ui/action-button';
+import { addMangaToDatabase } from './add-manga-to-database-action';
+import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton, Switch } from '@components/ui/form';
+import { cn, exhaustiveCheck } from '@utils/utils';
+import { toast } from 'sonner';
+import { FormActionResultErrors } from '@utils/types';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
   className?: string;
 };
 
-export function AddMangaDialog({ smallButton = false, className }: AddMangaDialogProps) {
-  const [, startTransition] = useTransition();
+export function AddMangaToDatabaseDialog({ smallButton = false, className }: AddMangaDialogProps) {
   const [open, setOpen] = useState(false);
-  const [errors, setErrors] = useState<ZodIssue[]>([]);
-  // const { toast } = useToast();
 
-  async function handleAddManga(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {
+    const { error, success } = await addMangaToDatabase(formData);
 
-    const { success, data, error } = addMangaSchema.safeParse(Object.fromEntries(formData));
-    if (!success) {
-      setErrors(error.issues);
-      return;
-    }
-
-    startTransition(async () => {
-      const { error, success } = await addMangaAction(data);
-      if (error) {
-        handleAddMangaError(error);
-      } else {
-        console.info(`We have added this manga to our database. The id is ${success}`);
-      }
+    if (success) {
       setOpen(false);
-    });
-  }
+      toast.success('We have added this manga to our database.');
+    } else {
+      return handleErrors(error);
+    }
+  }, null);
 
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
@@ -61,7 +48,7 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
           <DialogTitle>Add Manga to our Database</DialogTitle>
           <DialogDescription>Copy the url from MangaDex and paste it here to save Manga.</DialogDescription>
         </DialogHeader>
-        <Form onSubmit={handleAddManga} errors={errors} id="add-manga-form" className="grid gap-4 py-4">
+        <Form action={submitAction} errors={errors} className="grid gap-4 py-4">
           <FormControl controlName="url">
             <Label>Manga URL</Label>
             <Input placeholder="https://mangadex.org/title/{id}/{title}" />
@@ -79,13 +66,34 @@ export function AddMangaDialog({ smallButton = false, className }: AddMangaDialo
             <Label>Add to favorites</Label>
             <Switch />
           </FormControl>
+          <DialogFooter>
+            <SubmitButton>Save Manga</SubmitButton>
+          </DialogFooter>
         </Form>
-        <DialogFooter>
-          <ActionButton form="add-manga-form">Save Manga</ActionButton>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
+}
+
+function handleErrors(error: FormActionResultErrors<typeof addMangaToDatabase>) {
+  if (Array.isArray(error)) {
+    return error;
+  }
+
+  if (error === 'NOT_SIGNED_IN_ERROR') {
+    toast.error('You need to be signed in to perform this action.');
+    return;
+  }
+  if (error === 'SOMETHING_WENT_WRONG') {
+    toast.error('Something went wrong. Please try again.');
+    return;
+  }
+  if (error === 'MANGA_ALREADY_IN_DATABASE') {
+    toast.warning('We already have this manga in our database.');
+    return;
+  }
+
+  exhaustiveCheck(error);
 }
 
 type TriggerButtonProps = {
@@ -108,18 +116,3 @@ const TriggerButton = forwardRef<HTMLButtonElement, TriggerButtonProps>(
     ),
 );
 TriggerButton.displayName = 'TriggerButton';
-
-async function handleAddMangaError(error: 'Manga is already in Database' | 'Something went wrong') {
-  console.error(error);
-}
-
-// toast({
-//   title: 'Already in our database!',
-//   description: 'We already have this manga in our database.',
-//   variant: 'destructive',
-// });
-// toast({
-//   title: 'Success!',
-//   description: 'We have added this manga to our database.',
-// });
-// }

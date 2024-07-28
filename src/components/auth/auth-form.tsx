@@ -1,57 +1,28 @@
 'use client';
 
+import { HTMLAttributes } from 'react';
 import { Button } from '@components/ui/button';
 import { ErrorMessage, Form, FormControl, Input, Label } from '@components/ui/form';
 import { Icons } from '@components/ui/icons';
 import { cn } from '@utils/utils';
-import { FormEvent, HTMLAttributes, useState, useTransition } from 'react';
 import { ZodIssue } from 'zod';
-import { authFormSchema } from './auth-form-schema';
+import { SubmitActionFn } from '@utils/types';
+import { SubmitButton } from '@components/ui/form/submit-button';
 
 type AuthFormProps = HTMLAttributes<HTMLDivElement> & {
-  formAction: (data: { email: string; password: string }) => Promise<{ error: string }>;
+  errors: ZodIssue[] | null;
+  action: SubmitActionFn;
 };
 
-export function AuthForm({ className, formAction, ...props }: AuthFormProps) {
-  const [, startTransition] = useTransition();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<ZodIssue[]>([]);
-
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    const formData = new FormData(event.currentTarget);
-
-    const { success, data, error } = authFormSchema.safeParse(Object.fromEntries(formData));
-    if (!success) {
-      setErrors(error.issues);
-      setIsLoading(false);
-      return;
-    }
-
-    startTransition(async () => {
-      const { error } = await formAction(data);
-      setIsLoading(false);
-      // TODO: Create a better way to display the error
-      console.info(error);
-    });
-  }
-
+export function AuthForm({ className, action, errors, ...props }: AuthFormProps) {
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <Form onSubmit={onSubmit} errors={errors} id="user-auth-form">
+      <Form action={action} errors={errors} id="user-auth-form">
         <div className="grid gap-4">
           <div className="grid gap-2">
             <FormControl controlName="email">
               <Label className="sr-only">Email</Label>
-              <Input
-                placeholder="name@example.com"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isLoading}
-              />
+              <Input placeholder="name@example.com" autoCapitalize="none" autoComplete="email" autoCorrect="off" />
               <ErrorMessage />
             </FormControl>
             <FormControl controlName="password">
@@ -62,15 +33,11 @@ export function AuthForm({ className, formAction, ...props }: AuthFormProps) {
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"
-                disabled={isLoading}
               />
               <ErrorMessage />
             </FormControl>
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Submit
-          </Button>
+          <SubmitButton>Submit</SubmitButton>
         </div>
       </Form>
       <div className="relative">
@@ -82,11 +49,7 @@ export function AuthForm({ className, formAction, ...props }: AuthFormProps) {
         </div>
       </div>
       <Button variant="outline" type="button" disabled={true}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{' '}
+        {false ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : <Icons.gitHub className="mr-2 h-4 w-4" />}{' '}
         GitHub
       </Button>
     </div>

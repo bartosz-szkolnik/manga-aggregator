@@ -2,7 +2,6 @@
 
 import { useFormState as useActionState } from 'react-dom';
 import { Button } from '@components/ui/button';
-import { favoriteManga } from './favorite-manga-action';
 import {
   Dialog,
   DialogContent,
@@ -14,46 +13,47 @@ import {
 } from '@components/ui/dialog';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { ActionButton } from '@components/ui/form';
+import { addToUserLibrary } from './add-manga-to-user-library-action';
 import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
+import { ActionButton } from '@components/ui/form';
 
-export function FavoriteMangaButton({
+export function AddMangaToUserLibraryButton({
   mangaId,
   className,
-  isFavorite,
+  isInLibrary,
 }: {
   mangaId: string;
   className?: string;
-  isFavorite: boolean;
+  isInLibrary: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
-  const [, submitFavoriteAction] = useActionState(async () => {
-    const { error } = await favoriteManga(mangaId, isFavorite);
+  const [, submitAddAction] = useActionState(async () => {
+    const { error } = await addToUserLibrary(mangaId, isInLibrary);
     if (error) {
       return handleErrors(error);
     }
 
-    toast.success(`You have favorited this manga.`);
+    toast.success(`You have added this manga to your library.`);
   }, null);
 
-  const [, submitUnfavoriteAction] = useActionState(async () => {
-    const { error } = await favoriteManga(mangaId, isFavorite);
-    if (error) {
-      return handleErrors(error);
-    }
-
+  const [, submitRemoveAction] = useActionState(async () => {
+    const { error } = await addToUserLibrary(mangaId, isInLibrary);
     setOpen(false);
-    toast.success(`You have removed this manga from your favorites.`);
+    if (error) {
+      return handleErrors(error);
+    }
+
+    toast.success(`You have remove this manga to your library.`);
   }, null);
 
-  if (!isFavorite) {
+  if (!isInLibrary) {
     return (
-      <ActionButton submitAction={submitFavoriteAction} className={className}>
+      <ActionButton submitAction={submitAddAction} className={className}>
         <StarIcon className="mr-2 h-4 w-4" />
-        Favorite
+        Add to library
       </ActionButton>
     );
   }
@@ -63,29 +63,26 @@ export function FavoriteMangaButton({
       <DialogTrigger asChild>
         <Button className={className}>
           <StarFilledIcon className="mr-2 h-4 w-4" />
-          Remove from favorites
+          Remove from library
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you sure you want to remove this manga from your favorites?</DialogTitle>
-          <DialogDescription>
-            What about all the memories you&apos;ve made with it? All of the characters? Don&apos;t make the main
-            heroine cry.
-          </DialogDescription>
+          <DialogTitle>Are you sure you want to remove this manga from your library?</DialogTitle>
+          <DialogDescription>But remember to drink water ok?</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>
             Cancel
           </Button>
-          <ActionButton submitAction={submitUnfavoriteAction}>Remove from favorites</ActionButton>
+          <ActionButton submitAction={submitRemoveAction}>Remove from library</ActionButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
 
-function handleErrors(error: ActionResultErrors<typeof favoriteManga>) {
+function handleErrors(error: ActionResultErrors<typeof addToUserLibrary>) {
   if (error === 'NOT_SIGNED_IN_ERROR') {
     return toast.error('You need to be signed in to perform this action.');
   }

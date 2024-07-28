@@ -10,7 +10,6 @@ export default async function UpdatedForYou() {
   }
 
   const { data, error } = await supabase.from('profile_manga').select('manga(*)').eq('profile_id', userId!);
-
   if (error) {
     return <p>Some kind of error occured</p>;
   }
