@@ -32,6 +32,7 @@ export async function allCaughtUp(mangaId: Manga['id']) {
       .update({
         latest_chapter_read: manga.latest_chapter,
         reading_status: isCompleted ? 'finished reading' : reading_status,
+        is_updated: false,
       })
       .match({ profile_id: userId, manga_id: mangaId });
 

@@ -61,5 +61,9 @@ to authenticated
 using ((profile_id = auth.uid()))
 with check ((profile_id = auth.uid()));
 
-
-
+create policy "Enable write access to edge function"
+on "public"."notifications"
+as permissive
+for insert
+to service_role
+with check (true);

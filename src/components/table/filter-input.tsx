@@ -42,7 +42,12 @@ export function FilterInput() {
 
   return (
     <div>
-      <Input value={filter} onChange={handleFilterChange} placeholder="Any manga that you fancy right now?"></Input>
+      <Input
+        type="search"
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder="Any manga that you fancy right now?"
+      ></Input>
     </div>
   );
 }

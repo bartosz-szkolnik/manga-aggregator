@@ -136,6 +136,7 @@ export type Database = {
           is_favorite: boolean
           is_following: boolean
           is_in_library: boolean
+          is_updated: boolean
           latest_chapter_read: string | null
           manga_id: string
           priority: Database["public"]["Enums"]["priority"] | null
@@ -148,6 +149,7 @@ export type Database = {
           is_favorite?: boolean
           is_following?: boolean
           is_in_library?: boolean
+          is_updated?: boolean
           latest_chapter_read?: string | null
           manga_id: string
           priority?: Database["public"]["Enums"]["priority"] | null
@@ -160,6 +162,7 @@ export type Database = {
           is_favorite?: boolean
           is_following?: boolean
           is_in_library?: boolean
+          is_updated?: boolean
           latest_chapter_read?: string | null
           manga_id?: string
           priority?: Database["public"]["Enums"]["priority"] | null

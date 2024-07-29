@@ -1,11 +1,11 @@
 import { Separator } from '@components/ui/separator';
 import { Manga } from '@lib/manga/manga';
+import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { redirect } from 'next/navigation';
-import { OpenAllButton } from './open-all-button';
 
-export default async function UpdatedForYouPage() {
+export default async function InYourLibraryPage() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return redirect('./auth/sign-in');
@@ -14,41 +14,39 @@ export default async function UpdatedForYouPage() {
   const { data, error, count } = await supabase
     .from('profile_manga')
     .select('manga(*)', { count: 'exact' })
-    .match({ profile_id: userId, is_updated: true });
+    .match({ profile_id: userId, is_in_library: true });
 
   if (error) {
     logger.error(error);
     return <p>Some kind of error occured</p>;
   }
 
-  if ((count ?? 0) <= 0) {
-    redirect('/currently-reading');
-  }
-
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
-  const mangaIds = mangas.map(manga => manga.mangadex_id);
   return (
     <div className="flex max-h-full flex-col">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">Updated for You</h2>
-          <p className="text-sm text-muted-foreground">Recently updated mangas you follow. You can read them here.</p>
+          <h2 className="text-2xl font-semibold tracking-tight">Currectly Reading Mangas</h2>
+          <p className="text-sm text-muted-foreground">Currently reading mangas. You can read them here.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
               If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
             </strong>
           </p>
         </div>
-        <OpenAllButton mangaIds={mangaIds} />
       </div>
       <Separator className="my-4" />
-      <div className="flex-1 overflow-auto">
-        <div className="flex flex-wrap gap-4 pb-4">
-          {mangas.map(manga => (
-            <Manga key={manga.id} manga={manga} />
-          ))}
+      {count === 0 ? (
+        <NoMangaPlaceholder />
+      ) : (
+        <div className="flex-1 overflow-auto">
+          <div className="flex flex-wrap gap-4 pb-4">
+            {mangas.map(manga => (
+              <Manga key={manga.id} manga={manga} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

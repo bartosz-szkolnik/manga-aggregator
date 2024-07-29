@@ -9,6 +9,7 @@ import { ZodIssue } from 'zod';
 import { logger } from '@utils/server/logger';
 import { PostgrestError } from '@supabase/supabase-js';
 import { FormActionResult } from '@utils/types';
+import { MangaDexChapterAttributes, MangaDexChapterResponse } from '@lib/types/mangadex-chapter.types';
 
 export async function addMangaToDatabase(formData: FormData) {
   const { supabase, userId } = await createServerClient();
@@ -22,8 +23,12 @@ export async function addMangaToDatabase(formData: FormData) {
       return { success: false, error: 'MANGA_ALREADY_IN_DATABASE' } satisfies Awaited<FormActionResult>;
     }
 
-    const [mangaAttributes, cover] = await Promise.all([getMangaAttributes(id), getMangaCover(id)]);
-    const addedMangaId = await insertMangaToDatabase(supabase, id, mangaAttributes, cover);
+    const [mangaAttributes, cover, chapterAttributes] = await Promise.all([
+      getMangaAttributes(id),
+      getMangaCover(id),
+      getMangaLatestChapter(id),
+    ]);
+    const addedMangaId = await insertMangaToDatabase(supabase, id, mangaAttributes, cover, chapterAttributes);
 
     if (addToUserLibrary && addedMangaId) {
       await insertProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed, isFavorite);
@@ -47,6 +52,7 @@ async function insertMangaToDatabase(
   id: string,
   mangaAttributes: MangaAttributes,
   cover: string,
+  chapter: MangaDexChapterAttributes,
 ) {
   const { error, data } = await supabase
     .from('manga')
@@ -54,7 +60,7 @@ async function insertMangaToDatabase(
       mangadex_id: id,
       title: mangaAttributes.title.en ?? mangaAttributes.title['ja-ro'],
       image_url: `https://mangadex.org/covers/${id}/${cover}`,
-      // latest_chapter:
+      latest_chapter: chapter.chapter,
     })
     .select('id')
     .single();
@@ -110,6 +116,19 @@ async function getMangaCover(id: string): Promise<string> {
   const { data } = (await response.json()) as MangaDexCoverResponse;
 
   return data[0].attributes.fileName;
+}
+
+async function getMangaLatestChapter(mangaId: string) {
+  const params = new URLSearchParams({
+    limit: '1',
+    manga: mangaId,
+    'translatedLanguage[]': 'en',
+    'order[createdAt]': 'desc',
+  });
+
+  const response = await fetch(`https://api.mangadex.org/chapter?${params}`);
+  const { data } = (await response.json()) as MangaDexChapterResponse;
+  return data[0].attributes;
 }
 
 function parseFormData(formData: FormData) {

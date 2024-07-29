@@ -25,6 +25,7 @@ export async function updateProgress(formData: FormData, mangaId: string) {
         reading_status: data['reading-status'],
         latest_chapter_read: data['latest-chapter-read'],
         priority: data['priority'],
+        is_updated: false,
       })
       .match({ profile_id: userId, manga_id: mangaId });
 

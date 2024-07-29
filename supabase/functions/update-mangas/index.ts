@@ -76,7 +76,7 @@ async function retrieveNewChaptersFromMangaDex(mangaDexIds: string[]): Promise<M
 
   const mangasToUpdate = await Promise.all(
     mangaDexIds.map(async id => {
-      const data = await getLatestMangaChapter(id, '2024-04-20T00:00:00');
+      const data = await getLatestMangaChapter(id);
       return data.length ? { mangaId: id, data } : null;
     }),
   );
@@ -93,13 +93,22 @@ async function insertNewChapterData(client: SupabaseBrowserClient, mangasToUpdat
       return;
     }
 
-    const { error } = await client
+    const { error, data } = await client
       .from('manga')
       .update({ latest_chapter: latestChapter.attributes.chapter })
-      .eq('mangadex_id', mangaId);
+      .eq('mangadex_id', mangaId)
+      .select('id')
+      .single();
 
     if (error) {
       throw error;
+    }
+
+    {
+      const { error } = await client.from('profile_manga').update({ is_updated: true }).eq('manga_id', data.id);
+      if (error) {
+        throw error;
+      }
     }
   }
 }
@@ -138,17 +147,16 @@ function scheduleNotifications(client: SupabaseBrowserClient, mangasToUpdate: Ma
 // Helper functions //
 //////////////////////
 
-async function getLatestMangaChapter(mangaId: string, updatedAtSince: string) {
-  const resp = await fetch(getUrl(mangaId, updatedAtSince));
+async function getLatestMangaChapter(mangaId: string) {
+  const resp = await fetch(getUrl(mangaId));
   const data = await resp.json();
   return data.data as MangaDexChapterResponse['data'];
 }
 
-function getUrl(mangaId: string, updatedAtSince: string) {
+function getUrl(mangaId: string) {
   const params = new URLSearchParams({
     limit: '1',
     manga: mangaId,
-    updatedAtSince,
     'translatedLanguage[]': 'en',
     'order[createdAt]': 'desc',
   });
