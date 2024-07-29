@@ -13,7 +13,6 @@ import { useFormState as useActionState } from 'react-dom';
 import { FormActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
-import { allCaughtUp } from './all-caught-up-action';
 
 export type UpdateProgressFormProps = {
   readingStatus: ReadingStatus;
@@ -42,16 +41,6 @@ export function UpdateProgressForm({
     toast.success('Your progress has been updated!');
   }, null);
 
-  const [, submitAllCaughtUpAction] = useActionState(async () => {
-    const { error } = await allCaughtUp(mangaId);
-    if (error) {
-      return handleErrors(error);
-    }
-
-    setOpen(false);
-    toast.success(`Your progress has been updated!`);
-  }, null);
-
   if (!open) {
     return (
       <Button variant={'outline'} onClick={() => setOpen(true)}>
@@ -61,31 +50,28 @@ export function UpdateProgressForm({
   }
 
   const isCaughtUp = latestChapter <= latestChapterRead;
-  // TODO: fix the margins
   return (
     <div className="flex items-center justify-center [&>div]:w-full">
       <Card>
-        <CardHeader>
-          <CardTitle>Update your progress</CardTitle>
-          <CardDescription>
-            You can change the latest chapter you have read for each manga. This will be used to calculate how many
-            chapters behind you are.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6">
-          <div className="grid gap-4 py-4">
-            <form action={submitAllCaughtUpAction} className="contents">
-              <AllCaughtUpButton isCaughtUp={isCaughtUp} />
-            </form>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+        <Form action={submitAction} errors={errors} className="grid gap-4 py-4">
+          <CardHeader>
+            <CardTitle>Update your progress</CardTitle>
+            <CardDescription>
+              You can change the latest chapter you have read for each manga. This will be used to calculate how many
+              chapters behind you are.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-6">
+            <div className="grid gap-4 py-4">
+              <AllCaughtUpButton isCaughtUp={isCaughtUp} mangaId={mangaId} onSuccess={() => setOpen(false)} />
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                </div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-              </div>
-            </div>
-            <Form action={submitAction} errors={errors} className="grid gap-4 py-4">
               <FormControl controlName="latest-chapter-read">
                 <Label>Chapters read</Label>
                 <div className="flex items-center gap-4">
@@ -111,15 +97,15 @@ export function UpdateProgressForm({
                 <ChangePrioritySelect priority={priority} />
                 <ErrorMessage />
               </FormControl>
-              <CardFooter className="justify-between space-x-2">
-                <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
-                  Cancel
-                </Button>
-                <SubmitButton>Save</SubmitButton>
-              </CardFooter>
-            </Form>
-          </div>
-        </CardContent>
+            </div>
+          </CardContent>
+          <CardFooter className="justify-between space-x-2">
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <SubmitButton>Save</SubmitButton>
+          </CardFooter>
+        </Form>
       </Card>
     </div>
   );

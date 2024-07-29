@@ -5,11 +5,14 @@ import { useFormStatus } from 'react-dom';
 import { Button } from '../button';
 import { Icons } from '../icons';
 
-type SubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type SubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  pending?: boolean;
+};
 
 export const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
-  ({ children, className, ...props }, ref) => {
-    const { pending } = useFormStatus();
+  ({ children, pending: customPending, className, ...props }, ref) => {
+    const status = useFormStatus();
+    const pending = status.pending || customPending;
 
     return (
       <Button {...props} ref={ref} className={className} disabled={pending}>
