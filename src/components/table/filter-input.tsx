@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Input } from './form';
+import { Input } from '../ui/form';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDebounce } from '@lib/hooks/debounce';
 
@@ -24,6 +24,7 @@ export function FilterInput() {
       if (oldFilter !== value) {
         params.set('page', '1');
       }
+      params.set('size', params.get('size') ?? '10');
       params.set(name, value);
 
       return params.toString();

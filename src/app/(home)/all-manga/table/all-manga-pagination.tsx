@@ -2,21 +2,22 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
   PaginationFirst,
+  PaginationPrevious,
+  PaginationEllipsis,
+  PaginationLink,
+  PaginationNext,
   PaginationLast,
-} from '@components/ui/pagination';
+} from '@components/table/pagination';
 
 type AllMangaPagination = {
   page: number;
   amountOfPages: number;
   filter: string;
+  size: number;
 };
 
-export function AllMangaPagination({ page, amountOfPages, filter }: AllMangaPagination) {
+export function AllMangaPagination({ page, amountOfPages, filter, size }: AllMangaPagination) {
   const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
 
   if (amountOfPages < 2) {
@@ -32,10 +33,10 @@ export function AllMangaPagination({ page, amountOfPages, filter }: AllMangaPagi
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationFirst disabled={firstDisabled} replace href={{ query: { page: 1, filter } }} />
+          <PaginationFirst disabled={firstDisabled} replace href={{ query: { page: 1, size, filter } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { page: page - 1, filter } }} />
+          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { page: page - 1, size, filter } }} />
         </PaginationItem>
         {pages.map((pageOrEllipsis, index) => {
           if (pageOrEllipsis === 'ellipsis') {
@@ -53,7 +54,7 @@ export function AllMangaPagination({ page, amountOfPages, filter }: AllMangaPagi
               <PaginationLink
                 isActive={page === pageOrEllipsis}
                 replace
-                href={{ query: { page: pageOrEllipsis, filter } }}
+                href={{ query: { page: pageOrEllipsis, size, filter } }}
               >
                 {pageOrEllipsis}
               </PaginationLink>
@@ -62,10 +63,10 @@ export function AllMangaPagination({ page, amountOfPages, filter }: AllMangaPagi
         })}
 
         <PaginationItem>
-          <PaginationNext disabled={nextDisabled} replace href={{ query: { page: page + 1, filter } }} />
+          <PaginationNext disabled={nextDisabled} replace href={{ query: { page: page + 1, size, filter } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLast disabled={lastDisabled} replace href={{ query: { page: amountOfPages + 1, filter } }} />
+          <PaginationLast disabled={lastDisabled} replace href={{ query: { page: amountOfPages + 1, size, filter } }} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

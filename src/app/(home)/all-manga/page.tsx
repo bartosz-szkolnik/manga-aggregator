@@ -4,8 +4,8 @@ import { AllMangaTable } from './table/all-manga-table';
 import { Metadata } from 'next';
 import { clamp } from '@utils/utils';
 import { logger } from '@utils/server/logger';
-import { FilterInput } from '@components/ui/filter-input';
 import { FormControl, Label } from '@components/ui/form';
+import { FilterInput, PageSizeSelect } from '@components/table';
 
 export const metadata: Metadata = {
   title: 'All Manga · Manga Aggregator',
@@ -44,7 +44,13 @@ export default async function AllManga({ searchParams }: AllMangaProps) {
         </FormControl>
       </div>
       <AllMangaTable mangas={data} supabase={supabase} userId={userId} />
-      <AllMangaPagination amountOfPages={amountOfPages} page={page} filter={filter} />
+      <div className="flex justify-end">
+        <AllMangaPagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} />
+        <FormControl className="w-[100px]" controlName="page-size">
+          <Label>Page size</Label>
+          <PageSizeSelect size={String(size)} />
+        </FormControl>
+      </div>
     </>
   );
 }
