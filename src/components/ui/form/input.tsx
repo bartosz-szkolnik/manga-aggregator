@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef, InputHTMLAttributes, useContext } from 'react';
 import { cn } from '@utils/utils';
 import { FormControlContext } from './form-control';

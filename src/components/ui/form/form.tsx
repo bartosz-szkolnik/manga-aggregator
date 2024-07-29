@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, InputHTMLAttributes } from 'react';
 import { ZodIssue } from 'zod';
 

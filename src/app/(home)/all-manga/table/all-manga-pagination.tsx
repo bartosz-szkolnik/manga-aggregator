@@ -10,7 +10,13 @@ import {
   PaginationLast,
 } from '@components/ui/pagination';
 
-export function AllMangaPagination({ page, amountOfPages }: { page: number; amountOfPages: number }) {
+type AllMangaPagination = {
+  page: number;
+  amountOfPages: number;
+  filter: string;
+};
+
+export function AllMangaPagination({ page, amountOfPages, filter }: AllMangaPagination) {
   const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
 
   if (amountOfPages < 2) {
@@ -26,10 +32,10 @@ export function AllMangaPagination({ page, amountOfPages }: { page: number; amou
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationFirst disabled={firstDisabled} replace href={{ query: { page: 1 } }} />
+          <PaginationFirst disabled={firstDisabled} replace href={{ query: { page: 1, filter } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { page: page - 1 } }} />
+          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { page: page - 1, filter } }} />
         </PaginationItem>
         {pages.map((pageOrEllipsis, index) => {
           if (pageOrEllipsis === 'ellipsis') {
@@ -44,7 +50,11 @@ export function AllMangaPagination({ page, amountOfPages }: { page: number; amou
 
           return (
             <PaginationItem key={`${pageOrEllipsis}:${index}`}>
-              <PaginationLink isActive={page === pageOrEllipsis} replace href={{ query: { page: pageOrEllipsis } }}>
+              <PaginationLink
+                isActive={page === pageOrEllipsis}
+                replace
+                href={{ query: { page: pageOrEllipsis, filter } }}
+              >
                 {pageOrEllipsis}
               </PaginationLink>
             </PaginationItem>
@@ -52,10 +62,10 @@ export function AllMangaPagination({ page, amountOfPages }: { page: number; amou
         })}
 
         <PaginationItem>
-          <PaginationNext disabled={nextDisabled} replace href={{ query: { page: page + 1 } }} />
+          <PaginationNext disabled={nextDisabled} replace href={{ query: { page: page + 1, filter } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLast disabled={lastDisabled} replace href={{ query: { page: amountOfPages + 1 } }} />
+          <PaginationLast disabled={lastDisabled} replace href={{ query: { page: amountOfPages + 1, filter } }} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
