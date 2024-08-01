@@ -25,7 +25,7 @@ export function Link({
     <NextLink
       className={cn({
         [className]: true,
-        [activeClassName]: match?.includes(pathname) ?? props.href === pathname,
+        [activeClassName]: match ? match.includes(pathname) : pathname.startsWith(props.href.toString()),
       })}
       {...props}
     >

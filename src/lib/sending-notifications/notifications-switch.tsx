@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { revokeSubscription, subscribe } from './notifications-action';
-import { Button } from '@components/ui/button';
+import { revokeSubscription, subscribe } from './notifications-actions';
+import { FormControl, Label, Switch, Description } from '@components/ui/form';
 
 export function NotificationsSwitch() {
   const [, startTransition] = useTransition();
   const [isSubscribed, setIsSubscribed] = useState(false);
+  // custom pending because transition doesn't cover all of the necessary actions performed
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     getPushManager()
@@ -17,6 +19,7 @@ export function NotificationsSwitch() {
   });
 
   const handleSubscribe = async () => {
+    setPending(true);
     const manager = await getPushManager();
     const subscription = await manager.subscribe({
       userVisibleOnly: true,
@@ -24,42 +27,36 @@ export function NotificationsSwitch() {
     });
 
     const sub = subscription.toJSON();
-    startTransition(() => subscribe(sub));
+    startTransition(async () => {
+      await subscribe(sub);
+      setPending(false);
+    });
   };
 
   const handleRevoke = async () => {
+    setPending(true);
     const manager = await getPushManager();
     const subscription = await manager.getSubscription();
     await subscription?.unsubscribe();
 
-    startTransition(() => revokeSubscription(subscription?.endpoint!));
+    startTransition(async () => {
+      await revokeSubscription(subscription?.endpoint!);
+      setPending(false);
+    });
   };
 
   return (
-    <>
-      <h2 className="my-2 text-2xl font-semibold tracking-tight">Notifications</h2>
-      <div className="flex flex-col items-start gap-5">
-        {isSubscribed ? (
-          <>
-            <p>
-              Notifications are <strong>enabled</strong>
-            </p>
-            <Button type="button" onClick={handleRevoke}>
-              Disable notifications
-            </Button>
-          </>
-        ) : (
-          <>
-            <p>
-              Notifications are <strong>disabled</strong>
-            </p>
-            <Button type="button" onClick={handleSubscribe}>
-              Enable notifications
-            </Button>
-          </>
-        )}
+    <FormControl controlName="receive-notifications" controlType="switch">
+      <div>
+        <Label>Manga Updates</Label>
+        <Description>Do you want to receive notifications for Manga updates?</Description>
       </div>
-    </>
+      <Switch
+        disabled={pending}
+        checked={isSubscribed}
+        onCheckedChange={() => (isSubscribed ? handleRevoke() : handleSubscribe())}
+      />
+    </FormControl>
   );
 }
 

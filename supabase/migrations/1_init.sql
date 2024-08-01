@@ -44,9 +44,10 @@ create table "public"."profile" (
     "id" uuid not null, -- id of the profile
     "created_at" timestamp with time zone not null default now(),
     "name" text default null, -- display name of the profile, probably name and username
-    "username" text not null, -- handle of the profile (usually email)
+    "username" text not null, -- handle of the profile (usually email), I'm thinking of deleting this... we already have email in the auth.email so I don't know whether it's worth having this column
     "avatar_url" text default null, -- avatar url of the profile
-    "subscriptions" jsonb not null default '[]'::jsonb -- list of web push subscriptions connected to that profile
+    "subscriptions" jsonb not null default '[]'::jsonb, -- list of web push subscriptions connected to that profile
+    "receive_singular_notifications" boolean not null default true -- whether the user wants to receive singular notifications for his favorite mangas, if set to false he'll only receive one notification when something is updated
 );
 
 alter table "public"."profile" enable row level security;

@@ -1,4 +1,5 @@
 export * from './action-button';
+export * from './description';
 export * from './error';
 export * from './form-control';
 export * from './form';

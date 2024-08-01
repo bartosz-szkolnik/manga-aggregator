@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const LINKS = [
   <SidebarLink
     href="/"
-    match={['/updated', '/currently-reading', '/all-manga']}
+    match={['/updated', '/in-your-library', '/currently-reading', '/all-manga']}
     icon={HomeIcon}
     text="Home"
     key="home"

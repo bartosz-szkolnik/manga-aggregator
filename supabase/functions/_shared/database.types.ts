@@ -100,6 +100,7 @@ export type Database = {
           created_at: string
           id: string
           name: string | null
+          receive_singular_notifications: boolean
           subscriptions: Json
           username: string
         }
@@ -108,6 +109,7 @@ export type Database = {
           created_at?: string
           id: string
           name?: string | null
+          receive_singular_notifications?: boolean
           subscriptions?: Json
           username: string
         }
@@ -116,6 +118,7 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string | null
+          receive_singular_notifications?: boolean
           subscriptions?: Json
           username?: string
         }

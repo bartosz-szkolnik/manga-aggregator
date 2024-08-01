@@ -30,7 +30,7 @@ export function Sidebar({ className, links, children }: SidebarProps) {
   }, []);
 
   return (
-    <>
+    <aside>
       <CSSTransition nodeRef={ref} in={open} timeout={200} classNames="sidebar" unmountOnExit>
         <div ref={ref}>
           <div className={cn('flex h-full w-full flex-col space-y-4 py-4 pb-12', className)}>
@@ -44,6 +44,6 @@ export function Sidebar({ className, links, children }: SidebarProps) {
           </div>
         </div>
       </CSSTransition>
-    </>
+    </aside>
   );
 }

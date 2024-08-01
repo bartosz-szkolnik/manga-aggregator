@@ -17,17 +17,20 @@
   transition:
     max-width var(--sidebar-width-delay),
     opacity var(--sidebar-opacity-enter-delay);
+  height: 100%;
 }
 
 .sidebar-enter-done {
   width: var(--sidebar-width);
   max-width: var(--sidebar-width);
+  height: 100%;
 }
 
 .sidebar-exit {
   max-width: var(--sidebar-width);
   width: var(--sidebar-width);
   opacity: 1;
+  height: 100%;
 }
 
 .sidebar-exit-active {
