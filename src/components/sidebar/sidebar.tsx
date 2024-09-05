@@ -6,6 +6,7 @@ import { cn } from '@utils/utils';
 import { Footer } from '@components/footer/footer';
 import { Separator } from '@components/ui/separator';
 import { SidebarIcons } from './sidebar-icons';
+import { OpenSidebarButton } from './open-sidebar-button';
 
 import './sidebar.styles.css';
 
@@ -31,6 +32,7 @@ export function Sidebar({ className, links, children }: SidebarProps) {
 
   return (
     <aside>
+      {!open && <OpenSidebarButton openSidebar={() => setOpen(true)} />}
       <CSSTransition nodeRef={ref} in={open} timeout={200} classNames="sidebar" unmountOnExit>
         <div ref={ref}>
           <div className={cn('flex h-full w-full flex-col space-y-4 py-4 pb-12', className)}>

@@ -31,31 +31,29 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
   ]);
 
   return (
-    <>
-      <main className="flex h-full max-h-full flex-col px-4 py-6 lg:px-8">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Statistic title="Mangas read" icon={BookCheck}>
-            <div className="text-2xl font-bold">{mangasRead}</div>
-            <p className="text-xs text-muted-foreground">Good job and keep going!</p>
-          </Statistic>
-          <Statistic title="Mangas planned to read" icon={Book}>
-            <div className="text-2xl font-bold">{mangasPlannedToRead}</div>
-            <p className="text-xs text-muted-foreground">Good job and keep going!</p>
-          </Statistic>
-        </div>
-        <div className="space-between my-6 flex items-center">
-          <TabLinkContainer>
-            {updatedAmount > 0 && <TabLink href="/updated">Updated For You</TabLink>}
-            {currentlyReadAmount > 0 && <TabLink href="/currently-reading">Currently Reading</TabLink>}
-            <TabLink href="/in-your-library">In Your Library</TabLink>
-            <TabLink href="/all-manga">All Available Manga</TabLink>
-          </TabLinkContainer>
-          <AddMangaToDatabaseDialog className="ml-auto mr-4" />
-        </div>
-        {/* TODO fix the height issue */}
-        <div className="max-h-[81%] flex-1">{children}</div>
-      </main>
-    </>
+    <main className="flex h-full max-h-full flex-col px-4 py-6 lg:px-8">
+      <div className="ml-6 grid gap-4 md:grid-cols-2 lg:ml-2 lg:grid-cols-4">
+        <Statistic title="Mangas read" icon={BookCheck}>
+          <div className="text-2xl font-bold">{mangasRead}</div>
+          <p className="text-xs text-muted-foreground">Good job and keep going!</p>
+        </Statistic>
+        <Statistic title="Mangas planned to read" icon={Book}>
+          <div className="text-2xl font-bold">{mangasPlannedToRead}</div>
+          <p className="text-xs text-muted-foreground">Good job and keep going!</p>
+        </Statistic>
+      </div>
+      <div className="space-between my-6 ml-2 flex items-center">
+        <TabLinkContainer>
+          {updatedAmount > 0 && <TabLink href="/updated">Updated For You</TabLink>}
+          {currentlyReadAmount > 0 && <TabLink href="/currently-reading">Currently Reading</TabLink>}
+          <TabLink href="/in-your-library">In Your Library</TabLink>
+          <TabLink href="/all-manga">All Available Manga</TabLink>
+        </TabLinkContainer>
+        <AddMangaToDatabaseDialog className="ml-auto mr-4" />
+      </div>
+      {/* TODO fix the height issue */}
+      <div className="max-h-[81%] flex-1">{children}</div>
+    </main>
   );
 }
 

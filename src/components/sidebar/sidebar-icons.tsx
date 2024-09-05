@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@components/ui/button';
-import { PanelLeftDashed, ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw, ChevronsLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '@components/theme/theme-toggle';
 import { HandlerFn } from '@utils/types';
@@ -16,7 +16,7 @@ export function SidebarIcons({ setSidebarOpen }: SidebarIconsProps) {
   return (
     <div className="mb-4 flex justify-between">
       <Button variant="ghost" onClick={() => setSidebarOpen(false)}>
-        <PanelLeftDashed></PanelLeftDashed>
+        <ChevronsLeft></ChevronsLeft>
       </Button>
       <Button variant={'ghost'} onClick={() => router.back()}>
         <ChevronLeft></ChevronLeft>
