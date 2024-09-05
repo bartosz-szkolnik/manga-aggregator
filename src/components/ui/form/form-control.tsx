@@ -4,6 +4,12 @@ import { cn } from '@utils/utils';
 import { createContext, ReactElement } from 'react';
 
 type ControlType = 'text' | 'switch';
+type FormControlProps = {
+  children: ReactElement[];
+  controlName: string;
+  controlType?: ControlType;
+  className?: string;
+};
 
 const formControlStyles: Record<ControlType, string> = {
   text: 'grid w-full items-center gap-2.5',
@@ -12,17 +18,7 @@ const formControlStyles: Record<ControlType, string> = {
 
 export const FormControlContext = createContext('');
 
-export function FormControl({
-  children,
-  controlName,
-  controlType = 'text',
-  className,
-}: {
-  children: ReactElement[];
-  controlName: string;
-  controlType?: ControlType;
-  className?: string;
-}) {
+export function FormControl({ children, controlName, controlType = 'text', className }: FormControlProps) {
   return (
     <FormControlContext.Provider value={controlName}>
       <div className={cn(formControlStyles[controlType], className)}>{children}</div>

@@ -46,7 +46,7 @@ export function AddMangaToUserLibraryButton({
       return handleErrors(error);
     }
 
-    toast.success(`You have remove this manga to your library.`);
+    toast.success(`You have removed this manga from your library.`);
   }, null);
 
   if (!isInLibrary) {

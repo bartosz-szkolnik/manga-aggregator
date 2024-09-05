@@ -81,7 +81,7 @@ function sort(left: Sortable, right: Sortable) {
   return 0;
 }
 
-function isUpToDate({ latest_chapter_read = '0', manga }: Arg) {
+function isUpToDate({ latest_chapter_read = '0', manga }: Sortable) {
   const latestChapterRead = Number(latest_chapter_read) ?? 0;
   const latestChapter = Number(manga?.latest_chapter) ?? 0;
   return latestChapterRead >= latestChapter;

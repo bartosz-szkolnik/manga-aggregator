@@ -1,7 +1,7 @@
 export function Footer() {
   return (
     <p className="w-full truncate text-sm text-muted-foreground">
-      © 2024 Bartosz Szkolnik Software.
+      &copy; {new Date().getFullYear()} Bartosz Szkolnik Software.
       <br />
       All rights reserved.
       <br />
