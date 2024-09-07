@@ -2,6 +2,11 @@ import { createServerClient } from '@utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { ProfileSettingsForm } from './profile-form';
 import { Separator } from '@components/ui/separator';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Profile Settings · Manga Aggregator',
+};
 
 export default async function ProfileSettingsPage() {
   const { supabase, userId } = await createServerClient();

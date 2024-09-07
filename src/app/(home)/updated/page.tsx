@@ -4,6 +4,14 @@ import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { OpenAllButton } from './open-all-button';
+import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
+import { getTheMetaSymbol } from '@utils/utils';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Updated · Manga Aggregator',
+};
 
 export default async function UpdatedForYouPage() {
   const { supabase, userId } = await createServerClient();
@@ -21,10 +29,6 @@ export default async function UpdatedForYouPage() {
     return <p>Some kind of error occured</p>;
   }
 
-  if ((count ?? 0) <= 0) {
-    redirect('/currently-reading');
-  }
-
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   const mangaIds = mangas.map(manga => manga.mangadex_id);
   return (
@@ -39,26 +43,23 @@ export default async function UpdatedForYouPage() {
             </strong>
           </p>
         </div>
-        <OpenAllButton mangaIds={mangaIds} />
-      </div>
-      <Separator className="my-4" />
-      <div className="flex-1 overflow-auto">
-        <div className="flex flex-wrap gap-4 pb-4">
-          {mangas.map(manga => (
-            <Manga key={manga.id} manga={manga} />
-          ))}
+        <div className="space-between mb-6 ml-2 flex items-center">
+          <AddMangaToDatabaseDialog className="ml-auto mr-4" />
+          <OpenAllButton mangaIds={mangaIds} />
         </div>
       </div>
+      <Separator className="my-4" />
+      {count === 0 ? (
+        <NoMangaPlaceholder text="You are all caught up! Good job!" />
+      ) : (
+        <div className="flex-1 overflow-auto">
+          <div className="flex flex-wrap gap-4 pb-4">
+            {mangas.map(manga => (
+              <Manga key={manga.id} manga={manga} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-  );
-}
-
-function getTheMetaSymbol() {
-  return (
-    <span className="text-sm text-muted-foreground">
-      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-        <span className="text-xs">⌘</span>
-      </kbd>
-    </span>
   );
 }

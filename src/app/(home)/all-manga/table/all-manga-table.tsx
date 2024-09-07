@@ -26,20 +26,20 @@ export function AllMangaTable({ mangas, supabase, userId }: AllMangaTableProps) 
       </TableHeader>
       <TableBody>
         {mangas.map(async manga => (
-          <Row key={manga.id} supabase={supabase} manga={manga} userId={userId} />
+          <AllMangaTableRow key={manga.id} supabase={supabase} manga={manga} userId={userId} />
         ))}
       </TableBody>
     </Table>
   );
 }
 
-type RowProps = {
+type AllMangaTableRowProps = {
   supabase: SupabaseServerClient;
   manga: MangaType;
   userId?: string;
 };
 
-async function Row({ supabase, manga, userId }: RowProps) {
+async function AllMangaTableRow({ supabase, manga, userId }: AllMangaTableRowProps) {
   const { data, error } = await supabase
     .from('profile_manga')
     .select('*')
@@ -54,7 +54,7 @@ async function Row({ supabase, manga, userId }: RowProps) {
         <TableCell>{manga.latest_chapter}</TableCell>
         <TableCell colSpan={2}></TableCell>
         <TableCell className="flex flex-row-reverse">
-          <Manga manga={manga} buttonAsTrigger={true} />
+          <Manga manga={manga} trigger="chevron-button" />
         </TableCell>
       </TableRow>
     );
@@ -69,19 +69,19 @@ async function Row({ supabase, manga, userId }: RowProps) {
       <TableCell>{data.reading_status}</TableCell>
       <TableCell className="text-right">
         <div className="flex flex-row-reverse gap-4">
-          <Manga manga={manga} buttonAsTrigger={true} />
+          <Manga manga={manga} trigger="chevron-button" />
           {data.is_in_library && (
-            <Badge variant="outline" className="border-blue-600 text-blue-600">
+            <Badge variant="outline" className="whitespace-nowrap border-blue-600 text-blue-600">
               In Library
             </Badge>
           )}
           {data.is_following && (
-            <Badge variant="outline" className="border-green-600 text-green-600">
+            <Badge variant="outline" className="whitespace-nowrap border-green-600 text-green-600">
               Following
             </Badge>
           )}
           {data.is_favorite && (
-            <Badge variant="outline" className="border-red-600 text-red-600">
+            <Badge variant="outline" className="whitespace-nowrap border-red-600 text-red-600">
               Favorite
             </Badge>
           )}

@@ -67,3 +67,12 @@ as permissive
 for insert
 to service_role
 with check (true);
+
+create policy "Enable delete access for authenticated users"
+on "public"."manga"
+as permissive
+for delete
+to authenticated
+using ((profile_id = auth.uid()));
+
+

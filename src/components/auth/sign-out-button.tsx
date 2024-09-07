@@ -34,7 +34,7 @@ export function SignOutButton({ className }: { className?: string }) {
           <DialogTitle className="mb-4">Are you sure you want to sign out?</DialogTitle>
           <DialogDescription>Maybe you&apos;d like to stay a little bit longer?</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>
             Stay in the app
           </Button>

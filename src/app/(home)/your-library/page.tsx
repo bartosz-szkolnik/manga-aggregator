@@ -1,9 +1,16 @@
 import { Separator } from '@components/ui/separator';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { Manga } from '@lib/manga/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
+import { getTheMetaSymbol } from '@utils/utils';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'In Your Library · Manga Aggregator',
+};
 
 export default async function InYourLibraryPage() {
   const { supabase, userId } = await createServerClient();
@@ -34,6 +41,9 @@ export default async function InYourLibraryPage() {
             </strong>
           </p>
         </div>
+        <div className="mb-6 ml-2 flex items-center">
+          <AddMangaToDatabaseDialog className="ml-auto mr-4" />
+        </div>
       </div>
       <Separator className="my-4" />
       {count === 0 ? (
@@ -48,15 +58,5 @@ export default async function InYourLibraryPage() {
         </div>
       )}
     </div>
-  );
-}
-
-function getTheMetaSymbol() {
-  return (
-    <span className="text-sm text-muted-foreground">
-      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-        <span className="text-xs">⌘</span>
-      </kbd>
-    </span>
   );
 }

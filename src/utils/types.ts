@@ -2,6 +2,7 @@ import { ZodIssue } from 'zod';
 
 export type ErrorType =
   | 'NOT_SIGNED_IN_ERROR'
+  | 'NOT_SINGED_IN_AS_ADMIN_ERROR'
   | 'SOMETHING_WENT_WRONG'
   | 'MANGA_ALREADY_IN_DATABASE'
   | 'INVALID_SIGN_IN_CREDENTIALS'

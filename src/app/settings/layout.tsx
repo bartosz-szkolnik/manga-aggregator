@@ -1,6 +1,10 @@
 import { Separator } from '@components/ui/separator';
-import { TabLink, TabLinkContainer } from '@components/ui/tab-link';
+import { Metadata } from 'next';
 import { ReactNode } from 'react';
+
+export const metadata: Metadata = {
+  title: 'Settings · Manga Aggregator',
+};
 
 export default async function SettingsLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,12 +14,6 @@ export default async function SettingsLayout({ children }: { children: ReactNode
         <p className="text-muted-foreground">Manage your account settings.</p>
       </div>
       <Separator className="my-6" />
-      <div className="space-between my-6">
-        <TabLinkContainer>
-          <TabLink href="/settings/profile">Profile</TabLink>
-          <TabLink href="/settings/notifications">Notifications</TabLink>
-        </TabLinkContainer>
-      </div>
       <div className="max-h-[81%] flex-1 lg:max-w-2xl">{children}</div>
     </main>
   );

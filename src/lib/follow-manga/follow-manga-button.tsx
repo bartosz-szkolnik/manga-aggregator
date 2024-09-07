@@ -19,15 +19,13 @@ import { ActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
 
-export function FollowMangaButton({
-  mangaId,
-  className,
-  isFollowing,
-}: {
+type FollowMangaButton = {
   mangaId: string;
   className?: string;
   isFollowing: boolean;
-}) {
+};
+
+export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMangaButton) {
   const [open, setOpen] = useState(false);
 
   const [, submitFollowAction] = useActionState(async () => {

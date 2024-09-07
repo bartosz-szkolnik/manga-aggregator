@@ -2,7 +2,12 @@ import { Separator } from '@components/ui/separator';
 import { NotificationsSwitch } from '@lib/sending-notifications/notifications-switch';
 import { SingularNotificationsSwitch } from '@lib/sending-notifications/singular-notifications-switch';
 import { createServerClient } from '@utils/supabase/server';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'Notifications Settings · Manga Aggregator',
+};
 
 export default async function NotificationsSettingsPage() {
   const { supabase, userId } = await createServerClient();

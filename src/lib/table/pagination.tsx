@@ -9,15 +9,16 @@ import {
   PaginationNext,
   PaginationLast,
 } from '@components/table/pagination';
+import { generatePages } from '@utils/pagination';
 
-type AllMangaPagination = {
+type TablePaginationProps = {
   page: number;
   amountOfPages: number;
   filter: string;
   size: number;
 };
 
-export function AllMangaPagination({ page, amountOfPages, filter, size }: AllMangaPagination) {
+export function TablePagination({ page, amountOfPages, filter, size }: TablePaginationProps) {
   const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
 
   if (amountOfPages < 2) {
@@ -71,46 +72,4 @@ export function AllMangaPagination({ page, amountOfPages, filter, size }: AllMan
       </PaginationContent>
     </Pagination>
   );
-}
-
-function generatePages(page: number, amountOfPages: number) {
-  const boundaryCount = 1;
-  const siblingCount = 1;
-
-  const startPages = range(1, Math.min(boundaryCount, amountOfPages));
-  const endPages = range(Math.max(amountOfPages - boundaryCount + 1, boundaryCount + 1), amountOfPages);
-
-  const siblingsStart = Math.max(
-    Math.min(page - siblingCount, amountOfPages - boundaryCount - siblingCount * 2 - 1),
-    boundaryCount + 2,
-  );
-
-  const siblingsEnd = Math.min(
-    Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    endPages.length > 0 ? endPages[0] - 2 : amountOfPages - 1,
-  );
-
-  const ellipsis = 'ellipsis' as const;
-  const itemList = [
-    ...startPages,
-    ...(siblingsStart > boundaryCount + 2
-      ? [ellipsis]
-      : boundaryCount + 1 < amountOfPages - boundaryCount
-        ? [boundaryCount + 1]
-        : []),
-    ...range(siblingsStart, siblingsEnd),
-    ...(siblingsEnd < amountOfPages - boundaryCount - 1
-      ? [ellipsis]
-      : amountOfPages - boundaryCount > boundaryCount
-        ? [amountOfPages - boundaryCount]
-        : []),
-    ...endPages,
-  ];
-
-  return itemList;
-}
-
-function range(start: number, end: number) {
-  const length = end - start + 1;
-  return Array.from({ length }, (_, i) => start + i);
 }
