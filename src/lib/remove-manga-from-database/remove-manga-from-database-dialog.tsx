@@ -17,6 +17,7 @@ import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
 import { ActionButton } from '@components/ui/form';
 import { removeMangaFromDatabase } from './remove-manga-from-database-action';
+import { Trash2 } from 'lucide-react';
 
 export function RemoveMangaFromDatabaseButton({ mangaId, className }: { mangaId: string; className?: string }) {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,10 @@ export function RemoveMangaFromDatabaseButton({ mangaId, className }: { mangaId:
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <Button className={className}>Remove from database</Button>
+        <Button className={className}>
+          <Trash2 className="mr-2 h-4 w-4" />
+          Remove from database
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -3,26 +3,11 @@ import { ReadingStatus } from '@lib/types/manga.types';
 import { useContext } from 'react';
 
 const items = [
-  {
-    value: 'reading',
-    text: 'Reading',
-  },
-  {
-    value: 'want to read',
-    text: 'Want to read',
-  },
-  {
-    value: 'finished reading',
-    text: 'Finished reading',
-  },
-  {
-    value: 'postponed',
-    text: 'Postponed',
-  },
-  {
-    value: 'dropped',
-    text: 'Dropped',
-  },
+  { value: 'reading', text: 'Reading' },
+  { value: 'want to read', text: 'Want to read' },
+  { value: 'finished reading', text: 'Finished reading' },
+  { value: 'postponed', text: 'Postponed' },
+  { value: 'dropped', text: 'Dropped' },
 ] satisfies { value: ReadingStatus; text: string }[];
 
 export function ChangeReadingStatusSelect({ readingStatus }: { readingStatus: ReadingStatus }) {

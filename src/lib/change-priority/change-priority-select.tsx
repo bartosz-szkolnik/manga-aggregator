@@ -3,18 +3,9 @@ import { Priority } from '@lib/types/manga.types';
 import { useContext } from 'react';
 
 const items = [
-  {
-    value: 'high',
-    text: 'High',
-  },
-  {
-    value: 'normal',
-    text: 'Normal',
-  },
-  {
-    value: 'low',
-    text: 'Low',
-  },
+  { value: 'high', text: 'High' },
+  { value: 'normal', text: 'Normal' },
+  { value: 'low', text: 'Low' },
 ] satisfies { value: Priority; text: string }[];
 
 export function ChangePrioritySelect({ priority }: { priority: Priority }) {

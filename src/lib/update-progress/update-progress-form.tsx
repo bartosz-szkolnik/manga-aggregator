@@ -3,8 +3,8 @@
 import { Button } from '@components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@components/ui/card';
 import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton } from '@components/ui/form';
-import { ChangePrioritySelect } from '@lib/change-priority/change-priority-select';
-import { ChangeReadingStatusSelect } from '@lib/change-reading-status/change-reading-status-select';
+import { ChangePrioritySelect } from '@lib/change-priority';
+import { ChangeReadingStatusSelect } from '@lib/change-reading-status';
 import { ReadingStatus, Priority } from '@lib/types/manga.types';
 import { useState } from 'react';
 import { updateProgress } from './update-progress-action';

@@ -1,5 +1,5 @@
 import { Separator } from '@components/ui/separator';
-import { Manga } from '@lib/manga/manga';
+import { Manga } from '@lib/manga';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { redirect } from 'next/navigation';

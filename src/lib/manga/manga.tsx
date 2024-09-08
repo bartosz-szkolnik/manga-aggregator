@@ -2,15 +2,15 @@ import { Sheet, SheetTrigger } from '@components/ui/sheet';
 import { MangaArtwork } from './manga-artwork';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { MangaDrawer } from './manga-drawer';
-import { FollowMangaButton } from '@lib/follow-manga/follow-manga-button';
+import { FollowMangaButton } from '@lib/follow-manga';
 import { createServerClient, SupabaseServerClient } from '@utils/supabase/server';
 import { Button } from '@components/ui/button';
-import { UpdateProgressForm } from '@lib/update-progress/update-progress-form';
-import { FavoriteMangaButton } from '@lib/favorite-manga/favorite-manga-button';
+import { UpdateProgressForm } from '@lib/update-progress';
+import { FavoriteMangaButton } from '@lib/favorite-manga';
 import { ChevronRight } from 'lucide-react';
 import { MangaImage } from './manga-image';
-import { AddMangaToUserLibraryButton } from '@lib/add-manga-to-user-library/add-manga-to-user-library-button';
-import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database/remove-manga-from-database-dialog';
+import { AddMangaToUserLibraryButton } from '@lib/add-manga-to-user-library';
+import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database';
 import { OpenMangaDexButton } from '@lib/open-mangadex-button';
 
 type TriggerType = 'artwork' | 'chevron-button' | 'admin-button';
@@ -91,6 +91,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
           </div>
           <div className="mt-4 grid gap-4 py-4">
+            <OpenMangaDexButton id={mangadex_id} className="w-full"></OpenMangaDexButton>
             <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={data.is_in_library} />
             <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
             <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />

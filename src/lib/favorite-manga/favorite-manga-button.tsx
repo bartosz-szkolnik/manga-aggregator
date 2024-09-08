@@ -19,15 +19,13 @@ import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
 
-export function FavoriteMangaButton({
-  mangaId,
-  className,
-  isFavorite,
-}: {
+type FavoriteMangaButtonProps = {
   mangaId: string;
   className?: string;
   isFavorite: boolean;
-}) {
+};
+
+export function FavoriteMangaButton({ mangaId, className, isFavorite }: FavoriteMangaButtonProps) {
   const [open, setOpen] = useState(false);
 
   const [, submitFavoriteAction] = useActionState(async () => {

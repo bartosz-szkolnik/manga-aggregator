@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@components/table';
-import { Manga } from '@lib/manga/manga';
-import { Manga as MangaType } from '@lib/types/manga.types';
+import { Manga } from '@lib/manga';
+import { MangaStatus, Manga as MangaType } from '@lib/types/manga.types';
 
 type AdminDashboardMangaTableProps = {
   mangas: MangaType[];
@@ -34,10 +34,18 @@ async function Row({ manga }: RowProps) {
   return (
     <TableRow>
       <TableCell className="font-medium">{manga.title}</TableCell>
-      <TableCell>{manga.manga_status}</TableCell>
+      <TableCell>{statusTranslations[manga.manga_status ?? 'unknown']}</TableCell>
       <TableCell className="flex flex-row-reverse">
         <Manga manga={manga} trigger="admin-button" />
       </TableCell>
     </TableRow>
   );
 }
+
+const statusTranslations = {
+  cancelled: 'Cancelled',
+  completed: 'Completed',
+  hiatus: 'Hiatus',
+  ongoing: 'Ongoing',
+  unknown: 'Unknown',
+} satisfies Record<MangaStatus, string>;

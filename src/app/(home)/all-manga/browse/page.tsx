@@ -1,4 +1,4 @@
-import { Manga } from '@lib/manga/manga';
+import { Manga } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';

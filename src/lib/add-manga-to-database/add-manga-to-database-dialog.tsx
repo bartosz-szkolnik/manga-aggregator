@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, MouseEventHandler, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { useFormState as useActionState } from 'react-dom';
 import {
   Dialog,
@@ -56,7 +56,7 @@ export function AddMangaToDatabaseDialog({ smallButton = false, className }: Add
           </FormControl>
           <FormControl controlName="add-to-user-library" controlType="switch">
             <Label>Add to my library</Label>
-            <Switch />
+            <Switch defaultChecked />
           </FormControl>
           <FormControl controlName="start-following" controlType="switch">
             <Label>Start following</Label>
@@ -98,18 +98,17 @@ function handleErrors(error: FormActionResultErrors<typeof addMangaToDatabase>) 
 
 type TriggerButtonProps = {
   smallButton: boolean;
-  onClick?: MouseEventHandler;
   className?: string;
 };
 
 const TriggerButton = forwardRef<HTMLButtonElement, TriggerButtonProps>(
-  ({ smallButton = false, onClick, className }, ref) =>
+  ({ smallButton = false, className, ...props }, ref) =>
     smallButton ? (
-      <Button ref={ref} size="sm" className={cn('relative', className)} onClick={onClick}>
+      <Button {...props} ref={ref} size="sm" className={cn('relative', className)}>
         Add Manga
       </Button>
     ) : (
-      <Button onClick={onClick} ref={ref} className={className}>
+      <Button {...props} ref={ref} className={className}>
         <PlusCircledIcon className="mr-2 h-4 w-4" />
         Add Manga
       </Button>

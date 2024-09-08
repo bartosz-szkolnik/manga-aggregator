@@ -1,6 +1,6 @@
 import { Badge } from '@components/ui/badge';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@components/table';
-import { Manga } from '@lib/manga/manga';
+import { Manga } from '@lib/manga';
 import { SupabaseServerClient } from '@utils/supabase/server';
 import { Manga as MangaType } from '@lib/types/manga.types';
 

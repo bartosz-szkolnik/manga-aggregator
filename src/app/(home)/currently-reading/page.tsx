@@ -1,6 +1,6 @@
 import { Separator } from '@components/ui/separator';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { Manga } from '@lib/manga/manga';
+import { Manga } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
