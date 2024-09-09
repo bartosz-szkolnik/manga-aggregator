@@ -4,7 +4,7 @@ import { SignOutButton } from '@components/auth';
 import { Separator } from '@components/ui/separator';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
 
-export async function SidebarContent() {
+export async function SidebarContents() {
   const { supabase } = await createServerClient();
   // prettier-ignore
   const { data: { user }, error } = await supabase.auth.getUser();
@@ -32,7 +32,7 @@ export async function SidebarContent() {
       <Title />
       <Profile profile={profile} email={user.email ?? ''} />
       <Separator dir="horizontal" className="my-4 bg-slate-400" />
-      <div className="flex justify-evenly gap-4">
+      <div className="flex gap-4">
         <AddMangaToDatabaseDialog className="w-full" />
         <SignOutButton className="w-full" />
       </div>

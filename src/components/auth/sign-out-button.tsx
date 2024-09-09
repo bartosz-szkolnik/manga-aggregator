@@ -25,7 +25,7 @@ export function SignOutButton({ className }: { className?: string }) {
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <Button className={className} variant="ghost">
+        <Button className={className} variant="outline">
           Sign out
         </Button>
       </DialogTrigger>

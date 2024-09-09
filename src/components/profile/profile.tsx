@@ -20,8 +20,13 @@ export function Profile({ profile, email }: { profile: ProfileType; email: strin
 
 export function ProfileFallback() {
   return (
-    <Button className="m-2 w-full" variant={'default'} asChild>
-      <Link href="/auth/sign-in">Sign in</Link>
-    </Button>
+    <div className="flex gap-4">
+      <Button className="w-full" variant="default" asChild>
+        <Link href="/auth/sign-in">Sign in</Link>
+      </Button>
+      <Button className="w-full" variant="default" asChild>
+        <Link href="/auth/sign-up">Sign up</Link>
+      </Button>
+    </div>
   );
 }

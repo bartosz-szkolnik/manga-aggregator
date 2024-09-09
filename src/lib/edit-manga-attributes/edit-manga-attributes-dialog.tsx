@@ -21,8 +21,15 @@ import { editMangaAttributesAction } from './edit-manga-attributes-action';
 import { toast } from 'sonner';
 import { FormActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
+import { DatePicker } from '@components/ui/date-picker';
 
-export function EditMangaAttributesDialog({ className, data }: { className?: string; data: Manga }) {
+type EditMangaAttributesDialogProps = {
+  className?: string;
+  data: Manga;
+  smallButton?: boolean;
+};
+
+export function EditMangaAttributesDialog({ className, data, smallButton }: EditMangaAttributesDialogProps) {
   const [open, setOpen] = useState(false);
 
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {
@@ -39,7 +46,7 @@ export function EditMangaAttributesDialog({ className, data }: { className?: str
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <Button className={className}>
+        <Button className={className} size={smallButton ? 'xs' : 'default'}>
           <Edit className="mr-2 h-4 w-4" />
           Edit Manga
         </Button>
@@ -76,6 +83,11 @@ export function EditMangaAttributesDialog({ className, data }: { className?: str
             <ErrorMessage />
           </FormControl>
           <CheckEveryFormControl numberOf={data.check_every_number ?? '7'} period={data.check_every_period ?? 'days'} />
+          <FormControl controlName="manga-status">
+            <Label>Last Time Checked</Label>
+            <DatePicker />
+            <ErrorMessage />
+          </FormControl>
           <DialogFooter>
             <SubmitButton>Save changes</SubmitButton>
           </DialogFooter>

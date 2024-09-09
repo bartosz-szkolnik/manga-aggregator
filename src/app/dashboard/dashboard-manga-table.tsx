@@ -1,5 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@components/table';
+import { EditMangaAttributesDialog } from '@lib/edit-manga-attributes';
 import { Manga } from '@lib/manga';
+import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database';
 import { MangaStatus, Manga as MangaType } from '@lib/types/manga.types';
 
 type AdminDashboardMangaTableProps = {
@@ -35,8 +37,10 @@ async function Row({ manga }: RowProps) {
     <TableRow>
       <TableCell className="font-medium">{manga.title}</TableCell>
       <TableCell>{statusTranslations[manga.manga_status ?? 'unknown']}</TableCell>
-      <TableCell className="flex flex-row-reverse">
+      <TableCell className="flex flex-row-reverse gap-4">
         <Manga manga={manga} trigger="admin-button" />
+        <RemoveMangaFromDatabaseButton mangaId={manga.id} smallButton />
+        <EditMangaAttributesDialog data={manga} smallButton />
       </TableCell>
     </TableRow>
   );

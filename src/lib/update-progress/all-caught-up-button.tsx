@@ -5,19 +5,17 @@ import { SubmitButton } from '@components/ui/form';
 import { useTransition } from 'react';
 import { allCaughtUp } from './all-caught-up-action';
 import { Manga } from '@lib/types/manga.types';
-import { ActionResultErrors, HandlerFn } from '@utils/types';
+import { ActionResultErrors, HandlerFnOptionalParam } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
 
-export function AllCaughtUpButton({
-  mangaId,
-  isCaughtUp,
-  onSuccess,
-}: {
+type AllCaughtUpButtonProps = {
   mangaId: Manga['id'];
   isCaughtUp: boolean;
-  onSuccess: HandlerFn;
-}) {
+  onSuccess: HandlerFnOptionalParam;
+};
+
+export function AllCaughtUpButton({ mangaId, isCaughtUp, onSuccess }: AllCaughtUpButtonProps) {
   const [pending, startTransition] = useTransition();
 
   function handleClick() {

@@ -28,4 +28,5 @@ export type SubmitActionFn = ((...args: any[]) => void) & Function;
 export type ActionResultErrors<A extends Action> = Exclude<Awaited<ReturnType<A>>['error'], null | undefined>;
 export type FormActionResultErrors<A extends FormAction> = Exclude<Awaited<ReturnType<A>>['error'], null | undefined>;
 
-export type HandlerFn<D = unknown, R = void> = ((data?: D) => R) & Function;
+export type HandlerFn<D = unknown, R = void> = ((data: D) => R) & Function;
+export type HandlerFnOptionalParam<D = unknown, R = void> = ((data?: D) => R) & Function;

@@ -37,7 +37,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Va
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }), {
+          'text-slate-600': props.disabled && size === 'icon',
+        })}
+        ref={ref}
+        {...props}
+      />
+    );
   },
 );
 Button.displayName = 'Button';
