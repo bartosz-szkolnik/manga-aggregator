@@ -1,8 +1,8 @@
 import { createServerClient } from '@utils/supabase/server';
-import { redirect } from 'next/navigation';
 import { ProfileSettingsForm } from './profile-form';
 import { Separator } from '@components/ui/separator';
 import { Metadata } from 'next';
+import { unauthorized } from '@utils/utils';
 
 export const metadata: Metadata = {
   title: 'Profile Settings · Manga Aggregator',
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function ProfileSettingsPage() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
-    return redirect('/');
+    return unauthorized();
   }
 
   const { data, error } = await supabase.from('profile').select('username, name, avatar_url').eq('id', userId).single();

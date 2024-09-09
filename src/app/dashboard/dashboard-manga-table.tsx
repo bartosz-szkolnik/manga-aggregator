@@ -1,8 +1,9 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@components/table';
+import { mangaStatusToFormatted } from '@lib/change-manga-status';
 import { EditMangaAttributesDialog } from '@lib/edit-manga-attributes';
 import { Manga } from '@lib/manga';
 import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database';
-import { MangaStatus, Manga as MangaType } from '@lib/types/manga.types';
+import { Manga as MangaType } from '@lib/types/manga.types';
 
 type AdminDashboardMangaTableProps = {
   mangas: MangaType[];
@@ -36,7 +37,7 @@ async function Row({ manga }: RowProps) {
   return (
     <TableRow>
       <TableCell className="font-medium">{manga.title}</TableCell>
-      <TableCell>{statusTranslations[manga.manga_status ?? 'unknown']}</TableCell>
+      <TableCell>{mangaStatusToFormatted[manga.manga_status ?? 'unknown']}</TableCell>
       <TableCell className="flex flex-row-reverse gap-4">
         <Manga manga={manga} trigger="admin-button" />
         <RemoveMangaFromDatabaseButton mangaId={manga.id} smallButton />
@@ -45,11 +46,3 @@ async function Row({ manga }: RowProps) {
     </TableRow>
   );
 }
-
-const statusTranslations = {
-  cancelled: 'Cancelled',
-  completed: 'Completed',
-  hiatus: 'Hiatus',
-  ongoing: 'Ongoing',
-  unknown: 'Unknown',
-} satisfies Record<MangaStatus, string>;

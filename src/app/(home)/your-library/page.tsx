@@ -4,9 +4,8 @@ import { Manga } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { getTheMetaSymbol } from '@utils/utils';
+import { getTheMetaSymbol, unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'In Your Library · Manga Aggregator',
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
 export default async function InYourLibraryPage() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
-    return redirect('./auth/sign-in');
+    return unauthorized();
   }
 
   const { data, error, count } = await supabase
@@ -47,7 +46,7 @@ export default async function InYourLibraryPage() {
       </div>
       <Separator className="my-4" />
       {count === 0 ? (
-        <NoMangaPlaceholder />
+        <NoMangaPlaceholder showYourLibraryLink={false} />
       ) : (
         <div className="flex-1 overflow-auto">
           <div className="flex flex-wrap gap-4 pb-4">

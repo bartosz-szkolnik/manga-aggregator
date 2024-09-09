@@ -5,9 +5,8 @@ import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { getTheMetaSymbol } from '@utils/utils';
+import { getTheMetaSymbol, unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Next up · Manga Aggregator',
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 export default async function CurrentlyReadingPage() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
-    return redirect('./auth/sign-in');
+    return unauthorized();
   }
 
   const { data, error, count } = await supabase

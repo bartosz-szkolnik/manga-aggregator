@@ -93,16 +93,18 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
           </div>
           <div className="mt-4 grid gap-4 py-4">
             <OpenMangaDexButton id={mangadex_id} className="w-full"></OpenMangaDexButton>
-            <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={data.is_in_library} />
-            <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />
-            <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />
-            <UpdateProgressForm
-              latestChapterRead={data.latest_chapter_read ?? '0'}
-              readingStatus={data.reading_status ?? 'want to read'}
-              latestChapter={manga.latest_chapter ?? '0'}
-              priority={data.priority ?? 'normal'}
-              mangaId={manga.id}
-            />
+            <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={isInLibrary} />
+            {isInLibrary && <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />}
+            {isInLibrary && <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />}
+            {isInLibrary && (
+              <UpdateProgressForm
+                latestChapterRead={data.latest_chapter_read ?? '0'}
+                readingStatus={data.reading_status ?? 'want to read'}
+                latestChapter={manga.latest_chapter ?? '0'}
+                priority={data.priority ?? 'normal'}
+                mangaId={manga.id}
+              />
+            )}
           </div>
         </MangaDrawer>
       </Sheet>

@@ -2,11 +2,10 @@ import { Separator } from '@components/ui/separator';
 import { Manga } from '@lib/manga';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { redirect } from 'next/navigation';
 import { OpenAllButton } from './open-all-button';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { getTheMetaSymbol } from '@utils/utils';
+import { getTheMetaSymbol, unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 export default async function UpdatedForYouPage() {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
-    return redirect('./auth/sign-in');
+    return unauthorized();
   }
 
   const { data, error, count } = await supabase
