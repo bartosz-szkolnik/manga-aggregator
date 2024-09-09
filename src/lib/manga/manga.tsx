@@ -12,6 +12,7 @@ import { MangaImage } from './manga-image';
 import { AddMangaToUserLibraryButton } from '@lib/add-manga-to-user-library';
 import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database';
 import { OpenMangaDexButton } from '@lib/open-mangadex-button';
+import { EditMangaAttributesDialog } from '@lib/edit-manga-attributes';
 
 type TriggerType = 'artwork' | 'chevron-button' | 'admin-button';
 export type MangaProps = {
@@ -123,6 +124,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
           </div>
           <div className="mt-4 grid gap-4 py-4">
             <RemoveMangaFromDatabaseButton mangaId={manga.id} />
+            <EditMangaAttributesDialog data={manga} />
           </div>
         </MangaDrawer>
       </Sheet>

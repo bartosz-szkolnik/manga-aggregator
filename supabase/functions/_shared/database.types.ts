@@ -36,7 +36,10 @@ export type Database = {
     Tables: {
       manga: {
         Row: {
-          check_every: string | null
+          check_every_number: string | null
+          check_every_period:
+            | Database["public"]["Enums"]["check_every_period"]
+            | null
           created_at: string
           id: string
           image_url: string
@@ -47,7 +50,10 @@ export type Database = {
           title: string
         }
         Insert: {
-          check_every?: string | null
+          check_every_number?: string | null
+          check_every_period?:
+            | Database["public"]["Enums"]["check_every_period"]
+            | null
           created_at?: string
           id?: string
           image_url: string
@@ -58,7 +64,10 @@ export type Database = {
           title: string
         }
         Update: {
-          check_every?: string | null
+          check_every_number?: string | null
+          check_every_period?:
+            | Database["public"]["Enums"]["check_every_period"]
+            | null
           created_at?: string
           id?: string
           image_url?: string
@@ -197,6 +206,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      check_every_period: "months" | "weeks" | "days"
       manga_status: "completed" | "ongoing" | "hiatus" | "cancelled" | "unknown"
       notification_status: "pending" | "error" | "sent"
       priority: "high" | "normal" | "low"

@@ -61,6 +61,14 @@ to authenticated
 using ((profile_id = auth.uid()))
 with check ((profile_id = auth.uid()));
 
+create policy "Enable update access for authenticated users"
+on "public"."manga"
+as permissive
+for update
+to authenticated
+using (true)
+with check (true);
+
 create policy "Enable write access to edge function"
 on "public"."notifications"
 as permissive
@@ -73,6 +81,6 @@ on "public"."manga"
 as permissive
 for delete
 to authenticated
-using ((profile_id = auth.uid()));
+using (true);
 
 

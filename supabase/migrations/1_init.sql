@@ -26,6 +26,12 @@ CREATE TYPE manga_status AS ENUM (
     'unknown'
 );
 
+CREATE TYPE check_every_period AS ENUM (
+    'months',
+    'weeks',
+    'days'
+);
+
 create table "public"."manga" (
     "id" uuid not null default uuid_generate_v4(), -- id of the manga
     "created_at" timestamp with time zone not null default now(), -- time when the manga was created
@@ -33,7 +39,8 @@ create table "public"."manga" (
     "image_url" text not null, -- image url of the manga
     "mangadex_id" text not null, -- id of the manga on mangadex
     "last_time_checked" timestamp with time zone default null, -- last time the manga was checked for new chapters
-    "check_every" text default null, -- how often to check for new chapters
+    "check_every_number" text default '7', -- number part of how often to check for new chapters - e.g. "every 7 days" this is the "7" part
+    "check_every_period" check_every_period default 'days', -- period part of how often to check for new chapters - e.g. "every 7 days" this is the "days" part
     "manga_status" manga_status default 'unknown', -- the current status of the manga, whether it's completed, ongoing, hiatus, cancelled, or unknown
     "latest_chapter" text default null -- latest chapter number of the manga
 );
