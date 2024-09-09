@@ -17,7 +17,7 @@ import { addMangaToDatabase } from './add-manga-to-database-action';
 import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton, Switch } from '@components/ui/form';
 import { cn, exhaustiveCheck } from '@utils/utils';
 import { toast } from 'sonner';
-import { FormActionResultErrors } from '@utils/types';
+import { FormActionResultErrors, HandlerFn } from '@utils/types';
 import { CheckEveryFormControl } from '@lib/change-mangas-check-every';
 
 type AddMangaDialogProps = {
@@ -28,6 +28,17 @@ type AddMangaDialogProps = {
 export function AddMangaToDatabaseDialog({ smallButton = false, className }: AddMangaDialogProps) {
   const [open, setOpen] = useState(false);
 
+  return (
+    <Dialog open={open} onOpenChange={value => setOpen(value)}>
+      <DialogTrigger asChild>
+        <TriggerButton smallButton={smallButton} className={className} />
+      </DialogTrigger>
+      <AddMangaToDatabaseDialogContent setOpen={value => setOpen(value)} />
+    </Dialog>
+  );
+}
+
+export function AddMangaToDatabaseDialogContent({ setOpen }: { setOpen: HandlerFn<boolean> }) {
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {
     const { error, success } = await addMangaToDatabase(formData);
 
@@ -40,40 +51,35 @@ export function AddMangaToDatabaseDialog({ smallButton = false, className }: Add
   }, null);
 
   return (
-    <Dialog open={open} onOpenChange={value => setOpen(value)}>
-      <DialogTrigger asChild>
-        <TriggerButton smallButton={smallButton} className={className} />
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Manga to our Database</DialogTitle>
-          <DialogDescription>Copy the url from MangaDex and paste it here to save Manga.</DialogDescription>
-        </DialogHeader>
-        <Form action={submitAction} errors={errors} className="grid gap-4 py-4">
-          <FormControl controlName="url">
-            <Label>Manga URL</Label>
-            <Input placeholder="https://mangadex.org/title/{id}/{title}" />
-            <ErrorMessage />
-          </FormControl>
-          <FormControl controlName="add-to-user-library" controlType="switch">
-            <Label>Add to my library</Label>
-            <Switch defaultChecked />
-          </FormControl>
-          <FormControl controlName="start-following" controlType="switch">
-            <Label>Start following</Label>
-            <Switch />
-          </FormControl>
-          <FormControl controlName="is-favorite" controlType="switch">
-            <Label>Add to favorites</Label>
-            <Switch />
-          </FormControl>
-          <CheckEveryFormControl numberOf="7" period="days" />
-          <DialogFooter>
-            <SubmitButton>Save Manga</SubmitButton>
-          </DialogFooter>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add Manga to our Database</DialogTitle>
+        <DialogDescription>Copy the url from MangaDex and paste it here to save Manga.</DialogDescription>
+      </DialogHeader>
+      <Form action={submitAction} errors={errors} className="grid gap-4 py-4">
+        <FormControl controlName="url">
+          <Label>Manga URL</Label>
+          <Input placeholder="https://mangadex.org/title/{id}/{title}" />
+          <ErrorMessage />
+        </FormControl>
+        <FormControl controlName="add-to-user-library" controlType="switch">
+          <Label>Add to my library</Label>
+          <Switch defaultChecked />
+        </FormControl>
+        <FormControl controlName="start-following" controlType="switch">
+          <Label>Start following</Label>
+          <Switch />
+        </FormControl>
+        <FormControl controlName="is-favorite" controlType="switch">
+          <Label>Add to favorites</Label>
+          <Switch />
+        </FormControl>
+        <CheckEveryFormControl numberOf="7" period="days" />
+        <DialogFooter>
+          <SubmitButton>Save Manga</SubmitButton>
+        </DialogFooter>
+      </Form>
+    </DialogContent>
   );
 }
 

@@ -1,4 +1,5 @@
 import { Statistic } from '@components/statistics/statistic';
+import { AddMangaViaShortcut } from '@lib/add-manga-via-shortcut';
 import { Profile } from '@lib/types/manga.types';
 import { SupabaseBrowserClient } from '@utils/supabase/client';
 import { createServerClient } from '@utils/supabase/server';
@@ -15,6 +16,7 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
         {/* TODO fix the height issue */}
         <div className="max-h-[81%] flex-1">{children}</div>
       </Suspense>
+      <AddMangaViaShortcut />
     </main>
   );
 }
