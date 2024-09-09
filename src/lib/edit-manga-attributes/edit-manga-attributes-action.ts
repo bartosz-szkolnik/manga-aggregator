@@ -30,6 +30,7 @@ export async function editMangaAttributesAction(formData: FormData, mangaId: str
         latest_chapter: data['latest-chapter'],
         check_every_number: data['check-every-number'],
         check_every_period: data['check-every-period'],
+        last_time_checked: data['last-time-checked'],
       })
       .match({ id: mangaId });
 

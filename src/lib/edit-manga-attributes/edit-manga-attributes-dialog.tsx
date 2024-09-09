@@ -13,7 +13,7 @@ import {
 } from '@components/ui/dialog';
 import { useState } from 'react';
 import { Edit } from 'lucide-react';
-import { Form, FormControl, Input, ErrorMessage, SubmitButton, Label } from '@components/ui/form';
+import { Form, FormControl, Input, ErrorMessage, SubmitButton, Label, DatePicker } from '@components/ui/form';
 import { Manga } from '@lib/types/manga.types';
 import { ChangeMangaStatusSelect } from '@lib/change-manga-status';
 import { CheckEveryFormControl } from '@lib/change-mangas-check-every';
@@ -21,7 +21,6 @@ import { editMangaAttributesAction } from './edit-manga-attributes-action';
 import { toast } from 'sonner';
 import { FormActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
-import { DatePicker } from '@components/ui/date-picker';
 
 type EditMangaAttributesDialogProps = {
   className?: string;
@@ -83,9 +82,9 @@ export function EditMangaAttributesDialog({ className, data, smallButton }: Edit
             <ErrorMessage />
           </FormControl>
           <CheckEveryFormControl numberOf={data.check_every_number ?? '7'} period={data.check_every_period ?? 'days'} />
-          <FormControl controlName="manga-status">
+          <FormControl controlName="last-time-checked">
             <Label>Last Time Checked</Label>
-            <DatePicker />
+            <DatePicker defaultValue={data.last_time_checked} />
             <ErrorMessage />
           </FormControl>
           <DialogFooter>

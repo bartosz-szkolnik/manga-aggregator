@@ -36,45 +36,39 @@ export type Database = {
     Tables: {
       manga: {
         Row: {
-          check_every_number: string | null
-          check_every_period:
-            | Database["public"]["Enums"]["check_every_period"]
-            | null
+          check_every_number: string
+          check_every_period: Database["public"]["Enums"]["check_every_period"]
           created_at: string
           description: string
           id: string
           image_url: string
-          last_time_checked: string | null
+          last_time_checked: string
           latest_chapter: string | null
           manga_status: Database["public"]["Enums"]["manga_status"] | null
           mangadex_id: string
           title: string
         }
         Insert: {
-          check_every_number?: string | null
-          check_every_period?:
-            | Database["public"]["Enums"]["check_every_period"]
-            | null
+          check_every_number?: string
+          check_every_period?: Database["public"]["Enums"]["check_every_period"]
           created_at?: string
           description: string
           id?: string
           image_url: string
-          last_time_checked?: string | null
+          last_time_checked?: string
           latest_chapter?: string | null
           manga_status?: Database["public"]["Enums"]["manga_status"] | null
           mangadex_id: string
           title: string
         }
         Update: {
-          check_every_number?: string | null
-          check_every_period?:
-            | Database["public"]["Enums"]["check_every_period"]
-            | null
+          check_every_number?: string
+          check_every_period?: Database["public"]["Enums"]["check_every_period"]
           created_at?: string
           description?: string
           id?: string
           image_url?: string
-          last_time_checked?: string | null
+          last_time_checked?: string
           latest_chapter?: string | null
           manga_status?: Database["public"]["Enums"]["manga_status"] | null
           mangadex_id?: string

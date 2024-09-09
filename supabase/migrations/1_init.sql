@@ -39,9 +39,9 @@ create table "public"."manga" (
     "description" text not null, -- description of the manga
     "image_url" text not null, -- image url of the manga
     "mangadex_id" text not null, -- id of the manga on mangadex
-    "last_time_checked" timestamp with time zone default null, -- last time the manga was checked for new chapters
-    "check_every_number" text default '7', -- number part of how often to check for new chapters - e.g. "every 7 days" this is the "7" part
-    "check_every_period" check_every_period default 'days', -- period part of how often to check for new chapters - e.g. "every 7 days" this is the "days" part
+    "last_time_checked" timestamp with time zone not null default now(), -- last time the manga was checked for new chapters
+    "check_every_number" text not null default '7', -- number part of how often to check for new chapters - e.g. "every 7 days" this is the "7" part
+    "check_every_period" check_every_period not null default 'days', -- period part of how often to check for new chapters - e.g. "every 7 days" this is the "days" part
     "manga_status" manga_status default 'unknown', -- the current status of the manga, whether it's completed, ongoing, hiatus, cancelled, or unknown
     "latest_chapter" text default null -- latest chapter number of the manga
 );

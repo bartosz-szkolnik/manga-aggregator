@@ -1,5 +1,6 @@
 import { sendSuccessResponse, type SupabaseBrowserClient, serveHandler, isTruthy } from '../_shared/common.ts';
-import type { Json } from '../_shared/database.types.ts';
+import type { Json, Tables } from '../_shared/database.types.ts';
+import { isBefore, sub } from 'npm:date-fns';
 
 type MangaDexChapterResponse = {
   result: 'ok';
@@ -23,6 +24,7 @@ type MangaDexChapterResponse = {
   }[];
 };
 
+type Manga = Tables<'manga'>;
 type MangasToUpdate = { mangaId: string; data: MangaDexChapterResponse['data'] }[];
 
 Deno.serve(
@@ -34,7 +36,8 @@ Deno.serve(
     const mangasToUpdate = await retrieveNewChaptersFromMangaDex(mangaDexIds);
 
     await insertNewChapterData(client, mangasToUpdate);
-    await scheduleNotifications(client, mangasToUpdate);
+    await sheduleCommonNotifications(client, mangasToUpdate);
+    await scheduleSingularNotifications(client, mangasToUpdate);
     console.info('Finished the manga update process...');
 
     return sendSuccessResponse('Mangas updated.');
@@ -48,13 +51,13 @@ Deno.serve(
 async function getMangaIds(client: SupabaseBrowserClient) {
   console.info('Retrieving manga ids from database...');
 
-  // TODO: add even more complicated logic to check if manga should be checked based on how often it should be checked
-  const { data, error } = await client.from('profile_manga').select('manga_id').eq('is_following', true);
+  const { data, error } = await client.from('profile_manga').select('manga(*)').eq('is_following', true);
   if (error) {
     throw error;
   }
 
-  const mangaIds = data.map(manga => manga.manga_id);
+  const mangas = data.flatMap(row => row.manga ?? []);
+  const mangaIds = checkWhichMangasShouldBeChecked(mangas);
   return Array.from(new Set(mangaIds));
 }
 
@@ -95,7 +98,10 @@ async function insertNewChapterData(client: SupabaseBrowserClient, mangasToUpdat
 
     const { error, data } = await client
       .from('manga')
-      .update({ latest_chapter: latestChapter.attributes.chapter })
+      .update({ 
+        latest_chapter: latestChapter.attributes.chapter, 
+        last_time_checked: new Date().toISOString(),
+      })
       .eq('mangadex_id', mangaId)
       .select('id')
       .single();
@@ -113,14 +119,49 @@ async function insertNewChapterData(client: SupabaseBrowserClient, mangasToUpdat
   }
 }
 
-function scheduleNotifications(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
+async function sheduleCommonNotifications(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
   console.info('Inserting notifications to database to send later...');
+
+  const profiles = await Promise.all(
+    mangasToUpdate.map(async ({ mangaId, data: [latestChapter] }) => {
+      const { data, error } = await client
+        .from('manga')
+        .select('profile_manga(latest_chapter_read, is_following, profile(id, subscriptions))')
+        .eq('mangadex_id', mangaId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      return data.profile_manga
+        .filter(({ is_following, latest_chapter_read }) => {
+          if (!is_following) {
+            return false;
+          }
+
+          return Number(latest_chapter_read) < Number(latestChapter.attributes.chapter);
+        })
+        .flatMap(({ profile }) => (profile ? profile : []));
+    }),
+  );
+
+  return Promise.all(
+    removeDuplicates(profiles.flat()).map(profile => {
+      const subs = profile?.subscriptions as Json[];
+      return insertCommonNotification(client, subs ?? []);
+    }),
+  );
+}
+
+function scheduleSingularNotifications(client: SupabaseBrowserClient, mangasToUpdate: MangasToUpdate) {
+  console.info('Inserting singular notifications to database to send later...');
 
   return Promise.all(
     mangasToUpdate.map(async ({ mangaId, data: [latestChapter] }) => {
       const { data, error } = await client
         .from('manga')
-        .select('title, profile_manga(latest_chapter_read, is_following, profile(subscriptions))')
+        .select('title, profile_manga(latest_chapter_read, is_following, is_favorite, profile(subscriptions))')
         .eq('mangadex_id', mangaId)
         .single();
 
@@ -131,12 +172,12 @@ function scheduleNotifications(client: SupabaseBrowserClient, mangasToUpdate: Ma
       const { title, profile_manga } = data;
       return Promise.all(
         profile_manga
-          .filter(({ is_following, latest_chapter_read }) => {
-            return is_following && latest_chapter_read !== latestChapter.attributes.chapter;
+          .filter(({ is_following, latest_chapter_read, is_favorite }) => {
+            return is_following && is_favorite && latest_chapter_read !== latestChapter.attributes.chapter;
           })
           .map(({ profile }) => {
             const subs = profile?.subscriptions as Json[];
-            return insertNotifications(client, subs ?? [], title, mangaId);
+            return insertSingularNotifications(client, subs ?? [], title, mangaId);
           }),
       );
     }),
@@ -146,6 +187,14 @@ function scheduleNotifications(client: SupabaseBrowserClient, mangasToUpdate: Ma
 //////////////////////
 // Helper functions //
 //////////////////////
+
+function checkWhichMangasShouldBeChecked(mangas: Manga[]) {
+  const mangasToUpdate = mangas.filter(({ check_every_number, check_every_period, last_time_checked }) => {
+    return isBefore(new Date(last_time_checked), sub(new Date(), { [check_every_period]: Number(check_every_number) }));
+  });
+
+  return mangasToUpdate.map(manga => manga.id);
+}
 
 async function getLatestMangaChapter(mangaId: string) {
   const resp = await fetch(getUrl(mangaId));
@@ -164,7 +213,24 @@ function getUrl(mangaId: string) {
   return `https://api.mangadex.org/chapter?${params}`;
 }
 
-function insertNotifications(
+function insertCommonNotification(client: SupabaseBrowserClient, subscriptions: Array<Json>) {
+  return Promise.all(
+    subscriptions.map(async sub => {
+      const { error, data } = await client.from('notifications').insert({
+        subscription: sub,
+        data: { type: 'common' },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return data;
+    }),
+  );
+}
+
+function insertSingularNotifications(
   client: SupabaseBrowserClient,
   subscriptions: Array<Json>,
   title: string,
@@ -172,10 +238,11 @@ function insertNotifications(
 ) {
   return Promise.all(
     subscriptions.map(async sub => {
-      // check if can use upsert, batched
+      // TODO: check if can use upsert, batched
       const { error, data } = await client.from('notifications').insert({
         subscription: sub,
         data: {
+          type: 'singular',
           mangaName: title,
           mangaId: mangaId,
         },
@@ -188,4 +255,8 @@ function insertNotifications(
       return data;
     }),
   );
+}
+
+function removeDuplicates<T extends { id: string }>(profiles: T[]): T[] {
+  return Object.values(Object.fromEntries(profiles.map(item => [item.id, item])));
 }

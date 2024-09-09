@@ -3,6 +3,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Manga } from '@lib/manga';
 import { SupabaseServerClient } from '@utils/supabase/server';
 import { Manga as MangaType } from '@lib/types/manga.types';
+import { mangaStatusToFormatted } from '@lib/change-manga-status';
+import { readingStatusToFormatted } from '@lib/change-reading-status';
 
 type AllMangaTableProps = {
   mangas: MangaType[];
@@ -50,9 +52,10 @@ async function AllMangaTableRow({ supabase, manga, userId }: AllMangaTableRowPro
     return (
       <TableRow>
         <TableCell className="font-medium">{manga.title}</TableCell>
-        <TableCell>{manga.manga_status}</TableCell>
+        <TableCell>{mangaStatusToFormatted[manga.manga_status ?? 'unknown']}</TableCell>
         <TableCell>{manga.latest_chapter}</TableCell>
-        <TableCell colSpan={2}></TableCell>
+        <TableCell>-</TableCell>
+        <TableCell>-</TableCell>
         <TableCell className="flex flex-row-reverse">
           <Manga manga={manga} trigger="chevron-button" />
         </TableCell>
@@ -63,10 +66,10 @@ async function AllMangaTableRow({ supabase, manga, userId }: AllMangaTableRowPro
   return (
     <TableRow>
       <TableCell className="font-medium">{manga.title}</TableCell>
-      <TableCell>{manga.manga_status}</TableCell>
+      <TableCell>{mangaStatusToFormatted[manga.manga_status ?? 'unknown']}</TableCell>
       <TableCell>{manga.latest_chapter}</TableCell>
       <TableCell>{data.latest_chapter_read}</TableCell>
-      <TableCell>{data.reading_status}</TableCell>
+      <TableCell>{readingStatusToFormatted[data.reading_status ?? 'unknown']}</TableCell>
       <TableCell className="text-right">
         <div className="flex flex-row-reverse gap-4">
           <Manga manga={manga} trigger="chevron-button" />

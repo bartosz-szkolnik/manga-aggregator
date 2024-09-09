@@ -8,5 +8,5 @@ export const editMangaAttributesSchema = z.object({
   'latest-chapter': z.string(),
   'check-every-number': z.string().refine(val => !isNaN(Number(val)) && val.length),
   'check-every-period': z.enum(['months', 'weeks', 'days']),
-  // 'last-time-checked':
+  'last-time-checked': z.string(),
 });
