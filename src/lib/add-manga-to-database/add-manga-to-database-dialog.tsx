@@ -18,6 +18,7 @@ import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton, Switch } f
 import { cn, exhaustiveCheck } from '@utils/utils';
 import { toast } from 'sonner';
 import { FormActionResultErrors } from '@utils/types';
+import { CheckEveryFormControl } from '@lib/change-mangas-check-every';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -66,6 +67,7 @@ export function AddMangaToDatabaseDialog({ smallButton = false, className }: Add
             <Label>Add to favorites</Label>
             <Switch />
           </FormControl>
+          <CheckEveryFormControl numberOf="7" period="days" />
           <DialogFooter>
             <SubmitButton>Save Manga</SubmitButton>
           </DialogFooter>

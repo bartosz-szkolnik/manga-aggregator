@@ -10,6 +10,7 @@ import { logger } from '@utils/server/logger';
 import { PostgrestError } from '@supabase/supabase-js';
 import { FormActionResult } from '@utils/types';
 import { MangaDexChapterAttributes, MangaDexChapterResponse } from '@lib/types/mangadex-chapter.types';
+import { MangaStatus } from '@lib/types/manga.types';
 
 export async function addMangaToDatabase(formData: FormData) {
   const { supabase, userId } = await createServerClient();
@@ -18,7 +19,8 @@ export async function addMangaToDatabase(formData: FormData) {
   }
 
   try {
-    const { addToFollowed, addToUserLibrary, id, isFavorite } = parseFormData(formData);
+    const parsedFormData = parseFormData(formData);
+    const { addToFollowed, addToUserLibrary, id, isFavorite } = parsedFormData;
     if (await checkIfMangaIsAlreadyInTheDatabase(supabase, id)) {
       return { success: false, error: 'MANGA_ALREADY_IN_DATABASE' } satisfies Awaited<FormActionResult>;
     }
@@ -28,7 +30,13 @@ export async function addMangaToDatabase(formData: FormData) {
       getMangaCover(id),
       getMangaLatestChapter(id),
     ]);
-    const addedMangaId = await insertMangaToDatabase(supabase, id, mangaAttributes, cover, chapterAttributes);
+    const addedMangaId = await insertMangaToDatabase(
+      supabase,
+      parsedFormData,
+      mangaAttributes,
+      cover,
+      chapterAttributes,
+    );
 
     if (addToUserLibrary && addedMangaId) {
       await insertProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed, isFavorite);
@@ -49,7 +57,7 @@ export async function addMangaToDatabase(formData: FormData) {
 
 async function insertMangaToDatabase(
   supabase: SupabaseServerClient,
-  id: string,
+  { id, checkEveryNumber, checkEveryPeriod }: ReturnType<typeof parseFormData>,
   mangaAttributes: MangaAttributes,
   cover: string,
   chapter: MangaDexChapterAttributes,
@@ -61,6 +69,11 @@ async function insertMangaToDatabase(
       title: mangaAttributes.title.en ?? mangaAttributes.title['ja-ro'],
       image_url: `https://mangadex.org/covers/${id}/${cover}`,
       latest_chapter: chapter.chapter,
+      last_time_checked: new Date().toISOString(),
+      description: mangaAttributes.description.en ?? 'No description available...',
+      manga_status: toMangaStatus(mangaAttributes.status),
+      check_every_number: checkEveryNumber,
+      check_every_period: checkEveryPeriod,
     })
     .select('id')
     .single();
@@ -142,6 +155,8 @@ function parseFormData(formData: FormData) {
     addToUserLibrary: toBoolean(data['add-to-user-library']),
     addToFollowed: toBoolean(data['start-following']),
     isFavorite: toBoolean(data['is-favorite']),
+    checkEveryNumber: data['check-every-number'],
+    checkEveryPeriod: data['check-every-period'],
   };
 }
 
@@ -152,4 +167,12 @@ function getId(url: string) {
 
 function toBoolean(value: string | null) {
   return value === 'on';
+}
+
+const values: MangaStatus[] = ['cancelled', 'completed', 'hiatus', 'ongoing', 'unknown'];
+function isMangaStatus(value: string): value is MangaStatus {
+  return values.includes(value as MangaStatus);
+}
+function toMangaStatus(value: string) {
+  return isMangaStatus(value) ? value : 'unknown';
 }

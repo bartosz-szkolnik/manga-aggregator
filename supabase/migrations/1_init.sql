@@ -36,6 +36,7 @@ create table "public"."manga" (
     "id" uuid not null default uuid_generate_v4(), -- id of the manga
     "created_at" timestamp with time zone not null default now(), -- time when the manga was created
     "title" text not null, -- title of the manga
+    "description" text not null, -- description of the manga
     "image_url" text not null, -- image url of the manga
     "mangadex_id" text not null, -- id of the manga on mangadex
     "last_time_checked" timestamp with time zone default null, -- last time the manga was checked for new chapters

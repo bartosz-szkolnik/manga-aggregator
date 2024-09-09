@@ -8,16 +8,17 @@ export type MangaDrawerProps = {
   children: React.ReactNode;
   title: string;
   mangaDexId: string;
+  description: string;
 };
 
-export function MangaDrawer({ children, title, mangaDexId }: MangaDrawerProps) {
+export function MangaDrawer({ children, title, mangaDexId, description }: MangaDrawerProps) {
   return (
     <SheetContent className="flex h-full flex-col overflow-auto">
       <SheetHeader className="mb-10 mt-6">
-        <SheetTitle className="cursor-pointer" onClick={() => openMangaDex(mangaDexId)}>
+        <SheetTitle className="cursor-pointer text-center" onClick={() => openMangaDex(mangaDexId)}>
           {title}
         </SheetTitle>
-        <SheetDescription>You can do some things in here...</SheetDescription>
+        <SheetDescription className="text-justify text-sm">{description}</SheetDescription>
       </SheetHeader>
       <div className="flex-1">{children}</div>
       <SheetFooter className="flex flex-col sm:justify-start">

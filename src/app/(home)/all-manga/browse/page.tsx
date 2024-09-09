@@ -18,7 +18,10 @@ export default async function AllMangaBrowsePage() {
   }
 
   return count === 0 ? (
-    <NoMangaPlaceholder description="If you want some, you can go directly to MangaDex to browse there and add it to our database." />
+    <NoMangaPlaceholder
+      description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
+      showAllAvailableMangaLink={false}
+    />
   ) : (
     <div className="flex-1 overflow-auto">
       <div className="flex flex-wrap gap-4 pb-4">

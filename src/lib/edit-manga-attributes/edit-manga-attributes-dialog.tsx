@@ -55,6 +55,11 @@ export function EditMangaAttributesDialog({ className, data }: { className?: str
             <Input placeholder="Manga Title" defaultValue={data.title} />
             <ErrorMessage />
           </FormControl>
+          <FormControl controlName="description">
+            <Label>Manga Description</Label>
+            <Input placeholder="Manga Description" defaultValue={data.description} />
+            <ErrorMessage />
+          </FormControl>
           <FormControl controlName="image-url">
             <Label>Image URL</Label>
             <Input placeholder="Image URL" defaultValue={data.image_url} />

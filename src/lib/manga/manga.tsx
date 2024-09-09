@@ -42,7 +42,7 @@ async function getData(supabase: SupabaseServerClient, mangaId: MangaType['id'])
 }
 
 export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
-  const { id, title, mangadex_id, latest_chapter = '0' } = manga;
+  const { id, title, mangadex_id, latest_chapter = '0', description } = manga;
   const { supabase } = await createServerClient();
   const data = await getData(supabase, id);
 
@@ -57,7 +57,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
             <ChevronRight />
           </Button>
         </SheetTrigger>
-        <MangaDrawer mangaDexId={mangadex_id} title={title}>
+        <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
           <div className="mt-4">
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
           </div>
@@ -87,7 +87,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
     return (
       <Sheet key={mangadex_id}>
         <MangaArtwork manga={manga} className="w-[250px]" width={250} height={330} chaptersBehind={chaptersBehind} />
-        <MangaDrawer mangaDexId={mangadex_id} title={title}>
+        <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
           <div className="mt-4">
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
           </div>
@@ -118,7 +118,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
             <ChevronRight />
           </Button>
         </SheetTrigger>
-        <MangaDrawer mangaDexId={mangadex_id} title={title}>
+        <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
           <div className="mt-4">
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
           </div>

@@ -8,11 +8,13 @@ import { BookOpenText } from 'lucide-react';
 type NoMangaPlaceholderProps = {
   text?: string;
   description?: string;
+  showAllAvailableMangaLink?: boolean;
 };
 
 export function NoMangaPlaceholder({
   text = 'No mangas added',
   description = 'If you want more, you can browse for new mangas in our "All Available Manga" section. Or you can go directly to MangaDex to browse there and add it to our database.',
+  showAllAvailableMangaLink = true,
 }: NoMangaPlaceholderProps) {
   return (
     <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
@@ -21,7 +23,7 @@ export function NoMangaPlaceholder({
         <h3 className="mt-4 text-lg font-semibold">{text}</h3>
         <p className="mb-4 mt-2 text-sm text-muted-foreground">{description}</p>
         <div className="flex gap-4">
-          <AllAvailableMangaLink />
+          {showAllAvailableMangaLink && <AllAvailableMangaLink />}
           <OpenMangaDexButton></OpenMangaDexButton>
           <AddMangaToDatabaseDialog smallButton={true}></AddMangaToDatabaseDialog>
         </div>

@@ -7,4 +7,6 @@ export const addMangaToDatabaseSchema = z.object({
   'add-to-user-library': z.string().optional().default(''),
   'start-following': z.string().optional().default(''),
   'is-favorite': z.string().optional().default(''),
+  'check-every-number': z.string().refine(val => !isNaN(Number(val)) && val.length),
+  'check-every-period': z.enum(['months', 'weeks', 'days']),
 });

@@ -24,6 +24,7 @@ export async function editMangaAttributesAction(formData: FormData, mangaId: str
       .from('manga')
       .update({
         title: data['title'],
+        description: data['description'],
         image_url: data['image-url'],
         manga_status: data['manga-status'],
         latest_chapter: data['latest-chapter'],
