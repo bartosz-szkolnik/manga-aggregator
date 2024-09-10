@@ -34,7 +34,7 @@ const SidebarLayout = forwardRef<
     defaultOpen?: boolean;
   }
 >(({ defaultOpen, className, ...props }, ref) => {
-  const [open, setOpen] = useState(defaultOpen ?? false);
+  const [open, setOpen] = useState(defaultOpen ?? true);
 
   const onOpenChange = useCallback((open: boolean) => {
     setOpen(open);
