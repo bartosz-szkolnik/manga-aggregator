@@ -12,13 +12,13 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { Button } from '@components/ui/button';
-import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { addMangaToDatabase } from './add-manga-to-database-action';
 import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton, Switch } from '@components/ui/form';
 import { cn, exhaustiveCheck } from '@utils/utils';
 import { toast } from 'sonner';
 import { FormActionResultErrors, HandlerFn } from '@utils/types';
 import { CheckEveryFormControl } from '@lib/change-mangas-check-every';
+import { BookPlus } from 'lucide-react';
 
 type AddMangaDialogProps = {
   smallButton?: boolean;
@@ -117,7 +117,7 @@ const TriggerButton = forwardRef<HTMLButtonElement, TriggerButtonProps>(
       </Button>
     ) : (
       <Button {...props} ref={ref} className={className}>
-        <PlusCircledIcon className="mr-2 h-4 w-4" />
+        <BookPlus className="mr-2 h-5 w-5" />
         Add Manga
       </Button>
     ),

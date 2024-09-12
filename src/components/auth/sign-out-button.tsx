@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useFormState as useActionState } from 'react-dom';
 import { signOut } from './sign-out-action';
 import { ActionButton } from '@components/ui/form';
+import { LogOut } from 'lucide-react';
 
 export function SignOutButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
@@ -26,6 +27,7 @@ export function SignOutButton({ className }: { className?: string }) {
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
         <Button className={className} variant="outline">
+          <LogOut className="mr-2 h-5 w-5" />
           Sign out
         </Button>
       </DialogTrigger>

@@ -1,4 +1,4 @@
-import { getCurrentlyReadAmount, getUpdatedMangasAmount } from '@lib/count-functions';
+import { getCurrentlyReadCount, getUpdatedMangasCount } from '@lib/count-functions';
 import { createServerClient } from '@utils/supabase/server';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
@@ -14,8 +14,8 @@ export default async function HomePage() {
   }
 
   const [updatedCount, nextUpCount] = await Promise.all([
-    getUpdatedMangasAmount(supabase, userId!),
-    getCurrentlyReadAmount(supabase, userId!),
+    getUpdatedMangasCount(supabase, userId!),
+    getCurrentlyReadCount(supabase, userId!),
   ]);
 
   if (updatedCount === 0 && nextUpCount === 0) {

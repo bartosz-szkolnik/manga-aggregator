@@ -8,6 +8,7 @@ import { Manga } from '@lib/types/manga.types';
 import { ActionResultErrors, HandlerFnOptionalParam } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
+import { ListChecks } from 'lucide-react';
 
 type AllCaughtUpButtonProps = {
   mangaId: Manga['id'];
@@ -36,6 +37,7 @@ export function AllCaughtUpButton({ mangaId, isCaughtUp, onSuccess }: AllCaughtU
 
   return (
     <SubmitButton pending={pending} onClick={handleClick}>
+      <ListChecks className="mr-2 h-5 w-5" />
       I&apos;m all caught up!
     </SubmitButton>
   );

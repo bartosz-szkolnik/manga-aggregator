@@ -4,10 +4,14 @@ import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { getTheMetaSymbol } from '@utils/utils';
 import { ReactNode, Suspense } from 'react';
 import Loading from '../loading';
+import { createServerClient } from '@utils/supabase/server';
+import { BookCopy, Table } from 'lucide-react';
 
 export default async function AllMangaLayout({ children }: { children: ReactNode }) {
+  const { isLoggedIn } = await createServerClient();
+
   return (
-    <div className="flex flex-col">
+    <>
       <div className="flex justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">All Available Manga</h2>
@@ -19,17 +23,24 @@ export default async function AllMangaLayout({ children }: { children: ReactNode
           </p>
         </div>
         <div className="mb-6 ml-2 flex items-center">
-          <AddMangaToDatabaseDialog className="ml-auto mr-4" />
+          {isLoggedIn && <AddMangaToDatabaseDialog className="ml-auto mr-4" />}
         </div>
       </div>
       <Separator className="my-4" />
       <div className="space-between my-6">
         <TabLinkContainer>
-          <TabLink href="/all-manga/browse">Browse</TabLink>
-          <TabLink href="/all-manga/table">Table</TabLink>
+          <TabLink href="/all-manga/browse">
+            <BookCopy className="mr-2 h-5 w-5" />
+            Browse
+          </TabLink>
+
+          <TabLink href="/all-manga/table">
+            <Table className="mr-2 h-5 w-5" />
+            Table
+          </TabLink>
         </TabLinkContainer>
       </div>
       <Suspense fallback={<Loading />}>{children}</Suspense>
-    </div>
+    </>
   );
 }

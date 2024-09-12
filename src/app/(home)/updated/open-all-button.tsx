@@ -12,6 +12,7 @@ import {
 } from '@components/ui/dialog';
 import { openMangaDex } from '@lib/manga/manga-utils';
 import { Manga } from '@lib/types/manga.types';
+import { ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 
 export function OpenAllButton({ mangaIds }: { mangaIds: Array<Manga['id']> }) {
@@ -25,7 +26,10 @@ export function OpenAllButton({ mangaIds }: { mangaIds: Array<Manga['id']> }) {
   return (
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
-        <Button>Open all in new tabs</Button>
+        <Button disabled={mangaIds.length === 0}>
+          <ExternalLink className="mr-2" />
+          Open all in new tabs
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

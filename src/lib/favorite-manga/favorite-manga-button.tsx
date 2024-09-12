@@ -34,7 +34,7 @@ export function FavoriteMangaButton({ mangaId, className, isFavorite }: Favorite
       return handleErrors(error);
     }
 
-    toast.success(`You have favorited this manga.`);
+    toast.success(`You have marked this manga as favorite.`);
   }, null);
 
   const [, submitUnfavoriteAction] = useActionState(async () => {
