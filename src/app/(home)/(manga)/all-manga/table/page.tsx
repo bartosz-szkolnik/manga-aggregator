@@ -1,4 +1,4 @@
-import { TablePageSizeSelect, TablePagination, TitleFilter } from '@lib/table';
+import { TablePageSizeSelect, TablePagination } from '@lib/table';
 import { AllMangaTable } from './all-manga-table';
 import { createServerClient, SupabaseServerClient } from '@utils/supabase/server';
 import { getPage, getPagination, getSize } from '@utils/pagination';
@@ -30,10 +30,7 @@ export default async function AllMangaTablePage({ searchParams }: AllMangaTableP
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="self-end">
-        <TitleFilter />
-      </div>
+    <div>
       <AllMangaTable mangas={data} supabase={supabase} userId={userId} />
       <div className="flex justify-end">
         <TablePagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} />

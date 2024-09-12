@@ -20,7 +20,7 @@ export function NoMangaPlaceholder({
 }: NoMangaPlaceholderProps) {
   return (
     <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
-      <div className="mx-auto flex max-w-[620px] flex-col items-center justify-center text-center">
+      <div className="mx-auto flex max-w-[620px] flex-col items-center justify-center p-2 text-center">
         <BookOpenText className="h-24 w-36"></BookOpenText>
         <h3 className="mt-4 text-lg font-semibold">{text}</h3>
         <p className="mb-4 mt-2 text-sm text-muted-foreground">{description}</p>

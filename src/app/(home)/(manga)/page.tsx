@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Home · Manga Aggregator',
 };
 
-export default async function HomePage() {
+export default async function MangaPage() {
   const { isLoggedIn, userId, supabase } = await createServerClient();
   if (!isLoggedIn) {
     return redirect('/all-manga');

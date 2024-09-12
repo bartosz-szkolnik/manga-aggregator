@@ -20,6 +20,7 @@ export default async function NotificationsSettingsPage() {
     .select('receive_singular_notifications')
     .eq('id', userId)
     .single();
+
   if (error) {
     return <p>Some kind of error occured...</p>;
   }

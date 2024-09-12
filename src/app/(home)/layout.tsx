@@ -1,58 +1,25 @@
-import { Statistic } from '@components/statistics/statistic';
-import { AddMangaViaShortcut } from '@lib/add-manga-via-shortcut';
-import { Profile } from '@lib/types/manga.types';
-import { SupabaseBrowserClient } from '@utils/supabase/client';
-import { createServerClient } from '@utils/supabase/server';
-import { Book, BookCheck } from 'lucide-react';
-import { ReactNode, Suspense } from 'react';
+import { SidebarLayout, SidebarTrigger } from '@components/ui/sidebar';
+import { Sidebar, SidebarContents } from '@layout/sidebar';
+import { Breadcrumbs } from '@lib/breadcrumbs';
+import { cookies } from 'next/headers';
+import { ReactNode } from 'react';
 
 export default async function HomeLayout({ children }: { children: ReactNode }) {
-  const { supabase, userId, isLoggedIn } = await createServerClient();
+  const cookie = cookies().get('sidebar:state');
+  const defaultOpen = cookie !== undefined ? cookie.value === 'true' : true;
 
   return (
-    <main className="flex h-full max-h-full flex-col px-4 py-6 lg:px-8">
-      {isLoggedIn && <Statistics supabase={supabase} userId={userId!} />}
-      <Suspense>
-        {/* TODO fix the height issue */}
-        <div className="max-h-[81%] flex-1">{children}</div>
-      </Suspense>
-      <AddMangaViaShortcut />
-    </main>
+    <SidebarLayout defaultOpen={defaultOpen}>
+      <Sidebar className="px-2 py-6">
+        <SidebarContents />
+      </Sidebar>
+      <main className="m-3 grid max-h-screen w-full grid-rows-[auto_1fr] rounded-md bg-white shadow-lg shadow-slate-400">
+        <div className="ml-4 mt-4 flex">
+          <SidebarTrigger />
+          <Breadcrumbs />
+        </div>
+        {children}
+      </main>
+    </SidebarLayout>
   );
-}
-
-async function Statistics({ supabase, userId }: { supabase: SupabaseBrowserClient; userId: Profile['id'] }) {
-  const [mangasRead, mangasPlannedToRead] = await Promise.all([
-    getMangasReadAmount(supabase, userId),
-    getMangasPlannedToReadAmount(supabase, userId),
-  ]);
-
-  return (
-    <div className="mb-6 grid gap-4 md:grid-cols-2 lg:ml-2 lg:grid-cols-4">
-      <Statistic title="Mangas read" icon={BookCheck}>
-        <div className="text-2xl font-bold">{mangasRead}</div>
-        <p className="text-xs text-muted-foreground">Good job and keep going!</p>
-      </Statistic>
-      <Statistic title="Mangas planned to read" icon={Book}>
-        <div className="text-2xl font-bold">{mangasPlannedToRead}</div>
-        <p className="text-xs text-muted-foreground">We know you can get there if you put your head to it!</p>
-      </Statistic>
-    </div>
-  );
-}
-
-async function getMangasReadAmount(supabase: SupabaseBrowserClient, userId: Profile['id']) {
-  const { count } = await supabase
-    .from('profile_manga')
-    .select('', { count: 'exact' })
-    .match({ reading_status: 'finished reading', profile_id: userId });
-  return count;
-}
-
-async function getMangasPlannedToReadAmount(supabase: SupabaseBrowserClient, userId: Profile['id']) {
-  const { count } = await supabase
-    .from('profile_manga')
-    .select('', { count: 'exact' })
-    .match({ reading_status: 'want to read', profile_id: userId });
-  return count;
 }

@@ -29,7 +29,7 @@ export default async function InYourLibraryPage() {
 
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   return (
-    <div className="flex max-h-full flex-col">
+    <div className="grid max-h-full grid-rows-[auto_1fr] overflow-hidden">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Currectly Reading Mangas</h2>

@@ -42,8 +42,8 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
   }
 
   return (
-    <main className="px-4 py-6 lg:px-8">
-      <div className="mt-8 flex items-center justify-between">
+    <div className="px-4 py-6 lg:px-8">
+      <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Admin Dashboard</h2>
           <p className="text-sm text-muted-foreground">Here you can do everything.</p>
@@ -57,7 +57,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
         <TablePagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} />
         <TablePageSizeSelect size={size} />
       </div>
-    </main>
+    </div>
   );
 }
 
