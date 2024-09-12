@@ -27,8 +27,11 @@ export function Link({
   const pathname = usePathname();
 
   if (disabled) {
-    // TODO this is not working correctly
-    return <span className="text-muted">{children}</span>;
+    return (
+      <span className={cn('text-muted-foreground', className, 'hover:bg-transparent hover:text-muted-foreground')}>
+        {children}
+      </span>
+    );
   }
 
   return (

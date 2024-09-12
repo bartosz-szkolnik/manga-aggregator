@@ -1,12 +1,23 @@
-import { HomeIcon, CatIcon, LockIcon, Settings } from 'lucide-react';
-import { type NavigationItemProps } from './navigation';
+import {
+  Settings,
+  BookOpen,
+  BellRing,
+  ArrowDownAZ,
+  Library,
+  BookCopy,
+  FolderLock,
+  Contact,
+  Bell,
+  TvMinimalPlay,
+} from 'lucide-react';
+import type { NavigationItemProps } from './navigation-item';
 
 export const routes = {
   userNotLoggedIn: [
     {
-      title: 'Home',
+      title: 'Manga',
       url: '/all-manga',
-      icon: HomeIcon,
+      icon: BookOpen,
       isActive: true,
       match: ['/all-manga'],
       items: [],
@@ -14,9 +25,9 @@ export const routes = {
   ] satisfies NavigationItemProps[],
   userLoggedIn: [
     {
-      title: 'Home',
+      title: 'Manga',
       url: '/',
-      icon: HomeIcon,
+      icon: BookOpen,
       isActive: true,
       match: ['/updated', '/currently-reading', '/your-library', '/all-manga'],
       items: [
@@ -24,31 +35,38 @@ export const routes = {
           title: 'Updated',
           url: '/updated',
           description: 'View mangas followed by you that have been updated since your last visit',
-          countKey: 'updated',
+          countKey: 'updated' as const,
+          icon: BellRing,
         },
         {
           title: 'Next Up',
           url: '/currently-reading',
           description: 'Browse mangas that you currently have marked as "Currently reading"',
-          countKey: 'nextUp',
+          countKey: 'nextUp' as const,
+          icon: ArrowDownAZ,
         },
         {
           title: 'Your Library',
           url: '/your-library',
           description: 'Browse all mangas in your Library',
+          countKey: 'yourLibrary' as const,
+          icon: Library,
         },
         {
           title: 'All Available Manga',
           url: '/all-manga',
           description: 'Browse all available mangas',
+          countKey: 'allManga' as const,
+          icon: BookCopy,
         },
       ],
     },
     {
       title: 'Anime',
       url: '/anime',
-      icon: CatIcon,
+      icon: TvMinimalPlay,
       items: [],
+      disabled: true,
     },
     {
       title: 'Settings',
@@ -59,17 +77,19 @@ export const routes = {
           title: 'Profile',
           url: '/settings/profile',
           description: 'Configure your profile settings',
+          icon: Contact,
         },
         {
           title: 'Notifications',
           url: '/settings/notifications',
           description: 'Configure your notifications settings',
+          icon: Bell,
         },
       ],
     },
     {
       title: 'Management Dashboard',
-      icon: LockIcon,
+      icon: FolderLock,
       items: [],
       url: '/dashboard',
     },
