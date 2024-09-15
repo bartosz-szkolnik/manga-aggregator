@@ -5,8 +5,9 @@ import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { getTheMetaSymbol, unauthorized } from '@utils/utils';
+import { getTheMetaSymbol } from '@utils/common';
 import { Metadata } from 'next';
+import { unauthorized } from '@utils/utils';
 
 export const metadata: Metadata = {
   title: 'Next up · Manga Aggregator',

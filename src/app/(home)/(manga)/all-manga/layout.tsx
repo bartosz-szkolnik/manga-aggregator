@@ -1,7 +1,7 @@
 import { Separator } from '@components/ui/separator';
 import { TabLinkContainer, TabLink } from '@components/ui/tab-link';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { getTheMetaSymbol } from '@utils/utils';
+import { getTheMetaSymbol } from '@utils/common';
 import { ReactNode, Suspense } from 'react';
 import Loading from '../../loading';
 import { createServerClient } from '@utils/supabase/server';

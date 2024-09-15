@@ -17,19 +17,25 @@ const items = [
   { value: 'days', text: 'Day(s)' },
 ] satisfies { value: Period; text: string }[];
 
-export function CheckEveryFormControl({ numberOf, period }: { numberOf: string; period: Period }) {
+type CheckEveryFormControlProps = {
+  numberOf: string;
+  period: Period;
+  disabled?: boolean;
+};
+
+export function CheckEveryFormControl({ numberOf, period, disabled }: CheckEveryFormControlProps) {
   return (
     <div>
       <div className="flex gap-4">
         <FormControl controlName="check-every-number">
           <Label>Check every</Label>
-          <Input placeholder="Number of..." defaultValue={numberOf} />
+          <Input placeholder="Number of..." defaultValue={numberOf} disabled={disabled} />
           <ErrorMessage />
         </FormControl>
         <div className="w-full">
           {/* this thing is to position the select properly, aligned with the input in the x axis */}
           <div className="h-[24px]" />
-          <Select name="check-every-period" defaultValue={period}>
+          <Select name="check-every-period" defaultValue={period} disabled={disabled}>
             <SelectTrigger id="check-every-period">
               <SelectValue placeholder="Change the period" />
             </SelectTrigger>

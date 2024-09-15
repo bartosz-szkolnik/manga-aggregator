@@ -13,7 +13,7 @@ export default async function MangaLayout({ children }: { children: ReactNode })
     <div className="grid grid-rows-[auto_auto_auto_auto_1fr] overflow-hidden px-4 py-6 lg:px-8">
       {isLoggedIn && <Statistics supabase={supabase} userId={userId!} />}
       {children}
-      <AddMangaViaShortcut />
+      {isLoggedIn && <AddMangaViaShortcut />}
     </div>
   );
 }

@@ -38,12 +38,7 @@ export function capitalizeFirstLetter(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-export function getTheMetaSymbol() {
-  return (
-    <span className="text-sm text-muted-foreground">
-      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-        <span className="text-xs">⌘</span>
-      </kbd>
-    </span>
-  );
+export function removeProperty<T extends Record<string, unknown>, K extends keyof T>(obj: T, prop: K) {
+  const { [prop]: _, ...rest } = obj;
+  return rest;
 }
