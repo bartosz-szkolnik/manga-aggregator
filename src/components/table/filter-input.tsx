@@ -7,7 +7,7 @@ import { useDebounce } from '@utils/hooks/debounce';
 
 const DELAY_300MS = 300;
 
-export function FilterInput() {
+export function FilterInput({ onlyFilterSearchParam }: { onlyFilterSearchParam: boolean }) {
   const searchParams = useSearchParams();
   const [, value] = searchParams.toString().split(`filter=`);
 
@@ -20,6 +20,11 @@ export function FilterInput() {
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
+      if (onlyFilterSearchParam) {
+        params.set(name, value);
+        return params.toString();
+      }
+
       const oldFilter = params.get('filter');
       if (oldFilter !== value) {
         params.set('page', '1');
@@ -29,7 +34,7 @@ export function FilterInput() {
 
       return params.toString();
     },
-    [searchParams],
+    [searchParams, onlyFilterSearchParam],
   );
 
   function handleFilterChange(e: FormEvent<HTMLInputElement>) {

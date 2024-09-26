@@ -1,5 +1,8 @@
+'use client';
+
 import { FormControlContext, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/form';
 import { ReadingStatus } from '@lib/types/manga.types';
+import { HandlerFn } from '@utils/types';
 import { useContext } from 'react';
 
 const items = [
@@ -10,10 +13,20 @@ const items = [
   { value: 'dropped', text: 'Dropped' },
 ] satisfies { value: ReadingStatus; text: string }[];
 
-export function ChangeReadingStatusSelect({ readingStatus }: { readingStatus: ReadingStatus }) {
+type ChangeReadingStatusSelectProps = {
+  readingStatus: ReadingStatus;
+  setValue: HandlerFn<ReadingStatus>;
+};
+
+export function ChangeReadingStatusSelect({ readingStatus, setValue }: ChangeReadingStatusSelectProps) {
   const controlName = useContext(FormControlContext);
+
+  function handleChange(value: string) {
+    setValue(value as ReadingStatus);
+  }
+
   return (
-    <Select name={controlName} defaultValue={readingStatus ?? 'want to read'}>
+    <Select name={controlName} value={readingStatus} onValueChange={handleChange}>
       <SelectTrigger id={controlName}>
         <SelectValue placeholder="Your reading status" />
       </SelectTrigger>

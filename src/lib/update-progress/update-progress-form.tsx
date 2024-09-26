@@ -2,7 +2,7 @@
 
 import { Button } from '@components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@components/ui/card';
-import { ErrorMessage, Form, FormControl, Input, Label, SubmitButton } from '@components/ui/form';
+import { ErrorMessage, Form, FormControl, Label, SubmitButton } from '@components/ui/form';
 import { ChangePrioritySelect } from '@lib/change-priority';
 import { ChangeReadingStatusSelect } from '@lib/change-reading-status';
 import { ReadingStatus, Priority } from '@lib/types/manga.types';
@@ -13,6 +13,7 @@ import { useFormState as useActionState } from 'react-dom';
 import { FormActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
+import { LatestChapterRead } from '@lib/latest-chapter-read';
 
 export type UpdateProgressFormProps = {
   readingStatus: ReadingStatus;
@@ -30,6 +31,8 @@ export function UpdateProgressForm({
   mangaId,
 }: UpdateProgressFormProps) {
   const [open, setOpen] = useState(false);
+  const [latestChapterValue, setLatestChapterRead] = useState(latestChapterRead);
+  const [readingStatusValue, setReadingStatus] = useState(readingStatus ?? 'want to read');
 
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {
     const { error } = await updateProgress(formData, mangaId);
@@ -72,24 +75,14 @@ export function UpdateProgressForm({
                   <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
                 </div>
               </div>
-              <FormControl controlName="latest-chapter-read">
-                <Label>Chapters read</Label>
-                <div className="flex items-center gap-4">
-                  <Input className="max-w-16" defaultValue={latestChapterRead} />
-                  <span className="flex-1"> read out of </span>
-                  <Input
-                    setFormAttributes={false}
-                    className="max-w-16"
-                    disabled
-                    defaultValue={latestChapter}
-                    name="disabled-latest-chapter"
-                  />
-                </div>
-                <ErrorMessage />
-              </FormControl>
+              <LatestChapterRead
+                latestChapter={latestChapter}
+                latestChapterRead={latestChapterValue}
+                setValue={setLatestChapterRead}
+              />
               <FormControl controlName="reading-status">
                 <Label>Reading status</Label>
-                <ChangeReadingStatusSelect readingStatus={readingStatus ?? 'want to read'} />
+                <ChangeReadingStatusSelect readingStatus={readingStatusValue} setValue={setReadingStatus} />
                 <ErrorMessage />
               </FormControl>
               <FormControl controlName="priority">

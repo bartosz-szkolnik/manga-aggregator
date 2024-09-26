@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, InputHTMLAttributes } from 'react';
+import { createContext, forwardRef, InputHTMLAttributes } from 'react';
 import { ZodIssue } from 'zod';
 
 export interface FormProps extends InputHTMLAttributes<HTMLFormElement> {
@@ -10,10 +10,12 @@ export interface FormProps extends InputHTMLAttributes<HTMLFormElement> {
 
 export const FormContext = createContext<ZodIssue[]>([]);
 
-export function Form({ children, errors, ...props }: FormProps) {
-  return (
-    <FormContext.Provider value={errors ?? []}>
-      <form {...props}>{children}</form>
-    </FormContext.Provider>
-  );
-}
+export const Form = forwardRef<HTMLFormElement, FormProps>(({ children, errors, ...props }, ref) => (
+  <FormContext.Provider value={errors ?? []}>
+    <form ref={ref} {...props}>
+      {children}
+    </form>
+  </FormContext.Provider>
+));
+
+Form.displayName = 'Form';

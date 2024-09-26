@@ -1,74 +1,114 @@
 'use server';
 
 import { createServerClient, SupabaseServerClient } from '@utils/supabase/server';
-import { revalidatePath } from 'next/cache';
 import { MangaDexCoverResponse } from '@type/mangadex-cover.types';
 import { MangaAttributes, MangaDexResponse } from '@type/mangadex.types';
-import { addMangaToDatabaseSchema } from './add-manga-to-database-schema';
+import {
+  addMangaToDatabaseProfileMangaDataSchema,
+  addMangaToDatabaseMangaDataSchema,
+  addMangaToDatabaseMangaIdSchema,
+} from './add-manga-to-database-schema';
 import { ZodIssue } from 'zod';
 import { logger } from '@utils/server/logger';
 import { PostgrestError } from '@supabase/supabase-js';
-import { FormActionResult } from '@utils/types';
-import { MangaDexChapterAttributes, MangaDexChapterResponse } from '@lib/types/mangadex-chapter.types';
+import { MangaDexChapterResponse } from '@lib/types/mangadex-chapter.types';
 import { MangaStatus } from '@lib/types/manga.types';
+import {
+  AddMangaToDatabaseState,
+  ErrorState,
+  MangaDataCloseModalState,
+  MangaDataState,
+  MangaIdState,
+  ProfileMangaDataState,
+  ProfileMangaDataSuccessState,
+} from './add-manga-to-database-state';
 
-export async function addMangaToDatabase(formData: FormData) {
+export async function addMangaToDatabase(previousState: AddMangaToDatabaseState, formData: FormData) {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
-    return { success: false, error: 'NOT_SIGNED_IN_ERROR' } satisfies Awaited<FormActionResult>;
+    return { type: 'MANGA_ID', error: 'NOT_SIGNED_IN_ERROR' } satisfies MangaIdState;
   }
 
-  try {
-    const parsedFormData = parseFormData(formData);
-    const { addToFollowed, addToUserLibrary, id, isFavorite } = parsedFormData;
-    if (await checkIfMangaIsAlreadyInTheDatabase(supabase, id)) {
-      return { success: false, error: 'MANGA_ALREADY_IN_DATABASE' } satisfies Awaited<FormActionResult>;
+  switch (previousState.type) {
+    case 'MANGA_ID': {
+      return tryToRun(previousState, async () => {
+        const { mangaId } = parseMangaId(formData);
+
+        if (await checkIfMangaIsAlreadyInTheDatabase(supabase, mangaId)) {
+          return { type: 'MANGA_ID', error: 'MANGA_ALREADY_IN_DATABASE' } satisfies MangaIdState;
+        }
+
+        const [mangaAttributes, mangaCover, mangaLatestChapter] = await Promise.all([
+          getMangaAttributes(mangaId),
+          getMangaCover(mangaId),
+          getMangaLatestChapter(mangaId),
+        ]);
+
+        return {
+          type: 'MANGA_DATA',
+          error: null,
+          data: { mangaId, mangaAttributes, mangaCover, mangaLatestChapter },
+        } satisfies MangaDataState;
+      });
     }
 
-    const [mangaAttributes, cover, chapterAttributes] = await Promise.all([
-      getMangaAttributes(id),
-      getMangaCover(id),
-      getMangaLatestChapter(id),
-    ]);
-    const addedMangaId = await insertMangaToDatabase(
-      supabase,
-      parsedFormData,
-      mangaAttributes,
-      cover,
-      chapterAttributes,
-    );
+    case 'MANGA_DATA': {
+      return tryToRun(previousState, async () => {
+        const isBack = formData.get('back');
+        if (isBack) {
+          return { type: 'MANGA_ID', error: null } satisfies MangaIdState;
+        }
 
-    if (addToUserLibrary && addedMangaId) {
-      await insertProfileMangaToDatabase(supabase, userId, addedMangaId, addToUserLibrary, addToFollowed, isFavorite);
-    }
-  } catch (e) {
-    const error = e as PostgrestError | ZodIssue[];
-    if (!Array.isArray(error)) {
-      logger.error(error);
-      return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<FormActionResult>;
+        const data = previousState.data;
+        const parsedData = parseMangaData(formData);
+        const addedMangaId = await insertMangaToDatabase(supabase, parsedData, data);
+
+        const isClose = formData.get('close');
+        if (isClose) {
+          return { type: 'MANGA_DATA_CLOSE_MODAL' } satisfies MangaDataCloseModalState;
+        }
+
+        return {
+          type: 'PROFILE_MANGA_DATA',
+          data: { addedMangaId, mangaLatestChapter: data.mangaLatestChapter, mangaStatus: data.mangaAttributes.status },
+          error: null,
+        } satisfies ProfileMangaDataState;
+      });
     }
 
-    return { success: false, error: error } satisfies Awaited<FormActionResult>;
+    case 'PROFILE_MANGA_DATA': {
+      return tryToRun(previousState, async () => {
+        const { addedMangaId } = previousState.data;
+
+        const data = parseProfileMangaData(formData);
+        await insertProfileMangaToDatabase(supabase, userId, addedMangaId, data);
+        return { type: 'PROFILE_MANGA_DATA_SUCCESS', error: null } satisfies ProfileMangaDataSuccessState;
+      });
+    }
+    default: {
+      return { type: 'ERROR', error: 'SOMETHING_WENT_WRONG' } satisfies ErrorState;
+    }
   }
-
-  revalidatePath('/');
-  return { success: true } satisfies Awaited<FormActionResult>;
 }
+
+////////////////////////
+// Database functions //
+////////////////////////
 
 async function insertMangaToDatabase(
   supabase: SupabaseServerClient,
-  { id, checkEveryNumber, checkEveryPeriod }: ReturnType<typeof parseFormData>,
-  mangaAttributes: MangaAttributes,
-  cover: string,
-  chapter: MangaDexChapterAttributes,
+  parsedData: ReturnType<typeof parseMangaData>,
+  mangaData: MangaDataState['data'],
 ) {
+  const { checkEveryNumber, checkEveryPeriod } = parsedData;
+  const { mangaAttributes, mangaCover, mangaId, mangaLatestChapter } = mangaData;
   const { error, data } = await supabase
     .from('manga')
     .insert({
-      mangadex_id: id,
+      mangadex_id: mangaId,
       title: mangaAttributes.title.en ?? mangaAttributes.title['ja-ro'],
-      image_url: `https://mangadex.org/covers/${id}/${cover}`,
-      latest_chapter: chapter.chapter,
+      image_url: `https://mangadex.org/covers/${mangaId}/${mangaCover}`,
+      latest_chapter: mangaLatestChapter.chapter,
       last_time_checked: new Date().toISOString(),
       description: mangaAttributes.description.en ?? 'No description available...',
       manga_status: toMangaStatus(mangaAttributes.status),
@@ -89,17 +129,18 @@ async function insertProfileMangaToDatabase(
   supabase: SupabaseServerClient,
   userId: string,
   mangaId: string,
-  addToUserLibrary: boolean,
-  addToFollowed: boolean,
-  isFavorite: boolean,
+  parsedData: ReturnType<typeof parseProfileMangaData>,
 ) {
+  const { addToFollowed, isFavorite, latestChapterRead, priority, readingStatus } = parsedData;
   const { error } = await supabase.from('profile_manga').insert({
     profile_id: userId,
     manga_id: mangaId,
-    reading_status: 'want to read',
-    is_in_library: addToUserLibrary,
+    reading_status: readingStatus,
+    is_in_library: true,
     is_following: addToFollowed,
     is_favorite: isFavorite,
+    latest_chapter_read: latestChapterRead,
+    priority,
   });
 
   if (error) {
@@ -107,19 +148,18 @@ async function insertProfileMangaToDatabase(
   }
 }
 
+/////////////////////
+// Fetch functions //
+/////////////////////
+
 async function checkIfMangaIsAlreadyInTheDatabase(supabase: SupabaseServerClient, id: string) {
   const { data, error } = await supabase.from('manga').select('mangadex_id').eq('mangadex_id', id).maybeSingle();
-  if (error) {
-    throw error;
-  }
-
-  return data;
+  return error ? error : data;
 }
 
 async function getMangaAttributes(id: string): Promise<MangaAttributes> {
   const response = await fetch(`https://api.mangadex.org/manga/${id}`);
   const { data } = (await response.json()) as MangaDexResponse;
-
   return data.attributes;
 }
 
@@ -127,7 +167,6 @@ async function getMangaCover(id: string): Promise<string> {
   // prettier-ignore
   const response = await fetch(`https://api.mangadex.org/cover?limit=10&manga%5B%5D=${id}&order%5BcreatedAt%5D=asc&order%5BupdatedAt%5D=asc&order%5Bvolume%5D=asc`);
   const { data } = (await response.json()) as MangaDexCoverResponse;
-
   return data[0].attributes.fileName;
 }
 
@@ -144,20 +183,67 @@ async function getMangaLatestChapter(mangaId: string) {
   return data[0].attributes;
 }
 
-function parseFormData(formData: FormData) {
-  const { data, error } = addMangaToDatabaseSchema.safeParse(Object.fromEntries(formData));
+//////////////////////
+// Parser functions //
+//////////////////////
+
+function parseMangaId(formData: FormData) {
+  const { data, error } = addMangaToDatabaseMangaIdSchema.safeParse(Object.fromEntries(formData));
+  if (error) {
+    throw error.issues;
+  }
+
+  return { mangaId: getId(data.url) };
+}
+
+function parseMangaData(formData: FormData) {
+  const { data, error } = addMangaToDatabaseMangaDataSchema.safeParse(Object.fromEntries(formData));
   if (error) {
     throw error.issues;
   }
 
   return {
-    id: getId(data.url),
-    addToUserLibrary: toBoolean(data['add-to-user-library']),
-    addToFollowed: toBoolean(data['start-following']),
-    isFavorite: toBoolean(data['is-favorite']),
     checkEveryNumber: data['check-every-number'],
     checkEveryPeriod: data['check-every-period'],
   };
+}
+
+function parseProfileMangaData(formData: FormData) {
+  const { data, error } = addMangaToDatabaseProfileMangaDataSchema.safeParse(Object.fromEntries(formData));
+  if (error) {
+    throw error.issues;
+  }
+
+  return {
+    addToUserLibrary: toBoolean(data['add-to-user-library']),
+    addToFollowed: toBoolean(data['start-following']),
+    isFavorite: toBoolean(data['is-favorite']),
+    priority: data['priority'],
+    readingStatus: data['reading-status'],
+    latestChapterRead: data['latest-chapter-read'],
+  };
+}
+
+//////////////////////
+// Helper functions //
+//////////////////////
+
+function tryToRun<T>(
+  previousState: AddMangaToDatabaseState,
+  fn: () => Promise<T>,
+): Promise<T> | AddMangaToDatabaseState {
+  try {
+    return fn();
+  } catch (e) {
+    const error = e as PostgrestError | ZodIssue[];
+    console.log('asdasdasd');
+    if (!Array.isArray(error)) {
+      logger.error(error);
+      return { ...previousState, error: 'SOMETHING_WENT_WRONG' };
+    }
+
+    return { ...previousState, error };
+  }
 }
 
 function getId(url: string) {
@@ -170,9 +256,11 @@ function toBoolean(value: string | null) {
 }
 
 const values: MangaStatus[] = ['cancelled', 'completed', 'hiatus', 'ongoing', 'unknown'];
-function isMangaStatus(value: string): value is MangaStatus {
-  return values.includes(value as MangaStatus);
-}
+
 function toMangaStatus(value: string) {
   return isMangaStatus(value) ? value : 'unknown';
+}
+
+function isMangaStatus(value: string): value is MangaStatus {
+  return values.includes(value as MangaStatus);
 }
