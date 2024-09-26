@@ -3,6 +3,7 @@
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { FormActionResult } from '@utils/types';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -36,5 +37,6 @@ export async function updateProfile(formData: FormData) {
     }
   }
 
+  revalidatePath('/');
   return { success: true } satisfies Awaited<FormActionResult>;
 }

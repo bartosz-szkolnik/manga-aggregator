@@ -11,9 +11,9 @@ values
   (
     new.id,
     now (),
-    'Bartosz Szkolnik',
-    'bartosz-szkolnik',
-    'https://avatars.githubusercontent.com/u/20556964?v=4',
+    '',
+    '',
+    '',
     'viewer'
   );
 

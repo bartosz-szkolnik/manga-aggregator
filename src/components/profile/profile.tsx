@@ -12,7 +12,9 @@ export function Profile({ profile, email }: { profile: ProfileType; email: strin
         <AvatarFallback>{profile.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="flex h-full flex-col justify-around">
-        <p className="text-sm font-medium leading-none">Hey, {profile.name}</p>
+        <p className="text-ellipsis whitespace-nowrap text-sm font-medium leading-none">
+          Hey, {profile.name || 'Manga reader'}
+        </p>
         <p className="w-full truncate text-sm text-muted-foreground">{email}</p>
       </div>
     </div>

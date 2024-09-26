@@ -57,7 +57,7 @@ alter table "public"."manga" enable row level security;
 create table "public"."profile" (
     "id" uuid not null, -- id of the profile
     "created_at" timestamp with time zone not null default now(),
-    "name" text default null, -- display name of the profile, probably name and username
+    "name" text default null, -- display name of the profile, probably name and surname or however the user wants to be called
     "username" text not null, -- handle of the profile (usually email), I'm thinking of deleting this... we already have email in the auth.email so I don't know whether it's worth having this column
     "avatar_url" text default null, -- avatar url of the profile
     "subscriptions" jsonb not null default '[]'::jsonb, -- list of web push subscriptions connected to that profile
