@@ -8,7 +8,7 @@ export function Profile({ profile, email }: { profile: ProfileType; email: strin
   return (
     <div className="flex h-[40px] items-center space-x-4">
       <Avatar>
-        <AvatarImage src={profile.avatar_url ?? '/avatars/03.png'} />
+        <AvatarImage src={profile.avatar_url || '/avatars/03.png'} />
         <AvatarFallback>{profile.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="flex h-full flex-col justify-around">
