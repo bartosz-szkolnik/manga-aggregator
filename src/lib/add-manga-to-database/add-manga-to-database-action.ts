@@ -22,6 +22,7 @@ import {
   ProfileMangaDataState,
   ProfileMangaDataSuccessState,
 } from './add-manga-to-database-state';
+import { revalidatePath } from 'next/cache';
 
 export async function addMangaToDatabase(previousState: AddMangaToDatabaseState, formData: FormData) {
   const { supabase, userId } = await createServerClient();
@@ -64,6 +65,7 @@ export async function addMangaToDatabase(previousState: AddMangaToDatabaseState,
         const addedMangaId = await insertMangaToDatabase(supabase, parsedData, data);
 
         const isClose = formData.get('close');
+        revalidatePath('/');
         if (isClose) {
           return { type: 'MANGA_DATA_CLOSE_MODAL' } satisfies MangaDataCloseModalState;
         }
@@ -82,6 +84,7 @@ export async function addMangaToDatabase(previousState: AddMangaToDatabaseState,
 
         const data = parseProfileMangaData(formData);
         await insertProfileMangaToDatabase(supabase, userId, addedMangaId, data);
+        revalidatePath('/');
         return { type: 'PROFILE_MANGA_DATA_SUCCESS', error: null } satisfies ProfileMangaDataSuccessState;
       });
     }
