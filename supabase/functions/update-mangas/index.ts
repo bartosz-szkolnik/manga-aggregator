@@ -79,6 +79,7 @@ async function retrieveNewChaptersFromMangaDex(mangaDexIds: string[]): Promise<M
 
   const mangasToUpdate = await Promise.all(
     mangaDexIds.map(async id => {
+      console.info(`Retrieving new chapter for manga of id ${id}`);
       const data = await getLatestMangaChapter(id);
       return data.length ? { mangaId: id, data } : null;
     }),
@@ -241,11 +242,7 @@ function insertSingularNotifications(
       // TODO: check if can use upsert, batched
       const { error, data } = await client.from('notifications').insert({
         subscription: sub,
-        data: {
-          type: 'singular',
-          mangaName: title,
-          mangaId: mangaId,
-        },
+        data: { type: 'singular', mangaName: title, mangaId: mangaId },
       });
 
       if (error) {
