@@ -5,12 +5,11 @@ import { createServerClient } from '@utils/supabase/server';
 import { FormActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
 import { editMangaAttributesSchema } from './edit-manga-attributes-schema';
-import { isAdmin } from '@utils/utils';
 
 export async function editMangaAttributesAction(formData: FormData, mangaId: string) {
-  const { supabase, user } = await createServerClient();
+  const { supabase, profile } = await createServerClient();
 
-  if (!isAdmin(user?.email)) {
+  if (profile?.role !== 'admin') {
     return { success: false, error: 'NOT_SINGED_IN_AS_ADMIN_ERROR' } satisfies Awaited<FormActionResult>;
   }
 

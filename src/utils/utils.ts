@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { redirect } from 'next/navigation';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -22,16 +21,6 @@ export function clamp(num: number, min: number, max: number) {
 
 export function exhaustiveCheck(_param: never): never {
   throw new TypeError(`This code shouldn't be executed, yet it happened. This means that some kind of error happened.`);
-}
-
-export function unauthorized() {
-  return redirect('/auth/sign-in');
-}
-
-export function isAdmin(email?: string) {
-  // TODO: write a proper method to determining whether the user is an admin or not
-  const isAdmin = email === 'bartosz.szkolnik@protonmail.com';
-  return isAdmin;
 }
 
 export function capitalizeFirstLetter(value: string) {

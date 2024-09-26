@@ -1,19 +1,20 @@
 import { Statistic } from '@components/statistics/statistic';
 import { AddMangaViaShortcut } from '@lib/add-manga-via-shortcut';
 import { Profile } from '@lib/types/manga.types';
+import { verifyAccess } from '@utils/auth';
 import { SupabaseBrowserClient } from '@utils/supabase/client';
 import { createServerClient } from '@utils/supabase/server';
 import { Book, BookCheck } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export default async function MangaLayout({ children }: { children: ReactNode }) {
-  const { supabase, userId, isLoggedIn } = await createServerClient();
+  const { supabase, userId, profile } = await createServerClient();
 
   return (
     <div className="grid grid-rows-[auto_auto_auto_auto_1fr] overflow-hidden px-4 py-6 lg:px-8">
-      {isLoggedIn && <Statistics supabase={supabase} userId={userId!} />}
+      {verifyAccess(profile).includes('read-own') && <Statistics supabase={supabase} userId={userId!} />}
       {children}
-      {isLoggedIn && <AddMangaViaShortcut />}
+      {verifyAccess(profile).includes('add') && <AddMangaViaShortcut />}
     </div>
   );
 }

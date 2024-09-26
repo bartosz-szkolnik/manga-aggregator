@@ -1,8 +1,8 @@
 import { Separator } from '@components/ui/separator';
 import { NotificationsSwitch } from '@lib/sending-notifications/notifications-switch';
 import { SingularNotificationsSwitch } from '@lib/sending-notifications/singular-notifications-switch';
+import { unauthorized } from '@utils/auth';
 import { createServerClient } from '@utils/supabase/server';
-import { unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

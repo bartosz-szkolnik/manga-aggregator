@@ -6,14 +6,15 @@ CREATE OR REPLACE FUNCTION public.insert_profile_for_new_user()
  SECURITY DEFINER
 AS $function$begin
 insert into
-  public.profile (id, created_at, name, username, avatar_url)
+  public.profile (id, created_at, name, username, avatar_url, role)
 values
   (
     new.id,
     now (),
     'Bartosz Szkolnik',
     'bartosz-szkolnik',
-    'https://avatars.githubusercontent.com/u/20556964?v=4'
+    'https://avatars.githubusercontent.com/u/20556964?v=4',
+    'viewer'
   );
 
 return new;

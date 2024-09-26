@@ -1,5 +1,5 @@
+import { unauthorized } from '@utils/auth';
 import { createServerClient } from '@utils/supabase/server';
-import { unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 

@@ -7,9 +7,10 @@ import Loading from '../../loading';
 import { createServerClient } from '@utils/supabase/server';
 import { BookCopy, Table } from 'lucide-react';
 import { TitleFilter } from '@lib/table';
+import { verifyAccess } from '@utils/auth';
 
 export default async function AllMangaLayout({ children }: { children: ReactNode }) {
-  const { isLoggedIn } = await createServerClient();
+  const { profile } = await createServerClient();
 
   return (
     <>
@@ -24,7 +25,7 @@ export default async function AllMangaLayout({ children }: { children: ReactNode
           </p>
         </div>
         <div className="mb-6 ml-2 flex items-center">
-          {isLoggedIn && <AddMangaToDatabaseDialog className="ml-auto mr-4" />}
+          {verifyAccess(profile).includes('add') && <AddMangaToDatabaseDialog className="ml-auto mr-4" />}
         </div>
       </div>
       <Separator className="my-4" />

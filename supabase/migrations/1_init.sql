@@ -32,6 +32,12 @@ CREATE TYPE check_every_period AS ENUM (
     'days'
 );
 
+CREATE TYPE profile_role AS ENUM (
+    'admin',
+    'editor',
+    'viewer'
+);
+
 create table "public"."manga" (
     "id" uuid not null default uuid_generate_v4(), -- id of the manga
     "created_at" timestamp with time zone not null default now(), -- time when the manga was created
@@ -55,7 +61,8 @@ create table "public"."profile" (
     "username" text not null, -- handle of the profile (usually email), I'm thinking of deleting this... we already have email in the auth.email so I don't know whether it's worth having this column
     "avatar_url" text default null, -- avatar url of the profile
     "subscriptions" jsonb not null default '[]'::jsonb, -- list of web push subscriptions connected to that profile
-    "receive_singular_notifications" boolean not null default true -- whether the user wants to receive singular notifications for his favorite mangas, if set to false he'll only receive one notification when something is updated
+    "receive_singular_notifications" boolean not null default true, -- whether the user wants to receive singular notifications for his favorite mangas, if set to false he'll only receive one notification when something is updated
+    "role" profile_role not null default 'viewer' -- the role of the user, indicates what permission a user has
 );
 
 alter table "public"."profile" enable row level security;

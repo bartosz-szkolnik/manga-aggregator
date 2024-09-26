@@ -4,12 +4,11 @@ import { Manga } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
-import { isAdmin } from '@utils/utils';
 import { revalidatePath } from 'next/cache';
 
 export async function removeMangaFromDatabase(mangaId: Manga['id']) {
-  const { supabase, user } = await createServerClient();
-  if (!isAdmin(user?.email)) {
+  const { supabase, profile } = await createServerClient();
+  if (profile?.role !== 'admin') {
     return { success: false, error: 'NOT_SINGED_IN_AS_ADMIN_ERROR' } satisfies Awaited<ActionResult>;
   }
 

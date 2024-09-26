@@ -2,10 +2,10 @@ import { Separator } from '@components/ui/separator';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { Manga } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
+import { unauthorized } from '@utils/auth';
 import { getTheMetaSymbol } from '@utils/common';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

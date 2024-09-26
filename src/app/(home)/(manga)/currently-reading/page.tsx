@@ -7,7 +7,7 @@ import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { getTheMetaSymbol } from '@utils/common';
 import { Metadata } from 'next';
-import { unauthorized } from '@utils/utils';
+import { unauthorized } from '@utils/auth';
 
 export const metadata: Metadata = {
   title: 'Next up · Manga Aggregator',

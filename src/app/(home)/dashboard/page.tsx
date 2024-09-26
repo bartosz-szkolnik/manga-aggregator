@@ -1,10 +1,10 @@
 import { createServerClient, SupabaseServerClient } from '@utils/supabase/server';
 import { Metadata } from 'next';
-import { isAdmin, unauthorized } from '@utils/utils';
 import { logger } from '@utils/server/logger';
 import { TablePageSizeSelect, TablePagination, TitleFilter } from '@lib/table';
 import { AdminDashboardMangaTable } from './dashboard-manga-table';
 import { getSize, getPage, getPagination } from '@utils/pagination';
+import { unauthorized } from '@utils/auth';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard · Manga Aggregator',
@@ -15,14 +15,9 @@ type AdminDashboardProps = {
 };
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardProps) {
-  const { supabase } = await createServerClient();
+  const { supabase, user, profile } = await createServerClient();
   {
-    // prettier-ignore
-    const { data: { user }, error } = await supabase.auth.getUser();
-    if (error || !user || !isAdmin(user.email)) {
-      if (error) {
-        logger.error(error);
-      }
+    if (!user || profile?.role !== 'admin') {
       return unauthorized();
     }
   }

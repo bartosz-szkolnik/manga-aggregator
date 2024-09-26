@@ -26,8 +26,9 @@ export async function createServerClient() {
   // prettier-ignore
   const { data: { user } } = await client.auth.getUser();
   const userId = user?.id;
+  const { data: profile } = await client.from('profile').select('*').eq('id', userId!).maybeSingle();
 
-  return { supabase: client, user, userId, isLoggedIn: Boolean(user) };
+  return { supabase: client, user, userId, isLoggedIn: Boolean(user), profile };
 }
 
 export type SupabaseServerClient = Awaited<ReturnType<typeof createSupabaseServerClient<Database>>>;

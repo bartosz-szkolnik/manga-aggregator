@@ -2,7 +2,7 @@ import { createServerClient } from '@utils/supabase/server';
 import { ProfileSettingsForm } from './profile-form';
 import { Separator } from '@components/ui/separator';
 import { Metadata } from 'next';
-import { unauthorized } from '@utils/utils';
+import { unauthorized } from '@utils/auth';
 
 export const metadata: Metadata = {
   title: 'Profile Settings · Manga Aggregator',

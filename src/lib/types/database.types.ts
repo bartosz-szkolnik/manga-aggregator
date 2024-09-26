@@ -107,6 +107,7 @@ export type Database = {
           id: string
           name: string | null
           receive_singular_notifications: boolean
+          role: Database["public"]["Enums"]["profile_role"]
           subscriptions: Json
           username: string
         }
@@ -116,6 +117,7 @@ export type Database = {
           id: string
           name?: string | null
           receive_singular_notifications?: boolean
+          role?: Database["public"]["Enums"]["profile_role"]
           subscriptions?: Json
           username: string
         }
@@ -125,6 +127,7 @@ export type Database = {
           id?: string
           name?: string | null
           receive_singular_notifications?: boolean
+          role?: Database["public"]["Enums"]["profile_role"]
           subscriptions?: Json
           username?: string
         }
@@ -207,6 +210,7 @@ export type Database = {
       manga_status: "completed" | "ongoing" | "hiatus" | "cancelled" | "unknown"
       notification_status: "pending" | "error" | "sent"
       priority: "high" | "normal" | "low"
+      profile_role: "admin" | "editor" | "viewer"
       reading_status:
         | "reading"
         | "want to read"

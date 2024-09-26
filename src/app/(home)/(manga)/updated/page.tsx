@@ -5,9 +5,9 @@ import { createServerClient } from '@utils/supabase/server';
 import { OpenAllButton } from './open-all-button';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { unauthorized } from '@utils/utils';
 import { Metadata } from 'next';
 import { getTheMetaSymbol } from '@utils/common';
+import { unauthorized } from '@utils/auth';
 
 export const metadata: Metadata = {
   title: 'Updated · Manga Aggregator',
