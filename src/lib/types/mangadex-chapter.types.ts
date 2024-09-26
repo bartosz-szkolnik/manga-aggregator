@@ -16,7 +16,7 @@ interface Data {
 
 export interface MangaDexChapterAttributes {
   volume: any;
-  chapter: string;
+  chapter: string | null; // if it's null, it probably means it a oneshot
   title: string;
   translatedLanguage: string;
   externalUrl: any;

@@ -183,7 +183,13 @@ async function getMangaLatestChapter(mangaId: string) {
 
   const response = await fetch(`https://api.mangadex.org/chapter?${params}`);
   const { data } = (await response.json()) as MangaDexChapterResponse;
-  return data[0].attributes;
+  const latestChapter = data[0].attributes;
+  if (latestChapter.chapter === null) {
+    // We set '1' because it is probably a oneshot
+    latestChapter.chapter = '1';
+  }
+
+  return latestChapter;
 }
 
 //////////////////////
