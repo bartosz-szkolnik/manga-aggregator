@@ -20,7 +20,16 @@ export const routes = {
       icon: BookOpen,
       isActive: true,
       match: ['/all-manga'],
-      items: [],
+      isVisibleFor: ['admin', 'editor', 'viewer'],
+      items: [
+        {
+          title: 'All Available Manga',
+          url: '/all-manga',
+          description: 'Browse all available mangas',
+          countKey: 'allManga' as const,
+          icon: BookCopy,
+        },
+      ],
     },
   ] satisfies NavigationItemProps[],
   userLoggedIn: [
@@ -30,6 +39,7 @@ export const routes = {
       icon: BookOpen,
       isActive: true,
       match: ['/updated', '/currently-reading', '/your-library', '/all-manga'],
+      isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
         {
           title: 'Updated',
@@ -66,12 +76,14 @@ export const routes = {
       url: '/anime',
       icon: TvMinimalPlay,
       items: [],
+      isVisibleFor: ['admin'],
       disabled: true,
     },
     {
       title: 'Settings',
       icon: Settings,
       url: '/settings',
+      isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
         {
           title: 'Profile',
@@ -92,6 +104,7 @@ export const routes = {
       icon: FolderLock,
       items: [],
       url: '/dashboard',
+      isVisibleFor: ['admin'],
     },
   ] satisfies NavigationItemProps[],
 };

@@ -7,3 +7,4 @@ export type ReadingStatus = Enums<'reading_status'>;
 export type MangaStatus = Enums<'manga_status'>;
 export type Priority = Enums<'priority'>;
 export type Period = Enums<'check_every_period'>;
+export type Role = Enums<'profile_role'>;

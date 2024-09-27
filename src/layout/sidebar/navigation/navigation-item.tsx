@@ -3,6 +3,7 @@ import { NavigationLink } from './navigation-link';
 import { Button } from '@components/ui/button';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 import { NavigationSubItem, NavigationSubItemProps } from './navigation-sub-item';
+import { Profile, Role } from '@lib/types/manga.types';
 
 export type NavigationItemProps = {
   title: string;
@@ -11,11 +12,16 @@ export type NavigationItemProps = {
   isActive?: boolean;
   disabled?: boolean;
   match?: string[];
+  isVisibleFor?: Role[];
   items: NavigationSubItemProps[];
 };
 
-export function NavigationItem(props: NavigationItemProps) {
-  const { title, isActive, url, match, icon: Icon, disabled = false, items } = props;
+export async function NavigationItem(props: NavigationItemProps & { profile?: Profile }) {
+  const { title, isActive, url, match, icon: Icon, disabled = false, items, profile, isVisibleFor } = props;
+
+  if (!isVisibleFor?.includes(profile?.role ?? 'viewer')) {
+    return null;
+  }
 
   return (
     <Collapsible asChild defaultOpen={isActive}>

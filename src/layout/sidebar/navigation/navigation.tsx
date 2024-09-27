@@ -16,7 +16,7 @@ import {
 export type NavigationProps = ComponentProps<'ul'>;
 
 export async function Navigation({ className }: NavigationProps) {
-  const { supabase, userId } = await createServerClient();
+  const { supabase, userId, profile } = await createServerClient();
 
   if (!userId) {
     return (
@@ -43,7 +43,7 @@ export async function Navigation({ className }: NavigationProps) {
     <nav>
       <ul className={cn('grid gap-0.5', className)}>
         {items.map(item => {
-          return <NavigationItem key={item.title} {...item}></NavigationItem>;
+          return <NavigationItem key={item.title} {...item} profile={profile!}></NavigationItem>;
         })}
       </ul>
     </nav>
