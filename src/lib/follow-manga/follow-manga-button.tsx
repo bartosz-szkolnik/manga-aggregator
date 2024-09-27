@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
+import { BookmarkIcon, BookmarkFilledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { ActionButton } from '@components/ui/form';
 import { ActionResultErrors } from '@utils/types';
@@ -50,7 +50,7 @@ export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMan
   if (!isFollowing) {
     return (
       <ActionButton submitAction={submitFollowAction} className={className}>
-        <StarIcon className="mr-2 h-4 w-4" />
+        <BookmarkIcon className="mr-2 h-4 w-4" />
         Follow
       </ActionButton>
     );
@@ -60,7 +60,7 @@ export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMan
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
         <Button className={className}>
-          <StarFilledIcon className="mr-2 h-4 w-4" />
+          <BookmarkFilledIcon className="mr-2 h-4 w-4" />
           Unfollow
         </Button>
       </DialogTrigger>

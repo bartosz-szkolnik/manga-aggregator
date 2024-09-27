@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
+import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { ActionButton } from '@components/ui/form';
 import { toast } from 'sonner';
@@ -50,7 +50,7 @@ export function FavoriteMangaButton({ mangaId, className, isFavorite }: Favorite
   if (!isFavorite) {
     return (
       <ActionButton submitAction={submitFavoriteAction} className={className}>
-        <StarIcon className="mr-2 h-4 w-4" />
+        <HeartIcon className="mr-2 h-4 w-4" />
         Favorite
       </ActionButton>
     );
@@ -60,7 +60,7 @@ export function FavoriteMangaButton({ mangaId, className, isFavorite }: Favorite
     <Dialog open={open} onOpenChange={value => setOpen(value)}>
       <DialogTrigger asChild>
         <Button className={className}>
-          <StarFilledIcon className="mr-2 h-4 w-4" />
+          <HeartFilledIcon className="mr-2 h-4 w-4" />
           Remove from favorites
         </Button>
       </DialogTrigger>
