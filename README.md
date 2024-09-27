@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to Manga Aggregator!
 
-## Getting Started
+### Keep all of your favorite Mangas in one place
 
-First, run the development server:
+This little app was built to check and notify me (and you) when some new chapters, from mangas that I (and you) follow, have been uploaded.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!-- TODO add website link when it's hosted -->
+<!-- TODO add image of how the app looks -->
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How it works:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- you go to [MangaDex](https://mangadex.org/),
+- find any manga that you like and want to follow,
+- grab the page url (cmd/ctrl+l -> cmd/ctrl+c),
+- come back to this app,
+- create an account or log in,
+- click the 'Add Manga' button, paste the url there, click 'Continue...' and await confirmation. The app should do the rest by itself (grab the title, description and the rest and show it to you),
+- if you want to finish the process without following the Manga, just click the 'Save and Close' button,
+- if you want to follow to Manga to receive notifications when new chapters of this Manga arrive, click the 'Save and Follow' button,
+- check the 'Start Following' switch,
+- you can also insert your progress of that manga, the app will tell you how far behind you are,
+- go to the Notifications panel in the Settings, and check the Manga Updates switch (unfortunately it's turned off by default),
+- from this point on the app will check if there's any new chapters according to the schedule you've provided and if they are, the app will notify you.
 
-## Learn More
+This app integrates with [MangaDex API](https://api.mangadex.org/docs/swagger.html).
 
-To learn more about Next.js, take a look at the following resources:
+## How to run it
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- clone repository,
+- launch Docker,
+- run `pnpm i`
+- run `pnpm supabase start`
+- run `pnpm dev`
+- enter `http://localhost:3000` in your browser
