@@ -7,7 +7,6 @@ import { MangaImage } from '@lib/manga/manga-image';
 import { HandlerFn, HandlerFnOptionalParam } from '@utils/types';
 import { WithoutAppErrors, MangaDataState } from '../add-manga-to-database-state';
 import { Button } from '@components/ui/button';
-import { useRef } from 'react';
 
 type MangaDataFormProps = {
   submitAction: HandlerFn<FormData>;
@@ -18,7 +17,6 @@ type MangaDataFormProps = {
 export function MangaDataForm({ submitAction, state, closeModal }: MangaDataFormProps) {
   const { error, type, data } = state;
   const { title, description } = data.mangaAttributes;
-  const formRef = useRef<HTMLFormElement>(null);
 
   function handleBack() {
     const data = new FormData();
@@ -26,14 +24,13 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
     submitAction(data);
   }
 
-  function handleSaveAndClose() {
-    const data = new FormData(formRef.current!);
-    data.append('close', 'true');
-    submitAction(data);
+  function handleSaveAndClose(formData: FormData) {
+    formData.append('close', 'true');
+    submitAction(formData);
   }
 
   return (
-    <Form action={submitAction} errors={error} className="grid gap-4 pt-4" ref={formRef}>
+    <Form action={submitAction} errors={error} className="grid gap-4 pt-4">
       <div className="mb-4 mt-6 grid grid-cols-2">
         <div className="max-w-[22rem]">
           <MangaImage
@@ -61,9 +58,7 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
         <Button variant={'secondary'} type="button" onClick={handleBack}>
           Back
         </Button>
-        <Button type="button" onClick={handleSaveAndClose}>
-          Save Manga and Close
-        </Button>
+        <SubmitButton formAction={handleSaveAndClose}>Save Manga and Close</SubmitButton>
         <SubmitButton>Save Manga and Update Progress</SubmitButton>
       </DialogFooter>
     </Form>
