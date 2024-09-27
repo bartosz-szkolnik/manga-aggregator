@@ -7,6 +7,8 @@ import { HandlerFn, HandlerFnOptionalParam } from '@utils/types';
 import { useState } from 'react';
 import { Button } from '@components/ui/button';
 
+const MANGADEX_URL = new RegExp('https://mangadex.org/title/.*/?.*?');
+
 type MangaIdFormProps = {
   submitAction: HandlerFn<FormData>;
   state: WithoutAppErrors<MangaIdState>;
@@ -33,7 +35,7 @@ export function MangaIdForm({ submitAction, state, closeModal }: MangaIdFormProp
         <Button variant={'secondary'} type="button" onClick={closeModal}>
           Cancel
         </Button>
-        <SubmitButton disabled={!value}>Continue...</SubmitButton>
+        <SubmitButton disabled={!MANGADEX_URL.test(value)}>Continue...</SubmitButton>
       </DialogFooter>
     </Form>
   );
