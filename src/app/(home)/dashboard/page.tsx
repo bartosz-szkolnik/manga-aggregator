@@ -16,10 +16,8 @@ type AdminDashboardProps = {
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardProps) {
   const { supabase, user, profile } = await createServerClient();
-  {
-    if (!user || profile?.role !== 'admin') {
-      return unauthorized();
-    }
+  if (!user || profile?.role !== 'admin') {
+    return unauthorized();
   }
 
   const filter = searchParams.filter ?? '';

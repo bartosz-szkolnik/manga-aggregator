@@ -14,8 +14,8 @@ export type MangaDrawerProps = {
 export function MangaDrawer({ children, title, mangaDexId, description }: MangaDrawerProps) {
   return (
     <SheetContent className="flex h-full flex-col overflow-auto">
-      <SheetHeader className="mb-10 mt-6">
-        <SheetTitle className="cursor-pointer text-center" onClick={() => openMangaDex(mangaDexId)}>
+      <SheetHeader className="mb-2 mt-8">
+        <SheetTitle className="cursor-pointer text-center text-2xl" onClick={() => openMangaDex(mangaDexId)}>
           {title}
         </SheetTitle>
         <SheetDescription className="text-justify text-sm">{description}</SheetDescription>

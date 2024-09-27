@@ -53,7 +53,7 @@ export function AddMangaToUserLibraryButton({
     return (
       <ActionButton submitAction={submitAddAction} className={className}>
         <StarIcon className="mr-2 h-4 w-4" />
-        Add to library
+        Add to Library
       </ActionButton>
     );
   }

@@ -58,8 +58,8 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
         <Button variant={'secondary'} type="button" onClick={handleBack}>
           Back
         </Button>
-        <SubmitButton formAction={handleSaveAndClose}>Save Manga and Close</SubmitButton>
-        <SubmitButton>Save Manga and Update Progress</SubmitButton>
+        <Button formAction={handleSaveAndClose}>Save and Close</Button>
+        <SubmitButton>Save and Follow</SubmitButton>
       </DialogFooter>
     </Form>
   );
