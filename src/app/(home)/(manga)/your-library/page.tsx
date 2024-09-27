@@ -33,8 +33,8 @@ export default async function InYourLibraryPage() {
     <div className="grid max-h-full grid-rows-[auto_1fr] overflow-hidden">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">Currectly Reading Mangas</h2>
-          <p className="text-sm text-muted-foreground">Currently reading mangas. You can read them here.</p>
+          <h2 className="text-2xl font-semibold tracking-tight">Your Library</h2>
+          <p className="text-sm text-muted-foreground">All of your Mangas in one place. You can browse them here.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
               If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
