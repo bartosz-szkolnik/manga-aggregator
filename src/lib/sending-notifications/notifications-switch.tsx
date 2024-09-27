@@ -4,7 +4,12 @@ import { useEffect, useState, useTransition } from 'react';
 import { revokeSubscription, subscribe } from './notifications-actions';
 import { FormControl, Label, Switch, Description } from '@components/ui/form';
 
-export function NotificationsSwitch() {
+// Firstly I check whether the subscription in database is present, after that I do the checking with the pushManager
+// If the subscription in the database was missing, but the pushManager was returning a Subscription from it's memory,
+// the switch would be checked even though it wouldn't work as it should
+let checkedOnce = false;
+
+export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: boolean }) {
   const [, startTransition] = useTransition();
   const [isSubscribed, setIsSubscribed] = useState(false);
   // custom pending because transition doesn't cover all of the necessary actions performed
@@ -14,12 +19,17 @@ export function NotificationsSwitch() {
     getPushManager()
       .then(manager => manager.getSubscription())
       .then(subscription => {
-        setIsSubscribed(Boolean(subscription));
+        if (!checkedOnce) {
+          setIsSubscribed(defaultSubscribed);
+        } else {
+          setIsSubscribed(Boolean(subscription));
+        }
       });
   });
 
   const handleSubscribe = async () => {
     setPending(true);
+    checkedOnce = true;
     const manager = await getPushManager();
     const subscription = await manager.subscribe({
       userVisibleOnly: true,
@@ -35,6 +45,7 @@ export function NotificationsSwitch() {
 
   const handleRevoke = async () => {
     setPending(true);
+    checkedOnce = true;
     const manager = await getPushManager();
     const subscription = await manager.getSubscription();
     await subscription?.unsubscribe();

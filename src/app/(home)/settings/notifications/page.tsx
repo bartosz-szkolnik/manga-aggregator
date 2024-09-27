@@ -17,7 +17,7 @@ export default async function NotificationsSettingsPage() {
 
   const { data, error } = await supabase
     .from('profile')
-    .select('receive_singular_notifications')
+    .select('receive_singular_notifications, subscriptions')
     .eq('id', userId)
     .single();
 
@@ -25,6 +25,7 @@ export default async function NotificationsSettingsPage() {
     return <p>Some kind of error occured...</p>;
   }
 
+  const isUnsubscribed = JSON.stringify(data.subscriptions) === '[]';
   return (
     <div className="space-y-6">
       <div>
@@ -32,7 +33,7 @@ export default async function NotificationsSettingsPage() {
         <p className="text-sm text-muted-foreground">Configure how you receive your notifications.</p>
       </div>
       <Separator />
-      <NotificationsSwitch />
+      <NotificationsSwitch defaultSubscribed={!isUnsubscribed} />
       <SingularNotificationsSwitch receiveSingularNotifications={data?.receive_singular_notifications ?? true} />
     </div>
   );
