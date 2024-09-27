@@ -22,7 +22,7 @@ export function AddMangaViaShortcut() {
   return (
     open && (
       <Dialog open={open} onOpenChange={value => setOpen(value)}>
-        <AddMangaToDatabaseDialogContent setOpen={setOpen} />;
+        <AddMangaToDatabaseDialogContent setOpen={setOpen} />
       </Dialog>
     )
   );

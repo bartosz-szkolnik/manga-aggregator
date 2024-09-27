@@ -1,20 +1,24 @@
 import { Statistic } from '@components/statistics/statistic';
 import { AddMangaViaShortcut } from '@lib/add-manga-via-shortcut';
+import { HelperDialog } from '@lib/helper-dialog';
 import { Profile } from '@lib/types/manga.types';
 import { verifyAccess } from '@utils/auth';
 import { SupabaseBrowserClient } from '@utils/supabase/client';
 import { createServerClient } from '@utils/supabase/server';
 import { Book, BookCheck } from 'lucide-react';
+import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 
 export default async function MangaLayout({ children }: { children: ReactNode }) {
   const { supabase, userId, profile } = await createServerClient();
+  const helperModalOpenedPreviously = cookies().get('helper-modal')?.value === 'true';
 
   return (
     <div className="grid grid-rows-[auto_auto_auto_auto_1fr] overflow-hidden px-4 py-6 lg:px-8">
       {verifyAccess(profile).includes('read-own') && <Statistics supabase={supabase} userId={userId!} />}
       {children}
       {verifyAccess(profile).includes('add') && <AddMangaViaShortcut />}
+      <HelperDialog defaultOpen={!helperModalOpenedPreviously} />
     </div>
   );
 }
