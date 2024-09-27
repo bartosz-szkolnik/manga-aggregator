@@ -5,6 +5,7 @@ import { cn } from '@utils/utils';
 import { Button } from './button';
 import { Sheet, SheetContent } from './sheet';
 import { useIsMobile } from '@utils/hooks/is-mobile';
+import { saveToCookies } from '@utils/cookies';
 import {
   ComponentProps,
   createContext,
@@ -28,6 +29,8 @@ const SidebarContext = createContext<SidebarContext>({
   setOpen: () => {},
 });
 
+export const SIDEBAR_STATE_COOKIE = 'sidebar:state';
+
 const SidebarLayout = forwardRef<
   HTMLDivElement,
   ComponentProps<'div'> & {
@@ -38,7 +41,7 @@ const SidebarLayout = forwardRef<
 
   const onOpenChange = useCallback((open: boolean) => {
     setOpen(open);
-    setIsOpenCookie(open);
+    saveToCookies(SIDEBAR_STATE_COOKIE, String(open));
   }, []);
 
   const state = open ? 'open' : 'closed';
@@ -154,10 +157,4 @@ export {
 
 function useSidebar() {
   return useContext(SidebarContext);
-}
-
-export const SIDEBAR_STATE_COOKIE = 'sidebar:state';
-const ONE_WEEK = 60 * 60 * 24 * 7;
-function setIsOpenCookie(open: boolean) {
-  document.cookie = `${SIDEBAR_STATE_COOKIE}=${open}; path=/; max-age=${ONE_WEEK}`;
 }

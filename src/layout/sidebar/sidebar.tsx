@@ -4,6 +4,7 @@ import { SidebarIcons } from './sidebar-icons';
 import { ReactNode } from 'react';
 import { Footer } from '@components/footer/footer';
 import { Separator } from '@components/ui/separator';
+import { cookies } from 'next/headers';
 
 type SidebarProps = {
   children: ReactNode;
@@ -11,10 +12,12 @@ type SidebarProps = {
 };
 
 export function Sidebar({ children, className }: SidebarProps) {
+  const defaultColor = cookies().get('color')?.value ?? 'zinc';
+
   return (
     <SidebarRoot className={className}>
       <SidebarHeader className="mx-4">
-        <SidebarIcons />
+        <SidebarIcons defaultColor={defaultColor} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarItem>{children}</SidebarItem>

@@ -3,10 +3,10 @@
 import { Button } from '@components/ui/button';
 import { ChevronLeft, ChevronRight, Search, ChevronsLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { ThemeToggle } from 'src/layout/theme/theme-toggle';
 import { useSidebar } from '@components/ui/sidebar';
+import { ThemeCustomizer } from '@layout/theme';
 
-export function SidebarIcons() {
+export function SidebarIcons({ defaultColor }: { defaultColor: string }) {
   const router = useRouter();
   const { setOpen } = useSidebar();
 
@@ -24,7 +24,7 @@ export function SidebarIcons() {
       <Button disabled variant={'ghost'} size="icon">
         <Search />
       </Button>
-      <ThemeToggle />
+      <ThemeCustomizer defaultColor={defaultColor} />
     </div>
   );
 }
