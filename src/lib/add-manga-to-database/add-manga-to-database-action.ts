@@ -246,7 +246,6 @@ function tryToRun<T>(
     return fn();
   } catch (e) {
     const error = e as PostgrestError | ZodIssue[];
-    console.log('asdasdasd');
     if (!Array.isArray(error)) {
       logger.error(error);
       return { ...previousState, error: 'SOMETHING_WENT_WRONG' };
