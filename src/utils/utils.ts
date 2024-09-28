@@ -31,3 +31,7 @@ export function removeProperty<T extends Record<string, unknown>, K extends keyo
   const { [prop]: _, ...rest } = obj;
   return rest;
 }
+
+export function replaceImageUrlToUseImageProxy(imageUrl: string) {
+  return imageUrl.replace('https://mangadex.org/covers/', '../images/');
+}

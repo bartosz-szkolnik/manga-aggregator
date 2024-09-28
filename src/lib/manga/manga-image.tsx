@@ -1,4 +1,4 @@
-import { cn } from '@utils/utils';
+import { cn, replaceImageUrlToUseImageProxy } from '@utils/utils';
 import Image from 'next/image';
 
 type MangaImageProps = {
@@ -18,12 +18,14 @@ export function MangaImage({
   width,
   showAnimation = true,
 }: MangaImageProps) {
+  const replacedImageUrl = replaceImageUrlToUseImageProxy(imageUrl);
+
   return (
     <div className="overflow-hidden rounded-md shadow-lg">
       <Image
         priority
         unoptimized
-        src={imageUrl}
+        src={replacedImageUrl}
         alt={title}
         width={width}
         height={height}
