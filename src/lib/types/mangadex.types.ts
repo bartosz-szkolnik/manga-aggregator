@@ -39,6 +39,7 @@ export interface Title {
   es: string;
   fr: string;
   jp: string;
+  ja: string;
   ko: string;
   ru: string;
   zh: string;
@@ -68,11 +69,14 @@ export interface Description {
   en: string;
   it: string;
   ja: string;
+  jp: string;
   pl: string;
   ru: string;
   vi: string;
-  'pt-br': string;
   fr: string;
+  'pt-br': string;
+  'jp-ro': string;
+  'ja-ro': string;
 }
 
 export interface Links {

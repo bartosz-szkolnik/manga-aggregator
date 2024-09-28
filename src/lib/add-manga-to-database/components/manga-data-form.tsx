@@ -7,6 +7,7 @@ import { MangaImage } from '@lib/manga/manga-image';
 import { HandlerFn, HandlerFnOptionalParam } from '@utils/types';
 import { WithoutAppErrors, MangaDataState } from '../add-manga-to-database-state';
 import { Button } from '@components/ui/button';
+import { getMangaDescription, getMangaTitle } from '@lib/manga/manga-utils';
 
 type MangaDataFormProps = {
   submitAction: HandlerFn<FormData>;
@@ -35,7 +36,7 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
         <div className="max-w-[22rem]">
           <MangaImage
             imageUrl={`https://mangadex.org/covers/${data.mangaId}/${data.mangaCover}`}
-            title={title.en ?? title.jp}
+            title={getMangaTitle(title)}
             width={50}
             height={130}
             aspectRatio={'portrait'}
@@ -43,9 +44,9 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
         </div>
         <div className="flex flex-1 flex-col items-center justify-between px-6 py-4">
           <div className="flex max-h-80 flex-col gap-4">
-            <h3 className="text-center text-xl font-semibold text-foreground">{title.en ?? title.jp}</h3>
+            <h3 className="text-center text-xl font-semibold text-foreground">{getMangaTitle(title)}</h3>
             <p className="flex-1 overflow-auto text-justify text-sm text-foreground">
-              {description.en ?? description.ja}
+              {getMangaDescription(description)}
             </p>
           </div>
           <CheckEveryFormControl numberOf="7" period="days" disabled={type !== 'MANGA_DATA'} />

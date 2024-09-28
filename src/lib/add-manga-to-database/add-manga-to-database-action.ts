@@ -23,6 +23,7 @@ import {
   ProfileMangaDataSuccessState,
 } from './add-manga-to-database-state';
 import { revalidatePath } from 'next/cache';
+import { getMangaDescription, getMangaTitle } from '@lib/manga/manga-utils';
 
 export async function addMangaToDatabase(previousState: AddMangaToDatabaseState, formData: FormData) {
   const { supabase, userId } = await createServerClient();
@@ -109,11 +110,11 @@ async function insertMangaToDatabase(
     .from('manga')
     .insert({
       mangadex_id: mangaId,
-      title: mangaAttributes.title.en ?? mangaAttributes.title['ja-ro'],
+      title: getMangaTitle(mangaAttributes.title),
       image_url: `https://mangadex.org/covers/${mangaId}/${mangaCover}`,
       latest_chapter: mangaLatestChapter.chapter,
       last_time_checked: new Date().toISOString(),
-      description: mangaAttributes.description.en ?? 'No description available...',
+      description: getMangaDescription(mangaAttributes.description),
       manga_status: toMangaStatus(mangaAttributes.status),
       check_every_number: checkEveryNumber,
       check_every_period: checkEveryPeriod,
