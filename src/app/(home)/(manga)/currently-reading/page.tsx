@@ -5,7 +5,7 @@ import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
-import { getTheMetaSymbol } from '@utils/common';
+import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { Metadata } from 'next';
 import { unauthorized } from '@utils/auth';
 
@@ -38,7 +38,8 @@ export default async function CurrentlyReadingPage() {
           <p className="text-sm text-muted-foreground">Currently reading mangas. You can read them here.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
-              If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
+              If you click with the {getTheMetaSymbol()}/{getTheCtrlSymbol()} button pressed, you can open any of them
+              directly on MangaDex.
             </strong>
           </p>
         </div>

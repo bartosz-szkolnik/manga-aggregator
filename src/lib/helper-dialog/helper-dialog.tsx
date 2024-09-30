@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
+import { getShortcutSymbols, getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 
 const ONE_YEAR = 60 * 60 * 24 * 7 * 51;
 const ONE_DAY = 60 * 60 * 24;
@@ -78,13 +79,15 @@ function HelperDialogContent({ ShowLaterButton }: { ShowLaterButton: ReactElemen
                   </Link>
                 </li>
                 <li>Find any manga that you like and want to follow</li>
-                <li>Copy the page URL (you can use ⌘/Ctrl+L and then ⌘/Ctrl+C)</li>
+                <li>
+                  Copy the page URL (you can use {getShortcutSymbols('L')} and then {getShortcutSymbols('C')})
+                </li>
                 <li>Come back to this app</li>
                 <li>Register an account or log in</li>
                 <li>
-                  Press the &apos;Add Manga&apos; button (or press ⌘/Ctrl+A ), paste the url there, click
-                  &apos;Continue...&apos; and await confirmation. The app should do the rest by itself (grab the title,
-                  description and the rest and show it to you)
+                  Press the &apos;Add Manga&apos; button (or press {getShortcutSymbols('A')} ), paste the url there,
+                  click &apos;Continue...&apos; and await confirmation. The app should do the rest by itself (grab the
+                  title, description and the rest and show it to you)
                 </li>
                 <li>
                   If you want to finish the process without following the Manga, just press the &apos;Save and
@@ -146,8 +149,12 @@ function HelperDialogContent({ ShowLaterButton }: { ShowLaterButton: ReactElemen
             <AccordionContent>
               <p className="leading-6">You can use several shortcuts: </p>
               <ul className="mt-2 list-inside list-disc space-y-2 text-justify leading-6">
-                <li>⌘/Ctrl+A - quickly open the &apos;Add Manga Dialog&apos;</li>
-                <li>⌘/Ctrl+S - quickly open and close the sidebar</li>
+                <li>{getShortcutSymbols('A')} - quickly open the &apos;Add Manga Dialog&apos;</li>
+                <li>{getShortcutSymbols('S')} - quickly open and close the sidebar</li>
+                <li>
+                  You can click any Manga cover in the main view (not in the side drawer) with the {getTheMetaSymbol()}/
+                  {getTheCtrlSymbol()} to open that Manga directly in Magnadex.
+                </li>
                 <li>And many more to come...</li>
               </ul>
             </AccordionContent>

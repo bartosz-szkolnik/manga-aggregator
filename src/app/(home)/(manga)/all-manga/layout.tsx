@@ -1,7 +1,7 @@
 import { Separator } from '@components/ui/separator';
 import { TabLinkContainer, TabLink } from '@components/ui/tab-link';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { getTheMetaSymbol } from '@utils/common';
+import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { ReactNode, Suspense } from 'react';
 import Loading from '../../loading';
 import { createServerClient } from '@utils/supabase/server';
@@ -20,7 +20,8 @@ export default async function AllMangaLayout({ children }: { children: ReactNode
           <p className="text-sm text-muted-foreground">Here&apos;s a list of all available manga.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
-              If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
+              If you click with the {getTheMetaSymbol()}/{getTheCtrlSymbol()} button pressed, you can open any of them
+              directly on MangaDex.
             </strong>
           </p>
         </div>

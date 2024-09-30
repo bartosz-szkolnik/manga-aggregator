@@ -6,7 +6,7 @@ import { OpenAllButton } from './open-all-button';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { Metadata } from 'next';
-import { getTheMetaSymbol } from '@utils/common';
+import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { unauthorized } from '@utils/auth';
 
 export const metadata: Metadata = {
@@ -39,7 +39,8 @@ export default async function UpdatedForYouPage() {
           <p className="text-sm text-muted-foreground">Recently updated mangas you follow. You can read them here.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
-              If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
+              If you click with the {getTheMetaSymbol()}/{getTheCtrlSymbol()} button pressed, you can open any of them
+              directly on MangaDex.
             </strong>
           </p>
         </div>

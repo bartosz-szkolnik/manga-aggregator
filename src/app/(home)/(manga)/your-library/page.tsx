@@ -3,7 +3,7 @@ import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { Manga } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
 import { unauthorized } from '@utils/auth';
-import { getTheMetaSymbol } from '@utils/common';
+import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { Metadata } from 'next';
@@ -37,7 +37,8 @@ export default async function InYourLibraryPage() {
           <p className="text-sm text-muted-foreground">All of your Mangas in one place. You can browse them here.</p>
           <p className="mt-16">
             <strong className="text-sm text-muted-foreground">
-              If you click with the {getTheMetaSymbol()} button pressed, you can open any of them directly on MangaDex.
+              If you click with the {getTheMetaSymbol()}/{getTheCtrlSymbol()} button pressed, you can open any of them
+              directly on MangaDex.
             </strong>
           </p>
         </div>
