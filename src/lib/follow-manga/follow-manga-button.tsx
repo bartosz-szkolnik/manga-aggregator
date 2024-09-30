@@ -18,6 +18,7 @@ import { ActionButton } from '@components/ui/form';
 import { ActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
+import { getRandomFollowDialogClosingMessage } from '@lib/dialog-closing-messages';
 
 type FollowMangaButton = {
   mangaId: string;
@@ -67,10 +68,7 @@ export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMan
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure you want to unfollow this manga?</DialogTitle>
-          <DialogDescription>
-            What about all the memories you&apos;ve made with it? All of the characters? Don&apos;t make the main
-            heroine cry.
-          </DialogDescription>
+          <DialogDescription>{getRandomFollowDialogClosingMessage()}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>

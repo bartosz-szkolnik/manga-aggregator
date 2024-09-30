@@ -65,7 +65,7 @@ export function UpdateProgressForm({
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-4">
               <AllCaughtUpButton isCaughtUp={isCaughtUp} mangaId={mangaId} onSuccess={() => setOpen(false)} />
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -92,7 +92,7 @@ export function UpdateProgressForm({
               </FormControl>
             </div>
           </CardContent>
-          <CardFooter className="justify-between space-x-2">
+          <CardFooter className="justify-between space-x-2 pb-2">
             <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
               Cancel
             </Button>

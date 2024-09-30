@@ -18,6 +18,7 @@ import { ActionButton } from '@components/ui/form';
 import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
+import { getRandomCommonClosingMessage } from '@lib/dialog-closing-messages';
 
 type FavoriteMangaButtonProps = {
   mangaId: string;
@@ -67,10 +68,7 @@ export function FavoriteMangaButton({ mangaId, className, isFavorite }: Favorite
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure you want to remove this manga from your favorites?</DialogTitle>
-          <DialogDescription>
-            What about all the memories you&apos;ve made with it? All of the characters? Don&apos;t make the main
-            heroine cry.
-          </DialogDescription>
+          <DialogDescription>{getRandomCommonClosingMessage()}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>

@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';
 import { ActionButton } from '@components/ui/form';
+import { getRandomCommonClosingMessage } from '@lib/dialog-closing-messages';
 
 export function AddMangaToUserLibraryButton({
   mangaId,
@@ -69,7 +70,7 @@ export function AddMangaToUserLibraryButton({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure you want to remove this manga from your library?</DialogTitle>
-          <DialogDescription>But remember to drink water ok?</DialogDescription>
+          <DialogDescription>{getRandomCommonClosingMessage()}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
           <Button onClick={() => setOpen(false)} variant={'secondary'}>
