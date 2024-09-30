@@ -26,7 +26,7 @@ export function ProfileMangaDataForm({ submitAction, state, closeModal }: Profil
     const isMangaFinished = data.mangaStatus === 'completed';
 
     setValues({
-      latestChapterRead: data.mangaLatestChapter.chapter,
+      latestChapterRead: data.mangaLatestChapter.chapter ?? '0',
       readingStatus: isMangaFinished ? 'finished reading' : 'reading',
     });
   }
@@ -51,7 +51,7 @@ export function ProfileMangaDataForm({ submitAction, state, closeModal }: Profil
 
       <div className="flex items-end justify-start gap-6">
         <LatestChapterRead
-          latestChapter={latestChapter}
+          latestChapter={latestChapter ?? '0'}
           latestChapterRead={values.latestChapterRead}
           className="min-w-64 max-w-64"
           setValue={value => setValues(values => ({ ...values, latestChapterRead: value }))}
