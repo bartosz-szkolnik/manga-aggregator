@@ -4,6 +4,8 @@
 
 This little app was built to check and notify me (and you) when some new chapters, from mangas that I (and you) follow, have been uploaded.
 
+Build with Next.js, React, TypeScript, Tailwind and Shadcn/ui.
+
 
 <!-- TODO add website link when it's hosted -->
 <!-- TODO add image of how the app looks -->
