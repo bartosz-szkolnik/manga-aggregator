@@ -1,6 +1,6 @@
 import { createBrowserClient } from 'npm:@supabase/ssr';
 import { Database } from './database.types.ts';
-import { PostgrestError } from '@supabase/supabase-js';
+import { PostgrestError } from 'npm:@supabase/supabase-js';
 
 // Automatically load environment variables from a `.env` file
 // import "@std/dotenv/load";
