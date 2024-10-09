@@ -17,8 +17,21 @@ export function createSupabaseBrowserClient(req: Request) {
   );
 }
 
+const SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+
+if (!SERVICE_KEY) {
+  throw new Error('Key is undefined');
+}
+
 export function serveHandler(callback: (client: SupabaseBrowserClient, req: Request) => Response | Promise<Response>) {
   return (req: Request) => {
+    const key = req.headers.get('authorization')?.replace('Bearer ', '') ?? '';
+    const authorized = key === SERVICE_KEY;
+
+    if (!authorized) {
+      return new Response(undefined, { status: 401 });
+    }
+
     try {
       const client = createSupabaseBrowserClient(req);
       return callback(client, req);
