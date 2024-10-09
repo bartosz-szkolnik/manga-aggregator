@@ -2,3 +2,5 @@
 .branches
 .temp
 .env
+
+private_seed.sql
