@@ -83,7 +83,7 @@ const SidebarTrigger = forwardRef<HTMLButtonElement, ComponentProps<'button'>>((
 
   return (
     <Button ref={ref} variant="ghost" size="icon" className={className} onClick={() => setOpen(!open)} {...props}>
-      <ChevronsRight className=""></ChevronsRight>
+      <ChevronsRight></ChevronsRight>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

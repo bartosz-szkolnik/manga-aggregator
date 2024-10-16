@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Zinc theme */
 @layer base {
   :root {
     --radius: 0.75rem;
