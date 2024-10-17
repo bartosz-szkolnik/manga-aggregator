@@ -86,7 +86,13 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
 
     return (
       <Sheet key={mangadex_id}>
-        <MangaArtwork manga={manga} className="w-[250px]" width={250} height={330} chaptersBehind={chaptersBehind} />
+        <MangaArtwork
+          manga={manga}
+          className="min-w-[250px] max-w-[550px]"
+          width={250}
+          height={330}
+          chaptersBehind={chaptersBehind}
+        />
         <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
           <div className="mt-4">
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />

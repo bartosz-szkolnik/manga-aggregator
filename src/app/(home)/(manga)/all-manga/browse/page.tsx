@@ -1,4 +1,4 @@
-import { Manga } from '@lib/manga';
+import { Manga, MangaContainer } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
@@ -26,20 +26,16 @@ export default async function AllMangaBrowsePage({ searchParams }: AllMangaBrows
     return <p>Some kind of error occured</p>;
   }
 
-  return (
-    <div className="grid grid-rows-[auto_1fr] overflow-hidden">
-      {count === 0 ? (
-        <NoMangaPlaceholder
-          description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
-          showAllAvailableMangaLink={false}
-        />
-      ) : (
-        <div className="mt-8 flex flex-wrap gap-4 overflow-auto pb-4 shadow-slate-400">
-          {mangas.map(manga => (
-            <Manga key={manga.id} manga={manga} />
-          ))}
-        </div>
-      )}
-    </div>
+  return count === 0 ? (
+    <NoMangaPlaceholder
+      description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
+      showAllAvailableMangaLink={false}
+    />
+  ) : (
+    <MangaContainer>
+      {mangas.map(manga => (
+        <Manga key={manga.id} manga={manga} />
+      ))}
+    </MangaContainer>
   );
 }

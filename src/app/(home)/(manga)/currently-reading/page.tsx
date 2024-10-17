@@ -1,6 +1,6 @@
 import { Separator } from '@components/ui/separator';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { Manga } from '@lib/manga';
+import { Manga, MangaContainer } from '@lib/manga';
 import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
@@ -31,7 +31,7 @@ export default async function CurrentlyReadingPage() {
 
   const mangas = data.toSorted(sort).flatMap(({ manga }) => (manga ? [manga] : []));
   return (
-    <div className="flex max-h-full flex-col">
+    <>
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Currectly Reading Mangas</h2>
@@ -51,15 +51,13 @@ export default async function CurrentlyReadingPage() {
       {count === 0 ? (
         <NoMangaPlaceholder text="You are all caught up! Good job!" />
       ) : (
-        <div className="flex-1 overflow-auto">
-          <div className="flex flex-wrap gap-4 pb-4">
-            {mangas.map(manga => (
-              <Manga key={manga.id} manga={manga} />
-            ))}
-          </div>
-        </div>
+        <MangaContainer>
+          {mangas.map(manga => (
+            <Manga key={manga.id} manga={manga} />
+          ))}
+        </MangaContainer>
       )}
-    </div>
+    </>
   );
 }
 

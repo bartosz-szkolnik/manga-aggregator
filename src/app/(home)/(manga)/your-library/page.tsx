@@ -1,7 +1,7 @@
 import { Separator } from '@components/ui/separator';
 import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { Manga } from '@lib/manga';
-import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder/no-mangas-placeholder';
+import { Manga, MangaContainer } from '@lib/manga';
+import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
 import { unauthorized } from '@utils/auth';
 import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { logger } from '@utils/server/logger';
@@ -50,13 +50,11 @@ export default async function InYourLibraryPage() {
       {count === 0 ? (
         <NoMangaPlaceholder showYourLibraryLink={false} />
       ) : (
-        <div className="flex-1 overflow-auto">
-          <div className="flex flex-wrap gap-4 pb-4">
-            {mangas.map(manga => (
-              <Manga key={manga.id} manga={manga} />
-            ))}
-          </div>
-        </div>
+        <MangaContainer>
+          {mangas.map(manga => (
+            <Manga key={manga.id} manga={manga} />
+          ))}
+        </MangaContainer>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import { Separator } from '@components/ui/separator';
-import { Manga } from '@lib/manga';
+import { Manga, MangaContainer } from '@lib/manga';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { OpenAllButton } from './open-all-button';
@@ -32,7 +32,7 @@ export default async function UpdatedForYouPage() {
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   const mangaIds = mangas.map(manga => manga.mangadex_id);
   return (
-    <div className="flex max-h-full flex-col">
+    <>
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Updated for You</h2>
@@ -53,14 +53,12 @@ export default async function UpdatedForYouPage() {
       {count === 0 ? (
         <NoMangaPlaceholder text="You are all caught up! Good job!" />
       ) : (
-        <div className="flex-1 overflow-auto">
-          <div className="flex flex-wrap gap-4 pb-4">
-            {mangas.map(manga => (
-              <Manga key={manga.id} manga={manga} />
-            ))}
-          </div>
-        </div>
+        <MangaContainer>
+          {mangas.map(manga => (
+            <Manga key={manga.id} manga={manga} />
+          ))}
+        </MangaContainer>
       )}
-    </div>
+    </>
   );
 }

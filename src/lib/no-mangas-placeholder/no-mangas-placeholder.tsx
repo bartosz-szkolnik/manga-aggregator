@@ -1,6 +1,6 @@
 import { buttonVariants } from '@components/ui/button';
 import { Link } from '@components/ui/link';
-import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
+import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
 import { OpenMangaDexButton } from '@lib/open-mangadex-button';
 import { cn } from '@utils/utils';
 import { BookOpenText } from 'lucide-react';

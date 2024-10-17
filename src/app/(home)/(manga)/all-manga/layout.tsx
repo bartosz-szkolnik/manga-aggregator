@@ -30,7 +30,7 @@ export default async function AllMangaLayout({ children }: { children: ReactNode
         </div>
       </div>
       <Separator className="my-4" />
-      <div className="my-6 flex items-center justify-between">
+      <div className="mb-10 mt-6 flex flex-wrap items-center justify-between gap-4">
         <TabLinkContainer>
           <TabLink href="/all-manga/browse">
             <BookCopy className="mr-2 h-5 w-5" />
