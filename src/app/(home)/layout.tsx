@@ -13,7 +13,7 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
       <Sidebar className="px-2 py-6">
         <SidebarContents />
       </Sidebar>
-      <main className="m-3 grid max-h-screen w-full grid-rows-[auto_1fr] rounded-md bg-background shadow-lg shadow-slate-400 dark:shadow-none">
+      <main className="grid max-h-screen w-full grid-rows-[auto_1fr] rounded-md bg-background shadow-lg shadow-slate-400 dark:shadow-none md:m-3">
         <div className="ml-4 mt-4 flex">
           <SidebarTrigger />
           <Breadcrumbs />

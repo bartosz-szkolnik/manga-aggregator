@@ -24,7 +24,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
         <ServiceWorkerProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <div className="flex max-h-screen bg-gradient-to-r from-gradient-from to-gradient-to">{children}</div>
+            <div className="flex max-h-screen md:bg-gradient-to-r md:from-gradient-from md:to-gradient-to">
+              {children}
+            </div>
           </ThemeProvider>
         </ServiceWorkerProvider>
         <Toaster />
