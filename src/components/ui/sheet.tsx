@@ -70,20 +70,24 @@ const sheetVariants = cva(
 
 interface SheetContentProps
   extends ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants> {
+  showCloseChevron?: boolean;
+}
 
 const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = 'right', className, children, ...props }, ref) => (
+  ({ side = 'right', className, children, showCloseChevron = true, ...props }, ref) => (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
         {children}
-        <SheetPrimitive.Close className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent">
-            <ChevronsRight className="h-6 w-6" />
-          </div>
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
+        {showCloseChevron && (
+          <SheetPrimitive.Close className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent">
+              <ChevronsRight className="h-6 w-6" />
+            </div>
+            <span className="sr-only">Close</span>
+          </SheetPrimitive.Close>
+        )}
       </SheetPrimitive.Content>
     </SheetPortal>
   ),

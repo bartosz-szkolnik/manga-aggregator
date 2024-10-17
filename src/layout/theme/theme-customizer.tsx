@@ -33,7 +33,7 @@ export function ThemeCustomizer({ defaultColor }: { defaultColor: string }) {
             <Palette />
           </Button>
         </SheetTrigger>
-        <SheetContent className="p-6 pt-0" side="bottom">
+        <SheetContent showCloseChevron={false} className="p-6 pt-0" side="bottom">
           <Customizer color={color} setColor={setColor} />
         </SheetContent>
       </Sheet>
