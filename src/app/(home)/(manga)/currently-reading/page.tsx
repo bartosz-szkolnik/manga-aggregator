@@ -21,7 +21,7 @@ export default async function CurrentlyReadingPage() {
 
   const { data, error, count } = await supabase
     .from('profile_manga')
-    .select('latest_chapter_read ,manga(*)', { count: 'exact' })
+    .select('latest_chapter_read, manga(*)', { count: 'exact' })
     .match({ profile_id: userId, reading_status: 'reading' });
 
   if (error) {
@@ -29,7 +29,10 @@ export default async function CurrentlyReadingPage() {
     return <p>Some kind of error occured</p>;
   }
 
-  const mangas = data.toSorted(sort).flatMap(({ manga }) => (manga ? [manga] : []));
+  const mangas = data
+    .filter(({ latest_chapter_read, manga }) => !isUpToDate({ latest_chapter_read, manga }))
+    .toSorted(sort)
+    .flatMap(({ manga }) => (manga ? [manga] : []));
   return (
     <>
       <div className="flex items-center justify-between">
@@ -61,6 +64,7 @@ export default async function CurrentlyReadingPage() {
   );
 }
 
+// TODO: What did I want to achieve with this?
 type Sortable = { latest_chapter_read: string | null; manga: MangaType | null };
 function sort(left: Sortable, right: Sortable) {
   const isLeftUpToDate = isUpToDate(left);
