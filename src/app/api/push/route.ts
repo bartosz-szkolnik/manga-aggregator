@@ -1,6 +1,7 @@
 import { invariant } from '@utils/utils';
 import { createClient, PushClientAuthorizationError, PushSubscription, WebPushError } from '@utils/push/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@utils/server/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
     await client.send(apiKey, json);
     return NextResponse.json({ message: 'Sent', statusCode: 200 }, { status: 200 });
   } catch (err) {
+    logger.error(err);
     if (err instanceof PushClientAuthorizationError) {
       return NextResponse.json({ message: 'Unauthorized', statusCode: 401 }, { status: 401 });
     }

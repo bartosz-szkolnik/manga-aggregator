@@ -12,7 +12,7 @@ let checkedOnce = false;
 export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: boolean }) {
   const [, startTransition] = useTransition();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  // custom pending because transition doesn't cover all of the necessary actions performed
+  // Custom pending because transition doesn't cover all of the necessary actions performed
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
