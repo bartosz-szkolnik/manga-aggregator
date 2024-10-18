@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { buttonVariants } from '@components/ui/button';
 import { Link } from '@components/ui/link';
 import { cn } from '@utils/utils';
 
@@ -18,7 +17,10 @@ export function NavigationLink({ className, children, condition = true, ...props
   }
 
   return (
-    <Link {...props} className={buttonVariants({ variant: 'ghost', className: cn('w-full justify-start', className) })}>
+    <Link
+      {...props}
+      className={cn('flex w-full items-center rounded-lg border-none bg-none p-[0.85rem] text-left', className)}
+    >
       {children}
     </Link>
   );

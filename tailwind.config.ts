@@ -47,6 +47,8 @@ const config = {
         gradient: {
           from: 'var(--gradient-from)',
           to: 'var(--gradient-to)',
+          'from-hover': 'var(--gradient-from-hover)',
+          'from-active': 'var(--gradient-from-active)',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

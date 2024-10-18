@@ -18,12 +18,12 @@ export const routes = {
       title: 'Manga',
       url: '/all-manga',
       icon: BookOpen,
-      isActive: true,
+      defaultOpen: true,
       match: ['/all-manga'],
       isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
         {
-          title: 'All Available Manga',
+          title: 'All Manga',
           url: '/all-manga',
           description: 'Browse all available mangas',
           countKey: 'allManga' as const,
@@ -37,7 +37,7 @@ export const routes = {
       title: 'Manga',
       url: '/',
       icon: BookOpen,
-      isActive: true,
+      defaultOpen: true,
       match: ['/updated', '/currently-reading', '/your-library', '/all-manga'],
       isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
@@ -63,7 +63,7 @@ export const routes = {
           icon: Library,
         },
         {
-          title: 'All Available Manga',
+          title: 'All Manga',
           url: '/all-manga',
           description: 'Browse all available mangas',
           countKey: 'allManga' as const,

@@ -5,13 +5,17 @@
 @layer base {
   :root {
     --radius: 0.75rem;
-    --gradient-from: #bfdbfe;
-    --gradient-to: #a5f3fc;
+    --gradient-from: hsl(213, 97%, 87%);
+    --gradient-from-hover: hsl(213, 77%, 82%);
+    --gradient-from-active: hsl(213, 77%, 77%);
+    --gradient-to: hsl(186, 94%, 82%);
   }
 
   .dark {
-    --gradient-from: #0a0a1d;
-    --gradient-to: #1a091d;
+    --gradient-from: hsl(240, 49%, 8%);
+    --gradient-from-hover: hsl(291, 53%, 22%);
+    --gradient-from-active: hsl(291, 53%, 27%);
+    --gradient-to: hsl(291, 53%, 7%);
   }
 
   /* Zinc theme */

@@ -21,7 +21,7 @@ export async function Navigation({ className }: NavigationProps) {
   if (!userId) {
     return (
       <nav>
-        <ul className={cn('grid gap-0.5', className)}>
+        <ul className={cn('grid gap-1', className)}>
           {routes.userNotLoggedIn.map(item => (
             <NavigationItem key={item.title} {...item} />
           ))}
@@ -41,7 +41,7 @@ export async function Navigation({ className }: NavigationProps) {
 
   return (
     <nav>
-      <ul className={cn('grid gap-0.5', className)}>
+      <ul className={cn('grid gap-1', className)}>
         {items.map(item => {
           return <NavigationItem key={item.title} {...item} profile={profile!}></NavigationItem>;
         })}

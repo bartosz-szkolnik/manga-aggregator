@@ -17,7 +17,7 @@ export type LinkProps = NextLinkProps & {
 
 export function Link({
   children,
-  activeClassName = 'active-link bg-accent text-accent-foreground',
+  activeClassName = 'active-link bg-gradient-from-active text-accent-foreground',
   className = '',
   href,
   disabled = false,
