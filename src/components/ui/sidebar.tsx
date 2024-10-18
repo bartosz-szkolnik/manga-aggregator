@@ -3,7 +3,7 @@
 import { ChevronsRight } from 'lucide-react';
 import { cn } from '@utils/utils';
 import { Button } from './button';
-import { Sheet, SheetContent } from './sheet';
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from './sheet';
 import { useIsMobile } from '@utils/hooks/is-mobile';
 import { saveToCookies } from '@utils/cookies';
 import {
@@ -64,7 +64,7 @@ const SidebarLayout = forwardRef<
         data-sidebar={state}
         style={{ '--sidebar-width': '20rem' } as CSSProperties}
         className={cn(
-          'flex min-h-screen w-full pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width]',
+          'flex min-h-screen w-full pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 md:pl-[--sidebar-width]',
           className,
         )}
         {...props}
@@ -104,6 +104,8 @@ const SidebarRoot = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ classNa
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent className="w-full p-0 md:w-[--sidebar-width] [&>button]:hidden" side="left">
+          <SheetTitle className="sr-only">{`Here's a sidebar with navigation`}</SheetTitle>
+          <SheetDescription></SheetDescription>
           {sidebar}
         </SheetContent>
       </Sheet>

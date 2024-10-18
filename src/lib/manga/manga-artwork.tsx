@@ -25,7 +25,7 @@ export function MangaArtwork({
 }: MangaArtworkProps) {
   return (
     <figure className={cn('space-y-3', className)} {...props}>
-      <CustomLogicSheetTrigger customOnClick={() => openMangaDex(manga.mangadex_id)}>
+      <CustomLogicSheetTrigger className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
         <MangaImage
           imageUrl={manga.image_url}
           title={manga.title}

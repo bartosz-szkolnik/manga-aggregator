@@ -3,6 +3,8 @@
 import { Button } from '@components/ui/button';
 import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@components/ui/sheet';
 import { openMangaDex } from './manga-utils';
+import { useIsMobile } from '@utils/hooks/is-mobile';
+import { cn } from '@utils/utils';
 
 export type MangaDrawerProps = {
   children: React.ReactNode;
@@ -12,8 +14,13 @@ export type MangaDrawerProps = {
 };
 
 export function MangaDrawer({ children, title, mangaDexId, description }: MangaDrawerProps) {
+  const isMobile = useIsMobile();
   return (
-    <SheetContent className="flex h-full flex-col overflow-auto">
+    <SheetContent
+      className={cn('flex h-full flex-col overflow-auto', {
+        'w-full': isMobile,
+      })}
+    >
       <SheetHeader className="mb-2 mt-8">
         <SheetTitle className="cursor-pointer text-center text-2xl" onClick={() => openMangaDex(mangaDexId)}>
           {title}
