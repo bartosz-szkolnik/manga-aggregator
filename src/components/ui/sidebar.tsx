@@ -76,8 +76,9 @@ SidebarLayout.displayName = 'SidebarLayout';
 
 const SidebarTrigger = forwardRef<HTMLButtonElement, ComponentProps<'button'>>(({ className, ...props }, ref) => {
   const { open, setOpen } = useSidebar();
+  const isMobile = useIsMobile();
 
-  if (open) {
+  if (open && !isMobile) {
     return;
   }
 

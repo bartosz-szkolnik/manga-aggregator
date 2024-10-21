@@ -88,7 +88,7 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
       <Sheet key={mangadex_id}>
         <MangaArtwork
           manga={manga}
-          className="min-w-[250px] max-w-[550px]"
+          className="min-w-[250px] max-w-[550px] md:max-w-[350px]"
           width={250}
           height={330}
           chaptersBehind={chaptersBehind}
