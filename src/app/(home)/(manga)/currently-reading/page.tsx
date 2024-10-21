@@ -35,7 +35,7 @@ export default async function CurrentlyReadingPage() {
     .flatMap(({ manga }) => (manga ? [manga] : []));
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Currectly Reading Mangas</h2>
           <p className="text-sm text-muted-foreground">Currently reading mangas. You can read them here.</p>

@@ -33,7 +33,7 @@ export default async function UpdatedForYouPage() {
   const mangaIds = mangas.map(manga => manga.mangadex_id);
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Updated for You</h2>
           <p className="text-sm text-muted-foreground">Recently updated mangas you follow. You can read them here.</p>

@@ -30,8 +30,8 @@ export default async function InYourLibraryPage() {
 
   const mangas = data.flatMap(({ manga }) => (manga ? [manga] : []));
   return (
-    <div className="grid max-h-full grid-rows-[auto_1fr] overflow-hidden">
-      <div className="flex items-center justify-between">
+    <div className="max-h-full">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Your Library</h2>
           <p className="text-sm text-muted-foreground">All of your Mangas in one place. You can browse them here.</p>

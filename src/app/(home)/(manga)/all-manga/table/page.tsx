@@ -32,7 +32,7 @@ export default async function AllMangaTablePage({ searchParams }: AllMangaTableP
   return (
     <div>
       <AllMangaTable mangas={data} supabase={supabase} userId={userId} />
-      <div className="flex justify-end">
+      <div className="flex flex-col justify-end gap-4 md:flex-row">
         <TablePagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} />
         <TablePageSizeSelect size={size} />
       </div>

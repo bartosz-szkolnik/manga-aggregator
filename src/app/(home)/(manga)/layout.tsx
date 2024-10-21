@@ -14,7 +14,7 @@ export default async function MangaLayout({ children }: { children: ReactNode })
   const helperModalOpenedPreviously = cookies().get('helper-modal')?.value === 'true';
 
   return (
-    <div className="grid grid-rows-[auto_auto_auto_auto_1fr] overflow-hidden px-4 py-6 lg:px-8">
+    <div className="overflow-auto px-4 py-6 lg:px-8">
       {verifyAccess(profile).includes('read-own') && <Statistics supabase={supabase} userId={userId!} />}
       {children}
       {verifyAccess(profile).includes('add') && <AddMangaViaShortcut />}
