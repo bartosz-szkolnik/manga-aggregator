@@ -6,6 +6,7 @@ import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDebounce } from '@utils/hooks/debounce';
 
 const DELAY_300MS = 300;
+let VALUE_ENTERED = false;
 
 export function FilterInput({ onlyFilterSearchParam }: { onlyFilterSearchParam: boolean }) {
   const searchParams = useSearchParams();
@@ -38,11 +39,18 @@ export function FilterInput({ onlyFilterSearchParam }: { onlyFilterSearchParam: 
   );
 
   function handleFilterChange(e: FormEvent<HTMLInputElement>) {
+    VALUE_ENTERED = true;
     setFilter(e.currentTarget.value);
   }
 
   useEffect(() => {
-    router.replace(pathname + '?' + createQueryString('filter', debouncedFilter));
+    const newQueryString = createQueryString('filter', debouncedFilter);
+    // TODO is there a better way to handle it?
+    if (!VALUE_ENTERED) {
+      return;
+    }
+
+    router.replace(pathname + '?' + newQueryString);
   }, [debouncedFilter, router, createQueryString, pathname]);
 
   return (
