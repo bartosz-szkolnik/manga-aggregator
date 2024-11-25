@@ -1,7 +1,7 @@
 'use client';
 
 import { Description, ErrorMessage, Form, FormControl, Input, Label, SubmitButton } from '@components/ui/form';
-import { useFormState as useActionState } from 'react-dom';
+import { useActionState } from 'react';
 import { toast } from 'sonner';
 import { updateProfile } from './profile-action';
 import { FormActionResultErrors } from '@utils/types';

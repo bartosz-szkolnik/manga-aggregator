@@ -10,8 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { useState } from 'react';
-import { useFormState as useActionState } from 'react-dom';
+import { useState, useActionState } from 'react';
 import { signOut } from './sign-out-action';
 import { ActionButton } from '@components/ui/form';
 import { LogOut } from 'lucide-react';

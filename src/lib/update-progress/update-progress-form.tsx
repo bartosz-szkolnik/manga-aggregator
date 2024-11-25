@@ -6,10 +6,9 @@ import { ErrorMessage, Form, FormControl, Label, SubmitButton } from '@component
 import { ChangePrioritySelect } from '@lib/change-priority';
 import { ChangeReadingStatusSelect } from '@lib/change-reading-status';
 import { ReadingStatus, Priority } from '@lib/types/manga.types';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import { updateProgress } from './update-progress-action';
 import { AllCaughtUpButton } from './all-caught-up-button';
-import { useFormState as useActionState } from 'react-dom';
 import { FormActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';

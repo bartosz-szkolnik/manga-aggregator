@@ -10,10 +10,11 @@ export const metadata: Metadata = {
 };
 
 type AllMangaTableProps = {
-  searchParams: { page: string; size: string; filter: string };
+  searchParams: Promise<{ page: string; size: string; filter: string }>;
 };
 
-export default async function AllMangaTablePage({ searchParams }: AllMangaTableProps) {
+export default async function AllMangaTablePage(props: AllMangaTableProps) {
+  const searchParams = await props.searchParams;
   const { supabase, userId } = await createServerClient();
   const filter = searchParams.filter ?? '';
   const count = await getCount(supabase, filter);

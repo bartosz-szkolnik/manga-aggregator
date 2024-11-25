@@ -1,6 +1,5 @@
 'use client';
 
-import { useFormState as useActionState } from 'react-dom';
 import { Button } from '@components/ui/button';
 import { favoriteManga } from './favorite-manga-action';
 import {
@@ -13,7 +12,7 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import { ActionButton } from '@components/ui/form';
 import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';

@@ -9,10 +9,11 @@ export const metadata: Metadata = {
 };
 
 type AllMangaBrowseProps = {
-  searchParams: { filter: string };
+  searchParams: Promise<{ filter: string }>;
 };
 
-export default async function AllMangaBrowsePage({ searchParams }: AllMangaBrowseProps) {
+export default async function AllMangaBrowsePage(props: AllMangaBrowseProps) {
+  const searchParams = await props.searchParams;
   const { supabase } = await createServerClient();
   const { filter } = searchParams;
   const {

@@ -1,7 +1,7 @@
 'use client';
 
 import { AuthForm } from '@components/auth';
-import { useFormState as useActionState } from 'react-dom';
+import { useActionState } from 'react';
 import { signIn } from './action';
 import { toast } from 'sonner';
 import { FormActionResultErrors } from '@utils/types';

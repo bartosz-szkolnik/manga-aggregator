@@ -1,6 +1,5 @@
 'use client';
 
-import { useFormState as useActionState } from 'react-dom';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -11,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';
 import { exhaustiveCheck } from '@utils/utils';

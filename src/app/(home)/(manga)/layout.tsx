@@ -11,7 +11,7 @@ import { ReactNode } from 'react';
 
 export default async function MangaLayout({ children }: { children: ReactNode }) {
   const { supabase, userId, profile } = await createServerClient();
-  const helperModalOpenedPreviously = cookies().get('helper-modal')?.value === 'true';
+  const helperModalOpenedPreviously = (await cookies()).get('helper-modal')?.value === 'true';
 
   return (
     <div className="overflow-auto px-4 py-4 lg:px-8">

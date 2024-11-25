@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@components/ui/button';
-import { useFormState as useActionState } from 'react-dom';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import { Edit } from 'lucide-react';
 import { Form, FormControl, Input, ErrorMessage, SubmitButton, Label, DatePicker } from '@components/ui/form';
 import { Manga } from '@lib/types/manga.types';

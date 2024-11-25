@@ -11,8 +11,8 @@ type SidebarProps = {
   className?: string;
 };
 
-export function Sidebar({ children, className }: SidebarProps) {
-  const defaultColor = cookies().get('color')?.value ?? 'zinc';
+export async function Sidebar({ children, className }: SidebarProps) {
+  const defaultColor = (await cookies()).get('color')?.value ?? 'zinc';
 
   return (
     <SidebarRoot className={className}>

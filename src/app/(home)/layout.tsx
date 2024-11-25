@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 
 export default async function HomeLayout({ children }: { children: ReactNode }) {
-  const cookie = cookies().get('sidebar:state');
+  const cookie = (await cookies()).get('sidebar:state');
   const defaultOpen = cookie !== undefined ? cookie.value === 'true' : true;
 
   return (

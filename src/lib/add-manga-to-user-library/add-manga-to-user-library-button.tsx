@@ -1,6 +1,5 @@
 'use client';
 
-import { useFormState as useActionState } from 'react-dom';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -12,7 +11,7 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import { addToUserLibrary } from './add-manga-to-user-library-action';
 import { toast } from 'sonner';
 import { ActionResultErrors } from '@utils/types';

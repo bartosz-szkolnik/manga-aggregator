@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const defaultColor = cookies().get('color')?.value ?? 'zinc';
+  const defaultColor = (await cookies()).get('color')?.value ?? 'zinc';
 
   return (
     <html lang="en" className={defaultColor} suppressHydrationWarning>

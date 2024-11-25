@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState as useActionState } from 'react-dom';
+import { useActionState } from 'react';
 import { toast } from 'sonner';
 import { signUp } from './action';
 import { FormActionResultErrors } from '@utils/types';

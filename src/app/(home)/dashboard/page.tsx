@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 };
 
 type AdminDashboardProps = {
-  searchParams: { page: string; size: string; filter: string };
+  searchParams: Promise<{ page: string; size: string; filter: string }>;
 };
 
-export default async function AdminDashboardPage({ searchParams }: AdminDashboardProps) {
+export default async function AdminDashboardPage(props: AdminDashboardProps) {
+  const searchParams = await props.searchParams;
   const { supabase, user, profile } = await createServerClient();
   if (!user || profile?.role !== 'admin') {
     return unauthorized();
