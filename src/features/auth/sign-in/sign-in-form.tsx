@@ -1,10 +1,10 @@
 'use client';
 
-import { AuthForm } from '@components/auth';
 import { useActionState } from 'react';
-import { signIn } from './action';
 import { toast } from 'sonner';
 import { FormActionResultErrors } from '@utils/types';
+import { AuthForm } from '../auth-form';
+import { signIn } from './sign-in-action';
 
 export function SignInForm() {
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {

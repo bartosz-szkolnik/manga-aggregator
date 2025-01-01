@@ -1,5 +1,5 @@
 import { Manga, Profile, UnCamelCasedManga } from '@manga/types';
-import { unauthorized } from '@utils/auth';
+import { unauthorized } from '@auth/utils';
 import { createServerClient } from '@utils/supabase/server';
 import { mapArrayToCamelCase, propertiesToCamelCase } from '@utils/utils';
 

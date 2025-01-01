@@ -2,12 +2,10 @@ import { Metadata } from 'next';
 import { cn } from '@utils/utils';
 import { buttonVariants } from '@components/ui/button';
 import { Link } from '@components/ui/link';
-import { SignInForm } from './form';
 import { ArrowBigLeft, UserPlus } from 'lucide-react';
+import { SignInForm } from '@auth/sign-in';
 
-export const metadata: Metadata = {
-  title: 'Sign in · Manga Aggregator',
-};
+export const metadata: Metadata = { title: 'Sign in' };
 
 export default function SignInPage() {
   return (

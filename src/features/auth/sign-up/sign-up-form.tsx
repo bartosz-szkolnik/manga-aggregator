@@ -2,9 +2,9 @@
 
 import { useActionState } from 'react';
 import { toast } from 'sonner';
-import { signUp } from './action';
 import { FormActionResultErrors } from '@utils/types';
-import { AuthForm } from '@components/auth';
+import { signUp } from './sign-up-action';
+import { AuthForm } from '@auth/auth-form';
 
 export function SignUpForm() {
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {

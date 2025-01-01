@@ -8,7 +8,7 @@ import { fetchMangasToBrowseCount } from '@manga/lib/browse/data';
 import { BrowseMangaGrid, BrowseMangaTable } from '@manga/components/views/browse';
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { LazyTableTabProps } from '@utils/pagination';
-import { verifyAccess } from '@utils/auth';
+import { verifyAccess } from '@auth/utils';
 import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
 
 export const metadata: Metadata = { title: 'Browse' };

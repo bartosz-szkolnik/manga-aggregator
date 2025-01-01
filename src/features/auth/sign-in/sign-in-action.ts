@@ -1,6 +1,6 @@
 'use server';
 
-import { authFormSchema } from '@components/auth/auth-form-schema';
+import { authFormSchema } from '@auth/auth-form';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { FormActionResult } from '@utils/types';

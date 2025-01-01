@@ -4,7 +4,7 @@ import { Sidebar } from '@layout/sidebar';
 import { Breadcrumbs } from '@lib/breadcrumbs';
 import { HelperDialog } from '@lib/helper-dialog';
 import { AddMangaViaShortcut } from '@manga/components/common/add-manga-via-shortcut';
-import { verifyAccess } from '@utils/auth';
+import { verifyAccess } from '@auth/utils';
 import { cookies } from 'next/headers';
 import { ReactNode, Suspense } from 'react';
 

@@ -1,4 +1,4 @@
-import { unauthorized } from '@utils/auth';
+import { unauthorized } from '@auth/utils';
 import { getAmountOfPages, getPage, getPagination, getSize, PaginationParams } from '@utils/pagination';
 import { createServerClient } from '@utils/supabase/server';
 import { mapArrayToCamelCase, propertiesToCamelCase } from '@utils/utils';

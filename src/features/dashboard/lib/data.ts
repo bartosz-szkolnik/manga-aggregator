@@ -1,5 +1,5 @@
 import { MangaTableResponse } from '@manga/lib/types';
-import { unauthorized } from '@utils/auth';
+import { unauthorized } from '@auth/utils';
 import { getAmountOfPages, getPage, getPagination, getSize } from '@utils/pagination';
 import { createServerClient } from '@utils/supabase/server';
 import { mapArrayToCamelCase } from '@utils/utils';

@@ -3,7 +3,7 @@ import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import { Separator } from '@components/ui/separator';
 import { fetchRecommendedMangas, fetchMangasReadCount, fetchMangasPlannedToReadCount } from '@home/lib/data';
 import { MangaPortrait } from '@manga/components/artwork';
-import { verifyAccess } from '@utils/auth';
+import { verifyAccess } from '@auth/utils';
 import { logger } from '@utils/server/logger';
 import { Book, BookCheck } from 'lucide-react';
 import { Metadata } from 'next';
