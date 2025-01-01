@@ -14,7 +14,7 @@ type CustomLogicSheetProps = SheetPrimitive.DialogTriggerProps & {
   customOnClick: (event: MouseEvent) => void;
 };
 
-const CustomLogicSheetTrigger = forwardRef<HTMLButtonElement, CustomLogicSheetProps>(
+const SheetTriggerWithMetaKey = forwardRef<HTMLButtonElement, CustomLogicSheetProps>(
   ({ customOnClick, onClick, ...props }, ref) => {
     function handleClick(event: MouseEvent<HTMLButtonElement>) {
       if (event.metaKey || event.ctrlKey) {
@@ -28,7 +28,7 @@ const CustomLogicSheetTrigger = forwardRef<HTMLButtonElement, CustomLogicSheetPr
     return <SheetTrigger {...props} ref={ref} onClick={handleClick} />;
   },
 );
-CustomLogicSheetTrigger.displayName = 'CustomLogicSheetTrigger';
+SheetTriggerWithMetaKey.displayName = 'SheetTriggerWithMetaKey';
 
 const SheetClose = SheetPrimitive.Close;
 
@@ -131,5 +131,5 @@ export {
   SheetFooter,
   SheetTitle,
   SheetDescription,
-  CustomLogicSheetTrigger,
+  SheetTriggerWithMetaKey,
 };

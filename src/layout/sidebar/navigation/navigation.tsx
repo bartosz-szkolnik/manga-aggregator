@@ -13,29 +13,30 @@ import {
   getAllMangaCount,
 } from '@lib/count-functions';
 
-export type NavigationProps = ComponentProps<'ul'>;
+export type NavigationProps = ComponentProps<'ul'> & {
+  userId: string | undefined;
+  profile: Profile | null;
+};
 
-export async function Navigation({ className }: NavigationProps) {
-  const { supabase, userId, profile } = await createServerClient();
-
+export async function Navigation({ className, userId, profile }: NavigationProps) {
   if (!userId) {
     return (
       <nav>
         <ul className={cn('grid gap-1', className)}>
           {routes.userNotLoggedIn.map(item => (
-            <NavigationItem key={item.title} {...item} />
+            <NavigationItem key={item.title} {...item} profile={profile} />
           ))}
         </ul>
       </nav>
     );
   }
 
-  const countValues = await getNavigationData(supabase, userId);
+  // const countValues = await getNavigationData(supabase, userId);
   const items = routes.userLoggedIn.map(item => ({
     ...item,
     items: item.items.map(subItem => ({
       ...subItem,
-      count: getCountForItem(subItem, countValues),
+      // count: getCountForItem(subItem, countValues),
     })),
   }));
 
@@ -43,39 +44,39 @@ export async function Navigation({ className }: NavigationProps) {
     <nav>
       <ul className={cn('grid gap-1', className)}>
         {items.map(item => {
-          return <NavigationItem key={item.title} {...item} profile={profile!}></NavigationItem>;
+          return <NavigationItem key={item.title} {...item} profile={profile} />;
         })}
       </ul>
     </nav>
   );
 }
 
-function getNavigationData(supabase: SupabaseBrowserClient, userId: Profile['id']) {
-  const args = [supabase, userId] as const;
-  return Promise.all([
-    getUpdatedMangasCount(...args),
-    getCurrentlyReadCount(...args),
-    getAllMangaInUserLibraryCount(...args),
-    getAllMangaCount(...args),
-  ]);
-}
+// function getNavigationData(supabase: SupabaseBrowserClient, userId: Profile['id']) {
+//   const args = [supabase, userId] as const;
+//   return Promise.all([
+//     getUpdatedMangasCount(...args),
+//     getCurrentlyReadCount(...args),
+//     getAllMangaInUserLibraryCount(...args),
+//     getAllMangaCount(...args),
+//   ]);
+// }
 
-function getCountForItem(item: NavigationSubItemProps, countValues: Awaited<ReturnType<typeof getNavigationData>>) {
-  if (!item.countKey) {
-    return null;
-  }
+// function getCountForItem(item: NavigationSubItemProps, countValues: Awaited<ReturnType<typeof getNavigationData>>) {
+//   if (!item.countKey) {
+//     return null;
+//   }
 
-  const [updatedCount, nextUpCount, inLibraryCount, allMangaCount] = countValues;
-  switch (item.countKey) {
-    case 'updated':
-      return updatedCount;
-    case 'nextUp':
-      return nextUpCount;
-    case 'yourLibrary':
-      return inLibraryCount;
-    case 'allManga':
-      return allMangaCount;
-    default:
-      exhaustiveCheck(item.countKey);
-  }
-}
+//   const [updatedCount, nextUpCount, inLibraryCount, allMangaCount] = countValues;
+//   switch (item.countKey) {
+//     case 'updated':
+//       return updatedCount;
+//     case 'nextUp':
+//       return nextUpCount;
+//     case 'yourLibrary':
+//       return inLibraryCount;
+//     case 'allManga':
+//       return allMangaCount;
+//     default:
+//       exhaustiveCheck(item.countKey);
+//   }
+// }

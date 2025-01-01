@@ -10,8 +10,12 @@ import { inter } from '@ui/font';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Manga Aggregator',
+  title: {
+    template: '%s · Manga Aggregator',
+    default: 'Manga Aggregator',
+  },
   description: 'Here you can find all the manga you love.',
+  // metadataBase: new URL(''),
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

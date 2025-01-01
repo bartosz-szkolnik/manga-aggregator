@@ -1,11 +1,30 @@
 import { clamp } from './utils';
 
-export function getSize(size: string) {
+export type PaginationParams = {
+  count: number;
+  size: string | undefined;
+  page: string | undefined;
+  filter: string;
+};
+
+export type LazyTableTabProps = {
+  tab: string;
+  filter: string;
+  size: string;
+  page: string;
+  count: number;
+};
+
+export function getSize(size?: string) {
   const value = Number(size) || 10;
   return clamp(value, 5, 50);
 }
 
-export function getPage(page: string, amountOfPages: number) {
+export function getAmountOfPages(count: number, size: number) {
+  return Math.ceil((count ?? 0) / size);
+}
+
+export function getPage(page: string | undefined, amountOfPages: number) {
   const value = Number(page) || 1;
   return clamp(value, 1, amountOfPages);
 }

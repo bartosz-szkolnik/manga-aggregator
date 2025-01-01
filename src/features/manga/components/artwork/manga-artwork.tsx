@@ -1,0 +1,60 @@
+import { Sheet } from '@components/ui/sheet';
+import { MangaFigure } from './manga-figure';
+import { MangaPortrait } from './manga-portrait';
+import { MangaSheet } from './manga-sheet';
+import { UpdateProgressForm } from '@lib/update-progress';
+import { OpenMangaDexButton } from '@lib/open-mangadex-button';
+import { MangaUpdateUtils } from '../common/update-utils';
+import { MangaGridResponse } from '@manga/lib/types';
+
+type MangaArtworkProps = {
+  manga: MangaGridResponse['data'][number];
+};
+
+export function MangaArtwork({ manga }: MangaArtworkProps) {
+  const {
+    id,
+    title,
+    imageUrl,
+    priority,
+    readingStatus,
+    mangadexId,
+    latestChapter,
+    description,
+    latestChapterRead,
+    isInLibrary: isInUserLibrary,
+  } = manga;
+  const chaptersBehind = Number(latestChapter ?? 0) - Number(latestChapterRead ?? 0);
+
+  return (
+    <Sheet key={mangadexId}>
+      <MangaFigure
+        title={title}
+        imageUrl={imageUrl}
+        mangadexId={mangadexId}
+        className="min-w-[250px] max-w-[550px] md:max-w-[350px]"
+        width={250}
+        height={350}
+        chaptersBehind={chaptersBehind}
+      />
+      <MangaSheet mangaDexId={mangadexId} title={title} description={description}>
+        <div className="mt-4">
+          <MangaPortrait imageUrl={imageUrl} title={title} width={210} height={280} />
+        </div>
+        <div className="mt-4 grid gap-4 py-4">
+          <OpenMangaDexButton id={mangadexId} className="w-full" />
+          <MangaUpdateUtils />
+          {isInUserLibrary && (
+            <UpdateProgressForm
+              mangaId={id}
+              priority={priority ?? 'normal'}
+              latestChapter={latestChapter ?? '0'}
+              readingStatus={readingStatus ?? 'want to read'}
+              latestChapterRead={latestChapterRead ?? '0'}
+            />
+          )}
+        </div>
+      </MangaSheet>
+    </Sheet>
+  );
+}

@@ -35,3 +35,32 @@ export function removeProperty<T extends Record<string, unknown>, K extends keyo
 export function replaceImageUrlToUseImageProxy(imageUrl: string) {
   return imageUrl.replace('https://mangadex.org/covers/', '../images/');
 }
+
+export async function wait(seconds: number) {
+  return await new Promise(resolve => setTimeout(() => resolve(null), seconds * 1000));
+}
+
+export type ToCamelCase<S extends PropertyKey> = S extends `${infer Start}_${infer Rest}`
+  ? `${Start}${Capitalize<ToCamelCase<Rest>>}`
+  : S;
+
+export function toCamelCase(text: string) {
+  return text.toLowerCase().replace(/([-_][a-z])/g, group => group.toUpperCase().replace('-', '').replace('_', ''));
+}
+
+export type PropertiesToCamelCase<O extends Record<string, unknown>> = {
+  [K in keyof O as ToCamelCase<K>]: O[K];
+};
+
+export function propertiesToCamelCase<O extends Record<string, unknown>>(
+  obj: O | null,
+): Reveal<PropertiesToCamelCase<O>> {
+  const entries = Object.entries(obj || {}).map(([key, value]) => [toCamelCase(key), value]);
+  return Object.fromEntries(entries);
+}
+
+export type Reveal<T> = { [K in keyof T]: T[K] } & {};
+
+export function mapArrayToCamelCase<O extends Record<string, unknown>>(arr: O[]) {
+  return arr.map(p => propertiesToCamelCase(p));
+}

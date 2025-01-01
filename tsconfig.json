@@ -26,7 +26,10 @@
       "@lib/*": ["./src/lib/*"],
       "@type/*": ["./src/lib/types/*"],
       "@layout/*": ["./src/layout/*"],
-      "@ui/*": ["./src/ui/*"]
+      "@ui/*": ["./src/ui/*"],
+      "@manga/*": ["./src/features/manga/*"],
+      "@admin-dashboard/*": ["./src/features/dashboard/*"],
+      "@settings/*": ["./src/features/settings/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

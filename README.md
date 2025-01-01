@@ -4,7 +4,7 @@
 
 This little app was built to check and notify me (and you) when some new chapters, from mangas that I (and you) follow, have been uploaded.
 
-Build with Next.js, React, TypeScript, Tailwind and Shadcn/ui.
+Build with Next.js, React, TypeScript, Supabase, Tailwind and Shadcn/ui.
 
 You can try out the current version [here](https://manga-aggregator.vercel.app/all-manga)
 
@@ -29,8 +29,8 @@ This app integrates with [MangaDex API](https://api.mangadex.org/docs/swagger.ht
 
 ## How to run it
 
-- clone repository,
-- launch Docker,
+- clone repository
+- launch Docker
 - run `pnpm i`
 - run `pnpm supabase start`
 - run `pnpm dev`

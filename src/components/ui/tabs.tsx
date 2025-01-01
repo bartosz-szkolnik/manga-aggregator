@@ -3,8 +3,27 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cn } from '@utils/utils';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const Tabs = TabsPrimitive.Root;
+
+type QueryTabsProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Root> & {
+  queryName: string;
+};
+
+const QueryTabs = ({ queryName, ...props }: QueryTabsProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const setValue = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set(queryName, value);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  return <TabsPrimitive.Root onValueChange={value => setValue(value)} {...props} />;
+};
 
 const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, ComponentPropsWithoutRef<typeof TabsPrimitive.List>>(
   ({ className, ...props }, ref) => (
@@ -50,4 +69,4 @@ const TabsContent = forwardRef<
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-export { Tabs, TabsList, TabsTrigger, TabsContent };
+export { Tabs, TabsList, TabsTrigger, TabsContent, QueryTabs };

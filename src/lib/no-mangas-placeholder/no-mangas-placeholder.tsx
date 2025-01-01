@@ -13,7 +13,7 @@ type NoMangaPlaceholderProps = {
 };
 
 export function NoMangaPlaceholder({
-  text = 'No mangas added',
+  text = 'No mangas found',
   description = 'If you want more, you can browse for new mangas in our "All Available Manga" section. Or you can go directly to MangaDex to browse there and add it to our database.',
   showAllAvailableMangaLink = true,
   showYourLibraryLink = true,

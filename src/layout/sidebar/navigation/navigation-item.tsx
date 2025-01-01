@@ -15,7 +15,7 @@ export type NavigationItemProps = {
   items: NavigationSubItemProps[];
 };
 
-export async function NavigationItem(props: NavigationItemProps & { profile?: Profile }) {
+export async function NavigationItem(props: NavigationItemProps & { profile: Profile | null }) {
   const { title, url, match, icon: Icon, disabled = false, defaultOpen = false, items, profile, isVisibleFor } = props;
 
   if (!isVisibleFor?.includes(profile?.role ?? 'viewer')) {

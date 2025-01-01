@@ -3,7 +3,10 @@ import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Settings · Manga Aggregator',
+  title: {
+    template: '%s · Manga Aggregator',
+    default: 'Settings · Manga Aggregator',
+  },
 };
 
 export default async function SettingsLayout({ children }: { children: ReactNode }) {

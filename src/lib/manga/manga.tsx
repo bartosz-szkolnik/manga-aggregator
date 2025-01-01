@@ -15,8 +15,18 @@ import { OpenMangaDexButton } from '@lib/open-mangadex-button';
 import { EditMangaAttributesDialog } from '@lib/edit-manga-attributes';
 
 type TriggerType = 'artwork' | 'chevron-button' | 'admin-button';
+
 export type MangaProps = {
-  manga: MangaType;
+  id: MangaType['id'];
+  title: MangaType['title'];
+  description: MangaType['description'];
+  imageUrl: MangaType['image_url'];
+  lastTimeChecked: MangaType['last_time_checked'];
+  checkEveryPeriod: MangaType['check_every_period'];
+  checkEveryNumber: MangaType['check_every_number'];
+  latestChapter: MangaType['latest_chapter'];
+  mangaStatus: MangaType['manga_status'];
+  mangadexId: MangaType['mangadex_id'];
   trigger?: TriggerType;
 };
 
@@ -41,8 +51,15 @@ async function getData(supabase: SupabaseServerClient, mangaId: MangaType['id'])
   return data;
 }
 
-export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
-  const { id, title, mangadex_id, latest_chapter = '0', description } = manga;
+export async function Manga({
+  trigger = 'artwork',
+  id,
+  title,
+  mangadexId,
+  latestChapter = '0',
+  description,
+  imageUrl,
+}: MangaProps) {
   const { supabase } = await createServerClient();
   const data = await getData(supabase, id);
 
@@ -50,29 +67,29 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
 
   if (trigger === 'chevron-button') {
     return (
-      <Sheet key={mangadex_id}>
+      <Sheet key={mangadexId}>
         <SheetTrigger asChild>
           <Button size="xs">
             Open
             <ChevronRight />
           </Button>
         </SheetTrigger>
-        <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
+        <MangaDrawer mangaDexId={mangadexId} title={title} description={description}>
           <div className="mt-4">
-            <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
+            <MangaImage imageUrl={imageUrl} title={title} width={210} height={280} showAnimation={false} />
           </div>
           <div className="mt-4 grid gap-4 py-4">
-            <OpenMangaDexButton id={mangadex_id} className="w-full"></OpenMangaDexButton>
-            <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={isInLibrary} />
-            {isInLibrary && <FollowMangaButton mangaId={manga.id} isFollowing={data.is_following} />}
-            {isInLibrary && <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />}
+            <OpenMangaDexButton id={mangadexId} className="w-full"></OpenMangaDexButton>
+            <AddMangaToUserLibraryButton mangaId={id} isInLibrary={isInLibrary} />
+            {isInLibrary && <FollowMangaButton mangaId={id} isFollowing={data.is_following} />}
+            {isInLibrary && <FavoriteMangaButton mangaId={id} isFavorite={data.is_favorite} />}
             {isInLibrary && (
               <UpdateProgressForm
                 latestChapterRead={data.latest_chapter_read ?? '0'}
                 readingStatus={data.reading_status ?? 'want to read'}
-                latestChapter={manga.latest_chapter ?? '0'}
+                latestChapter={latestChapter ?? '0'}
                 priority={data.priority ?? 'normal'}
-                mangaId={manga.id}
+                mangaId={id}
               />
             )}
           </div>
@@ -82,10 +99,10 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
   }
 
   if (trigger === 'artwork') {
-    const chaptersBehind = Number(latest_chapter ?? 0) - Number(data.latest_chapter_read ?? 0);
+    const chaptersBehind = Number(latestChapter ?? 0) - Number(data.latest_chapter_read ?? 0);
 
     return (
-      <Sheet key={mangadex_id}>
+      <Sheet key={mangadexId}>
         <MangaArtwork
           manga={manga}
           className="min-w-[250px] max-w-[550px] md:max-w-[350px]"
@@ -117,25 +134,25 @@ export async function Manga({ manga, trigger = 'artwork' }: MangaProps) {
     );
   }
 
-  if (trigger === 'admin-button') {
-    return (
-      <Sheet key={mangadex_id}>
-        <SheetTrigger asChild>
-          <Button size="xs">
-            Open
-            <ChevronRight />
-          </Button>
-        </SheetTrigger>
-        <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
-          <div className="mt-4">
-            <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
-          </div>
-          <div className="mt-4 grid gap-4 py-4">
-            <RemoveMangaFromDatabaseButton mangaId={manga.id} />
-            <EditMangaAttributesDialog data={manga} />
-          </div>
-        </MangaDrawer>
-      </Sheet>
-    );
-  }
+  // if (trigger === 'admin-button') {
+  //   return (
+  //     <Sheet key={mangadex_id}>
+  //       <SheetTrigger asChild>
+  //         <Button size="xs">
+  //           Open
+  //           <ChevronRight />
+  //         </Button>
+  //       </SheetTrigger>
+  //       <MangaDrawer mangaDexId={mangadex_id} title={title} description={description}>
+  //         <div className="mt-4">
+  //           <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
+  //         </div>
+  //         <div className="mt-4 grid gap-4 py-4">
+  //           <RemoveMangaFromDatabaseButton mangaId={manga.id} />
+  //           <EditMangaAttributesDialog data={manga} />
+  //         </div>
+  //       </MangaDrawer>
+  //     </Sheet>
+  //   );
+  // }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomLogicSheetTrigger } from '@components/ui/sheet';
+import { SheetTriggerWithMetaKey } from '@components/ui/sheet';
 import { Manga } from '@lib/types/manga.types';
 import { cn } from '@utils/utils';
 import { openMangaDex } from './manga-utils';
@@ -25,7 +25,7 @@ export function MangaArtwork({
 }: MangaArtworkProps) {
   return (
     <figure className={cn('space-y-3', className)} {...props}>
-      <CustomLogicSheetTrigger className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
+      <SheetTriggerWithMetaKey className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
         <MangaImage
           imageUrl={manga.image_url}
           title={manga.title}
@@ -33,11 +33,11 @@ export function MangaArtwork({
           height={height}
           aspectRatio={aspectRatio}
         />
-      </CustomLogicSheetTrigger>
+      </SheetTriggerWithMetaKey>
       <figcaption className="space-y-1 text-sm">
-        <CustomLogicSheetTrigger className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
+        <SheetTriggerWithMetaKey className="w-full" customOnClick={() => openMangaDex(manga.mangadex_id)}>
           <h3 className="justify-center text-base font-medium leading-none">{manga.title}</h3>
-        </CustomLogicSheetTrigger>
+        </SheetTriggerWithMetaKey>
         {chaptersBehind > 0 ? (
           <p className="text-center text-sm text-muted-foreground">You&apos;re behind {chaptersBehind} chapters</p>
         ) : (

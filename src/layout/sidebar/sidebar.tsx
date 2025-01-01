@@ -3,16 +3,20 @@ import { SidebarRoot, SidebarContent, SidebarFooter, SidebarHeader, SidebarItem 
 import { SidebarIcons } from './sidebar-icons';
 import { Footer } from '@components/footer/footer';
 import { Separator } from '@components/ui/separator';
-import { cookies } from 'next/headers';
-import { SidebarContents } from './sidebar-content';
+import { SidebarContents } from './sidebar-contents';
+import { fetchSidebarData } from './data';
 
 type SidebarProps = {
   className?: string;
+  defaultColor: string;
 };
 
-export async function Sidebar({ className }: SidebarProps) {
-  const cookieValues = await cookies();
-  const defaultColor = cookieValues.get('color')?.value ?? 'zinc';
+export async function Sidebar({ className, defaultColor }: SidebarProps) {
+  const { profile, error, user, userId } = await fetchSidebarData();
+
+  if (error) {
+    return <p>Some kind of error occured.</p>;
+  }
 
   return (
     <SidebarRoot className={className}>
@@ -21,13 +25,13 @@ export async function Sidebar({ className }: SidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarItem>
-          <SidebarContents />
+          <SidebarContents profile={profile} user={user} />
         </SidebarItem>
         <div className="mx-2">
           <Separator dir="horizontal" className="bg-slate-400" />
         </div>
         <SidebarItem>
-          <Navigation />
+          <Navigation profile={profile} userId={userId} />
         </SidebarItem>
       </SidebarContent>
       <SidebarFooter>

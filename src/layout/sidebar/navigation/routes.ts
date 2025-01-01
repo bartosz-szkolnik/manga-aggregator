@@ -9,6 +9,7 @@ import {
   Contact,
   Bell,
   TvMinimalPlay,
+  Home,
 } from 'lucide-react';
 import type { NavigationItemProps } from './navigation-item';
 
@@ -16,15 +17,14 @@ export const routes = {
   userNotLoggedIn: [
     {
       title: 'Manga',
-      url: '/all-manga',
+      url: '/',
       icon: BookOpen,
       defaultOpen: true,
-      match: ['/all-manga'],
       isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
         {
-          title: 'All Manga',
-          url: '/all-manga',
+          title: 'Browse',
+          url: '/browse',
           description: 'Browse all available mangas',
           countKey: 'allManga' as const,
           icon: BookCopy,
@@ -34,13 +34,27 @@ export const routes = {
   ] satisfies NavigationItemProps[],
   userLoggedIn: [
     {
-      title: 'Manga',
+      title: 'Home',
       url: '/',
+      icon: Home,
+      isVisibleFor: ['admin', 'editor', 'viewer'],
+      items: [],
+    },
+    {
+      title: 'Manga',
+      url: '/manga',
       icon: BookOpen,
       defaultOpen: true,
-      match: ['/updated', '/currently-reading', '/your-library', '/all-manga'],
+      match: ['/updated', '/reading-now', '/your-library', '/browse'],
       isVisibleFor: ['admin', 'editor', 'viewer'],
       items: [
+        {
+          title: 'Browse',
+          url: '/browse',
+          description: 'Browse all available mangas',
+          countKey: 'allManga' as const,
+          icon: BookCopy,
+        },
         {
           title: 'Updated',
           url: '/updated',
@@ -49,8 +63,8 @@ export const routes = {
           icon: BellRing,
         },
         {
-          title: 'Next Up',
-          url: '/currently-reading',
+          title: 'Reading Now',
+          url: '/reading-now',
           description: 'Browse mangas that you currently have marked as "Currently reading"',
           countKey: 'nextUp' as const,
           icon: ArrowDownAZ,
@@ -61,13 +75,6 @@ export const routes = {
           description: 'Browse all mangas in your Library',
           countKey: 'yourLibrary' as const,
           icon: Library,
-        },
-        {
-          title: 'All Manga',
-          url: '/all-manga',
-          description: 'Browse all available mangas',
-          countKey: 'allManga' as const,
-          icon: BookCopy,
         },
       ],
     },
