@@ -6,8 +6,8 @@ import { User } from '@supabase/supabase-js';
 import { Profile as ProfileType } from '@manga/types';
 
 type SidebarContentsProps = {
-  user: User | null;
-  profile: ProfileType | null;
+  user?: User | null;
+  profile?: ProfileType | null;
 };
 
 export async function SidebarContents({ profile, user }: SidebarContentsProps) {

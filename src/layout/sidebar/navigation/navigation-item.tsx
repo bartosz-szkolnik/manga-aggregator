@@ -15,7 +15,7 @@ export type NavigationItemProps = {
   items: NavigationSubItemProps[];
 };
 
-export async function NavigationItem(props: NavigationItemProps & { profile: Profile | null }) {
+export async function NavigationItem(props: NavigationItemProps & { profile?: Profile | null }) {
   const { title, url, match, icon: Icon, disabled = false, defaultOpen = false, items, profile, isVisibleFor } = props;
 
   if (!isVisibleFor?.includes(profile?.role ?? 'viewer')) {
@@ -35,7 +35,12 @@ export async function NavigationItem(props: NavigationItemProps & { profile: Pro
           {items?.map(subItem => <NavigationSubItem key={subItem.title} {...subItem} />)}
         </NavigationDropdownButton>
       ) : (
-        <NavigationLink href={url} disabled={disabled} match={match}>
+        <NavigationLink
+          href={url}
+          disabled={disabled}
+          match={match}
+          className="hover:bg-gradient-from-hover hover:text-accent-foreground"
+        >
           <Icon className="mr-2 h-4 w-4 shrink-0" />
           <div className="flex flex-1 overflow-hidden">
             <span className="line-clamp-1 grow pr-6">{title}</span>

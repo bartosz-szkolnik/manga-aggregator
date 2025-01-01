@@ -12,11 +12,7 @@ type SidebarProps = {
 };
 
 export async function Sidebar({ className, defaultColor }: SidebarProps) {
-  const { profile, error, user, userId } = await fetchSidebarData();
-
-  if (error) {
-    return <p>Some kind of error occured.</p>;
-  }
+  const { profile, user, userId } = await fetchSidebarData();
 
   return (
     <SidebarRoot className={className}>

@@ -31,7 +31,7 @@ export const routes = {
       items: [
         {
           title: 'Browse',
-          url: '/browse',
+          url: '/manga/browse',
           description: 'Browse all available mangas',
           countKey: 'allManga' as const,
           icon: BookCopy,

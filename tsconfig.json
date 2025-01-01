@@ -26,6 +26,7 @@
       "@lib/*": ["./src/lib/*"],
       "@layout/*": ["./src/layout/*"],
       "@ui/*": ["./src/ui/*"],
+      "@home/*": ["./src/features/home/*"],
       "@manga/*": ["./src/features/manga/*"],
       "@admin-dashboard/*": ["./src/features/dashboard/*"],
       "@settings/*": ["./src/features/settings/*"]

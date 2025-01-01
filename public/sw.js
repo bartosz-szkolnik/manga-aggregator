@@ -43,7 +43,7 @@ sw.addEventListener('notificationclick', event => {
   if (data.type === 'common') {
     return event.waitUntil(
       sw.clients.matchAll({ type: 'window' }).then(() => {
-        sw.clients.openWindow(`https://manga-aggregator.vercel.app/updated`).then(client => client?.focus());
+        sw.clients.openWindow(`https://manga-aggregator.vercel.app/manga/updated`).then(client => client?.focus());
       }),
     );
   }

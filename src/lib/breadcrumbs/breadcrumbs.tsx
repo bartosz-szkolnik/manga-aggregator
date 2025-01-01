@@ -17,6 +17,19 @@ export function Breadcrumbs() {
   const [, ...parts] = pathname.split('/');
   const last = parts.pop()!;
 
+  // if we're at home page
+  if (last === '') {
+    return (
+      <Breadcrumb className="ml-4 flex h-10 items-center">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Home</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
+
   return (
     <Breadcrumb className="ml-4 flex h-10 items-center">
       <BreadcrumbList>

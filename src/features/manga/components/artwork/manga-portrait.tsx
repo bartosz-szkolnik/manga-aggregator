@@ -7,12 +7,13 @@ type MangaPortraitProps = {
   title: string;
   width?: number;
   height?: number;
+  className?: string;
   aspectRatio?: 'portrait' | 'square';
   showAnimation?: boolean;
 };
 
 export function MangaPortrait(props: MangaPortraitProps) {
-  const { title, aspectRatio = 'portrait', imageUrl, showAnimation = false } = props;
+  const { title, aspectRatio = 'portrait', imageUrl, showAnimation = false, className } = props;
   const replacedImageUrl = replaceImageUrlToUseImageProxy(imageUrl);
 
   return (
@@ -22,8 +23,9 @@ export function MangaPortrait(props: MangaPortraitProps) {
         alt={title}
         className={cn(
           'w-full',
-          showAnimation ? 'hover:scale-105 hover:opacity-50' : '',
+          showAnimation ? 'hover:scale-105 hover:opacity-75' : '',
           aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square',
+          className,
         )}
       />
       {/* <Image
