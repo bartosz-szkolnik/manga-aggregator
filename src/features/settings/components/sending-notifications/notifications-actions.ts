@@ -1,6 +1,6 @@
 'use server';
 
-import { Json } from '@manga/types';
+import { Json } from '@lib/types';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';

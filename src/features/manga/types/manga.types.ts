@@ -1,5 +1,5 @@
 import { PropertiesToCamelCase } from '@utils/utils';
-import { Enums, Tables } from './database.types';
+import { Enums, Tables } from '@lib/types';
 
 export type Manga = PropertiesToCamelCase<Tables<'manga'>>;
 export type Profile = PropertiesToCamelCase<Tables<'profile'>>;
