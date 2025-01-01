@@ -17,6 +17,8 @@ export function MangaTableSheet({ manga }: MangaTableSheetProps) {
     title,
     priority,
     mangadexId,
+    isFavorite,
+    isFollowing,
     description,
     latestChapter,
     readingStatus,
@@ -38,7 +40,12 @@ export function MangaTableSheet({ manga }: MangaTableSheetProps) {
         </div>
         <div className="mt-4 grid gap-4 py-4">
           <OpenMangaDexButton id={mangadexId} className="w-full"></OpenMangaDexButton>
-          <MangaUpdateUtils />
+          <MangaUpdateUtils
+            isFavorite={isFavorite}
+            mangaId={id}
+            isFollowing={isFollowing}
+            isInLibrary={isInUserLibrary}
+          />
           {isInUserLibrary && (
             <UpdateProgressForm
               mangaId={id}

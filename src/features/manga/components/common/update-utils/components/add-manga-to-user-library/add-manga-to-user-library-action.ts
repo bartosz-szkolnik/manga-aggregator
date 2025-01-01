@@ -43,6 +43,6 @@ export async function addToUserLibrary(mangaId: Manga['id'], isInLibrary: boolea
     }
   }
 
-  revalidatePath('/');
+  revalidatePath('/reading-now');
   return { success: true } satisfies Awaited<ActionResult>;
 }

@@ -6,10 +6,10 @@ import { MangaArtwork } from '@manga/components/artwork';
 
 type MangaGridProps = {
   response: MangaGridResponse;
-  loadMoreMangasFn: ((offset: number) => Promise<MangaGridResponse>) & Function;
+  loadMoreMangasAction: (offset: number) => Promise<MangaGridResponse>;
 };
 
-export function MangaGrid({ response: { data, total, offset }, loadMoreMangasFn }: MangaGridProps) {
+export function MangaGrid({ response: { data, total, offset }, loadMoreMangasAction }: MangaGridProps) {
   const [state, setState] = useState({ data, hasMore: offset < total });
 
   async function handleLoadMore() {
@@ -17,7 +17,7 @@ export function MangaGrid({ response: { data, total, offset }, loadMoreMangasFn 
       return;
     }
 
-    const response = await loadMoreMangasFn(state.data.length);
+    const response = await loadMoreMangasAction(state.data.length);
     setState(curr => ({
       data: [...curr.data, ...response.data],
       hasMore: response.offset + response.data.length < response.total,

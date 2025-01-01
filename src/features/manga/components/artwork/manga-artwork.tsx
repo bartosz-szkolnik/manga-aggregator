@@ -17,6 +17,8 @@ export function MangaArtwork({ manga }: MangaArtworkProps) {
     title,
     imageUrl,
     priority,
+    isFavorite,
+    isFollowing,
     readingStatus,
     mangadexId,
     latestChapter,
@@ -43,7 +45,12 @@ export function MangaArtwork({ manga }: MangaArtworkProps) {
         </div>
         <div className="mt-4 grid gap-4 py-4">
           <OpenMangaDexButton id={mangadexId} className="w-full" />
-          <MangaUpdateUtils />
+          <MangaUpdateUtils
+            isFavorite={isFavorite}
+            mangaId={id}
+            isFollowing={isFollowing}
+            isInLibrary={isInUserLibrary}
+          />
           {isInUserLibrary && (
             <UpdateProgressForm
               mangaId={id}

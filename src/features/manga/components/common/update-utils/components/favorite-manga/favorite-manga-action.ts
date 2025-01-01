@@ -4,6 +4,7 @@ import { Manga } from '@lib/types/manga.types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
+import { wait } from '@utils/utils';
 import { revalidatePath } from 'next/cache';
 
 export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
@@ -22,6 +23,7 @@ export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
     return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<ActionResult>;
   }
 
+  await wait(0.5);
   revalidatePath('/');
   return { success: true } satisfies Awaited<ActionResult>;
 }

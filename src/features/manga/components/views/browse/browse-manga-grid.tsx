@@ -27,5 +27,5 @@ export async function BrowseMangaGrid({ filter }: BrowseMangaGridProps) {
     return { data, offset: newOffset, total };
   }
 
-  return <MangaGrid response={{ data, offset, total }} loadMoreMangasFn={loadMoreMangas} />;
+  return <MangaGrid response={{ data, offset, total }} loadMoreMangasAction={loadMoreMangas} />;
 }

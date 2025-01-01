@@ -2,17 +2,14 @@ import { Sheet, SheetTrigger } from '@components/ui/sheet';
 import { MangaArtwork } from './manga-artwork';
 import { Manga as MangaType } from '@lib/types/manga.types';
 import { MangaDrawer } from './manga-drawer';
-import { FollowMangaButton } from '@lib/follow-manga';
+import { FollowMangaButton } from '@manga/components/common/update-utils/components/follow-manga';
 import { createServerClient, SupabaseServerClient } from '@utils/supabase/server';
 import { Button } from '@components/ui/button';
 import { UpdateProgressForm } from '@lib/update-progress';
-import { FavoriteMangaButton } from '@lib/favorite-manga';
+import { FavoriteMangaButton } from '@manga/components/common/update-utils/components/favorite-manga';
 import { ChevronRight } from 'lucide-react';
 import { MangaImage } from './manga-image';
-import { AddMangaToUserLibraryButton } from '@lib/add-manga-to-user-library';
-import { RemoveMangaFromDatabaseButton } from '@lib/remove-manga-from-database';
 import { OpenMangaDexButton } from '@lib/open-mangadex-button';
-import { EditMangaAttributesDialog } from '@lib/edit-manga-attributes';
 
 type TriggerType = 'artwork' | 'chevron-button' | 'admin-button';
 
@@ -79,8 +76,8 @@ export async function Manga({
             <MangaImage imageUrl={imageUrl} title={title} width={210} height={280} showAnimation={false} />
           </div>
           <div className="mt-4 grid gap-4 py-4">
-            <OpenMangaDexButton id={mangadexId} className="w-full"></OpenMangaDexButton>
-            <AddMangaToUserLibraryButton mangaId={id} isInLibrary={isInLibrary} />
+            {/* <OpenMangaDexButton id={mangadexId} className="w-full"></OpenMangaDexButton> */}
+            {/* <AddMangaToUserLibraryButton mangaId={id} isInLibrary={isInLibrary} />
             {isInLibrary && <FollowMangaButton mangaId={id} isFollowing={data.is_following} />}
             {isInLibrary && <FavoriteMangaButton mangaId={id} isFavorite={data.is_favorite} />}
             {isInLibrary && (
@@ -91,7 +88,7 @@ export async function Manga({
                 priority={data.priority ?? 'normal'}
                 mangaId={id}
               />
-            )}
+            )} */}
           </div>
         </MangaDrawer>
       </Sheet>
@@ -115,7 +112,7 @@ export async function Manga({
             <MangaImage imageUrl={manga.image_url} title={manga.title} width={210} height={280} showAnimation={false} />
           </div>
           <div className="mt-4 grid gap-4 py-4">
-            <OpenMangaDexButton id={mangadex_id} className="w-full"></OpenMangaDexButton>
+            {/* <OpenMangaDexButton id={mangadex_id} className="w-full"></OpenMangaDexButton>
             <AddMangaToUserLibraryButton mangaId={manga.id} isInLibrary={isInLibrary} />
             {isInLibrary && <FollowMangaButton mangaId={manga.id} isFollowing={data?.is_following} />}
             {isInLibrary && <FavoriteMangaButton mangaId={manga.id} isFavorite={data.is_favorite} />}
@@ -126,8 +123,8 @@ export async function Manga({
                 latestChapter={manga.latest_chapter ?? '0'}
                 priority={data.priority ?? 'normal'}
                 mangaId={manga.id}
-              />
-            )}
+              /> */}
+            {/* )} */}
           </div>
         </MangaDrawer>
       </Sheet>
