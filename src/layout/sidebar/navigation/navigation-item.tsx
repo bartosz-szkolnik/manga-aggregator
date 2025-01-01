@@ -1,7 +1,7 @@
 import { NavigationLink } from './navigation-link';
 import { type LucideIcon } from 'lucide-react';
 import { NavigationSubItem, NavigationSubItemProps } from './navigation-sub-item';
-import { Profile, Role } from '@lib/types/manga.types';
+import { Profile, Role } from '@manga/types';
 import { NavigationDropdownButton } from './navigation-dropdown-button';
 
 export type NavigationItemProps = {

@@ -2,8 +2,8 @@ import { Sheet } from '@components/ui/sheet';
 import { MangaFigure } from './manga-figure';
 import { MangaPortrait } from './manga-portrait';
 import { MangaSheet } from './manga-sheet';
-import { UpdateProgressForm } from '@lib/update-progress';
-import { OpenMangaDexButton } from '@lib/open-mangadex-button';
+import { UpdateProgressForm } from '@manga/components/common/update-progress';
+import { OpenMangaDexButton } from '@manga/components/common/open-mangadex-button';
 import { MangaUpdateUtils } from '../common/update-utils';
 import { MangaGridResponse } from '@manga/lib/types';
 

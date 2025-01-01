@@ -1,9 +1,9 @@
 import { Profile, ProfileFallback } from '@components/profile/profile';
 import { SignOutButton } from '@components/auth';
 import { Separator } from '@components/ui/separator';
-import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database/add-manga-to-database-dialog';
+import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database/add-manga-to-database-dialog';
 import { User } from '@supabase/supabase-js';
-import { Profile as ProfileType } from '@lib/types';
+import { Profile as ProfileType } from '@manga/types';
 
 type SidebarContentsProps = {
   user: User | null;

@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
-import { Database } from 'src/lib/types/database.types';
+import { Database } from '@manga/types';
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -24,7 +24,7 @@ export async function updateSession(request: NextRequest) {
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
 
-  const { data: user, error } = await supabase.auth.getUser();
+  const { data: user } = await supabase.auth.getUser();
   if (!user) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();

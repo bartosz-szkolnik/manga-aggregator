@@ -1,4 +1,4 @@
-import { Profile } from '@lib/types/manga.types';
+import { Profile } from '@manga/types';
 
 type Permission = 'read' | 'write' | 'delete' | 'add' | 'write-own' | 'read-own';
 

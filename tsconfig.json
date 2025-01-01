@@ -24,7 +24,6 @@
       "@utils/*": ["./src/utils/*"],
       "@auth/*": ["./src/utils/auth/*"],
       "@lib/*": ["./src/lib/*"],
-      "@type/*": ["./src/lib/types/*"],
       "@layout/*": ["./src/layout/*"],
       "@ui/*": ["./src/ui/*"],
       "@manga/*": ["./src/features/manga/*"],

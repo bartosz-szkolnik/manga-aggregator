@@ -83,7 +83,7 @@ export async function fetchMangasToBrowseCount(filter?: string) {
     return { error };
   }
 
-  return { count, profile };
+  return { count, profile: propertiesToCamelCase(profile) };
 }
 
 function mapData(data: CombinedUnCamelCasedManga): CombinedManga[] {

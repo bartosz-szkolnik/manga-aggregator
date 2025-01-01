@@ -3,7 +3,7 @@
 import { SheetTriggerWithMetaKey } from '@components/ui/sheet';
 import { cn } from '@utils/utils';
 import { MangaPortrait } from './manga-portrait';
-import { openMangaDex } from '@lib/manga/manga-utils';
+import { openMangaDex } from '@manga/utils';
 
 type MangaFigureProps = {
   title: string;

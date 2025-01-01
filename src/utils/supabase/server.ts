@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { createServerClient as createSupabaseServerClient } from '@supabase/ssr';
-import { Database } from '@type/database.types';
+import { Database } from '@manga/types';
 
 export async function createServerClient() {
   const cookieStore = await cookies();
@@ -14,7 +14,7 @@ export async function createServerClient() {
         setAll: cookieToSet => {
           try {
             cookieToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
-          } catch (error) {
+          } catch {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing user sessions.
           }

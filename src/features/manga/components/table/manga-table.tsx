@@ -1,9 +1,8 @@
 import { Badge } from '@components/ui/badge';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@components/table';
-import { formatMangaStatus } from '@lib/change-manga-status';
-import { formatReadingStatus } from '@lib/change-reading-status';
 import { MangaTableSheet } from './manga-table-sheet';
 import { MangaTableResponse } from '@manga/lib/types';
+import { formatMangaStatus, formatReadingStatus } from '@manga/utils';
 
 type RowManga = MangaTableResponse['data'];
 type MangaTableProps = {

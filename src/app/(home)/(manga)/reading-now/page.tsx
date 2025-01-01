@@ -1,6 +1,6 @@
 import { Separator } from '@components/ui/separator';
-import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
+import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
+import { NoMangaPlaceholder } from '@manga/components/common/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { Metadata } from 'next';
 import { fetchReadingNowMangasCount } from '@manga/lib/reading-now/data';

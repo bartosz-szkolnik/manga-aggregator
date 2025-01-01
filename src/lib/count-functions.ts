@@ -1,5 +1,5 @@
 import { SupabaseBrowserClient } from '@utils/supabase/client';
-import { Profile } from './types/manga.types';
+import { Profile } from '@manga/types';
 
 export async function getUpdatedMangasCount(supabase: SupabaseBrowserClient, userId: Profile['id']) {
   const { count } = await supabase

@@ -1,7 +1,7 @@
 import { Separator } from '@components/ui/separator';
 import { TabsContent } from '@components/ui/tabs';
-import { AddMangaToDatabaseDialog } from '@lib/add-manga-to-database';
-import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
+import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
+import { NoMangaPlaceholder } from '@manga/components/common/no-mangas-placeholder';
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { UserLibraryMangaGrid, UserLibraryMangaTable } from '@manga/components/views/user-library';
 import { fetchMangasFromUserLibraryCount } from '@manga/lib/user-library/data';

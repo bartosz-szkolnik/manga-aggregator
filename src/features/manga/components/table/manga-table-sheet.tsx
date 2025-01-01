@@ -2,8 +2,8 @@ import { MangaPortrait, MangaSheet } from '../artwork';
 import { Sheet, SheetTrigger } from '@components/ui/sheet';
 import { Button } from '@components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import { OpenMangaDexButton } from '@lib/open-mangadex-button';
-import { UpdateProgressForm } from '@lib/update-progress';
+import { OpenMangaDexButton } from '@manga/components/common/open-mangadex-button';
+import { UpdateProgressForm } from '@manga/components/common/update-progress';
 import { MangaUpdateUtils } from '../common/update-utils';
 import { MangaTableResponse } from '@manga/lib/types';
 

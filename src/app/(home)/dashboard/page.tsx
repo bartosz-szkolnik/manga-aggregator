@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { logger } from '@utils/server/logger';
 import { TablePageSizeSelect, TablePagination, TitleFilter } from '@lib/table';
 import { fetchMangasForAdminDashboard } from '@admin-dashboard/lib/data';
-import { AdminDashboardMangaTable } from '@admin-dashboard/components/dashboard-manga-table';
+import { AdminDashboardMangaTable } from '@admin-dashboard/components/table';
 
 export const metadata: Metadata = { title: 'Admin Dashboard' };
 

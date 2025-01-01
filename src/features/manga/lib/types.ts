@@ -1,4 +1,4 @@
-import { Manga, ProfileManga, UnCamelCasedManga, UnCamelCasedProfileManga } from '@lib/types';
+import { Manga, ProfileManga, UnCamelCasedManga, UnCamelCasedProfileManga } from '@manga/types';
 
 type PartialUnCamelCasedProfileManga = Partial<
   Pick<

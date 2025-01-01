@@ -1,4 +1,4 @@
-import { Manga, ProfileManga } from '@lib/types';
+import { Manga, ProfileManga } from '@manga/types';
 import { AddMangaToUserLibraryButton } from './components/add-manga-to-user-library';
 import { FollowMangaButton } from './components/follow-manga';
 import { FavoriteMangaButton } from './components/favorite-manga';

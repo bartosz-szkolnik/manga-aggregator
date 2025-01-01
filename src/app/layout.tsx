@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cn } from '@utils/utils';
-import { ServiceWorkerProvider } from '@lib/sending-notifications/service-worker-provider';
+import { ServiceWorkerProvider } from '@settings/components/sending-notifications';
 import { ReactNode } from 'react';
 import { Toaster } from '@components/ui/toast';
 import { ThemeProvider } from '@layout/theme';

@@ -1,4 +1,4 @@
-import { Manga } from '@lib/types/manga.types';
+import { Manga } from '@manga/types';
 import { unauthorized } from '@utils/auth';
 import { getAmountOfPages, getPage, getPagination, getSize, PaginationParams } from '@utils/pagination';
 import { createServerClient } from '@utils/supabase/server';

@@ -1,6 +1,6 @@
 'use server';
 
-import { Manga } from '@lib/types/manga.types';
+import { Manga } from '@manga/types';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';

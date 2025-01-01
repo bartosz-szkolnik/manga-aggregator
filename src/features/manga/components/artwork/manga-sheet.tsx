@@ -2,7 +2,7 @@
 
 import { Button } from '@components/ui/button';
 import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@components/ui/sheet';
-import { openMangaDex } from '@lib/manga/manga-utils';
+import { openMangaDex } from '@manga/utils';
 import { useIsMobile } from '@utils/hooks/is-mobile';
 import { cn } from '@utils/utils';
 

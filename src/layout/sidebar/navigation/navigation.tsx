@@ -3,7 +3,7 @@ import { cn, exhaustiveCheck } from '@utils/utils';
 import { createServerClient } from '@utils/supabase/server';
 import { routes } from './routes';
 import { SupabaseBrowserClient } from '@utils/supabase/client';
-import { Profile } from '@lib/types/manga.types';
+import { Profile } from '@manga/types';
 import { NavigationItem } from './navigation-item';
 import { NavigationSubItemProps } from './navigation-sub-item';
 import {

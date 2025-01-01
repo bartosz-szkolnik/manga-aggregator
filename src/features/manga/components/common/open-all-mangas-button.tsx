@@ -10,8 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { openMangaDex } from '@lib/manga/manga-utils';
-import { Manga } from '@lib/types/manga.types';
+import { openMangaDex } from '@manga/utils';
+import { Manga } from '@manga/types';
 import { ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 

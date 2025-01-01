@@ -1,5 +1,5 @@
 import { TabsContent } from '@components/ui/tabs';
-import { NoMangaPlaceholder } from '@lib/no-mangas-placeholder';
+import { NoMangaPlaceholder } from '@manga/components/common/no-mangas-placeholder';
 import { logger } from '@utils/server/logger';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -8,6 +8,8 @@ import { fetchMangasToBrowseCount } from '@manga/lib/browse/data';
 import { BrowseMangaGrid, BrowseMangaTable } from '@manga/components/views/browse';
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { LazyTableTabProps } from '@utils/pagination';
+import { verifyAccess } from '@utils/auth';
+import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
 
 export const metadata: Metadata = { title: 'Browse' };
 
@@ -35,7 +37,7 @@ export default async function Page(props: PageProps) {
       <div className="flex flex-wrap justify-between gap-4">
         <MangaPageHeader heading="All Available Manga" subheading="Here's a list of all available manga." />
         <div className="mb-6 ml-2 flex items-center">
-          {/* {verifyAccess(profile).includes('add') && <AddMangaToDatabaseDialog className="ml-auto mr-4" />} */}
+          {verifyAccess(profile).includes('add') && <AddMangaToDatabaseDialog className="ml-auto mr-4" />}
         </div>
       </div>
       <Separator className="my-4" />

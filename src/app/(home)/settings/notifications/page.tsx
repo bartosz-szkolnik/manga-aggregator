@@ -1,6 +1,5 @@
 import { Separator } from '@components/ui/separator';
-import { NotificationsSwitch } from '@lib/sending-notifications/notifications-switch';
-import { SingularNotificationsSwitch } from '@lib/sending-notifications/singular-notifications-switch';
+import { NotificationsSwitch, SingularNotificationsSwitch } from '@settings/components/sending-notifications';
 import { fetchNotificationsData } from '@settings/lib/notifications/data';
 import { Metadata } from 'next';
 

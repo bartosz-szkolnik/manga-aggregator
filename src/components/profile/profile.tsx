@@ -1,14 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Button } from '@components/ui/button';
 import { Link } from '@components/ui/link';
-import { Profile as ProfileType } from '@lib/types/manga.types';
+import { Profile as ProfileType } from '@manga/types';
 import { LogIn, UserPlus } from 'lucide-react';
 
 export function Profile({ profile, email }: { profile: ProfileType; email: string }) {
   return (
     <div className="flex h-[40px] items-center space-x-4">
       <Avatar>
-        <AvatarImage src={profile.avatar_url || '/avatars/03.png'} />
+        <AvatarImage src={profile.avatarUrl || '/avatars/03.png'} />
         <AvatarFallback>{profile.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="flex h-full flex-col justify-around">
