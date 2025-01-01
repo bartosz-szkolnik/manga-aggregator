@@ -1,7 +1,7 @@
 import { Navigation } from './navigation';
 import { SidebarRoot, SidebarContent, SidebarFooter, SidebarHeader, SidebarItem } from '@components/ui/sidebar';
 import { SidebarIcons } from './sidebar-icons';
-import { Footer } from '@components/footer/footer';
+import { Footer } from '@layout/footer/footer';
 import { Separator } from '@components/ui/separator';
 import { SidebarContents } from './sidebar-contents';
 import { fetchSidebarData } from './data';
@@ -29,8 +29,11 @@ export async function Sidebar({ className, defaultColor }: SidebarProps) {
         <SidebarItem>
           <Navigation profile={profile} userId={userId} />
         </SidebarItem>
+        <SidebarFooter className="block md:hidden">
+          <Footer />
+        </SidebarFooter>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="hidden md:block">
         <Footer />
       </SidebarFooter>
     </SidebarRoot>
