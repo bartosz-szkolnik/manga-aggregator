@@ -7,7 +7,7 @@ export type NavigationSubItemProps = {
   url: string;
   icon?: LucideIcon;
   description?: string;
-  countKey?: 'updated' | 'nextUp' | 'yourLibrary' | 'allManga';
+  countKey?: 'browse' | 'updated' | 'reading-now' | 'your-library';
   count?: number | null;
 };
 

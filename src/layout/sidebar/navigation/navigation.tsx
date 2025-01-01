@@ -1,21 +1,17 @@
 import { ComponentProps } from 'react';
 import { cn, exhaustiveCheck } from '@utils/utils';
-import { createServerClient } from '@utils/supabase/server';
 import { routes } from './routes';
-import { SupabaseBrowserClient } from '@utils/supabase/client';
 import { Profile } from '@manga/types';
 import { NavigationItem } from './navigation-item';
 import { NavigationSubItemProps } from './navigation-sub-item';
-import {
-  getCurrentlyReadCount,
-  getUpdatedMangasCount,
-  getAllMangaInUserLibraryCount,
-  getAllMangaCount,
-} from '@lib/count-functions';
+import { fetchMangasToBrowseCount } from '@manga/lib/browse/data';
+import { fetchReadingNowMangasCount } from '@manga/lib/reading-now/data';
+import { fetchUpdatedMangasCount } from '@manga/lib/updated/data';
+import { fetchMangasFromUserLibraryCount } from '@manga/lib/user-library/data';
 
 export type NavigationProps = ComponentProps<'ul'> & {
   userId: string | undefined;
-  profile: Profile | null;
+  profile?: Profile | null;
 };
 
 export async function Navigation({ className, userId, profile }: NavigationProps) {
@@ -24,19 +20,19 @@ export async function Navigation({ className, userId, profile }: NavigationProps
       <nav>
         <ul className={cn('grid gap-1', className)}>
           {routes.userNotLoggedIn.map(item => (
-            <NavigationItem key={item.title} {...item} profile={profile} />
+            <NavigationItem key={item.title} {...item} />
           ))}
         </ul>
       </nav>
     );
   }
 
-  // const countValues = await getNavigationData(supabase, userId);
+  const countValues = await getNavigationData();
   const items = routes.userLoggedIn.map(item => ({
     ...item,
     items: item.items.map(subItem => ({
       ...subItem,
-      // count: getCountForItem(subItem, countValues),
+      count: getCountForItem(subItem, countValues),
     })),
   }));
 
@@ -51,32 +47,31 @@ export async function Navigation({ className, userId, profile }: NavigationProps
   );
 }
 
-// function getNavigationData(supabase: SupabaseBrowserClient, userId: Profile['id']) {
-//   const args = [supabase, userId] as const;
-//   return Promise.all([
-//     getUpdatedMangasCount(...args),
-//     getCurrentlyReadCount(...args),
-//     getAllMangaInUserLibraryCount(...args),
-//     getAllMangaCount(...args),
-//   ]);
-// }
+function getNavigationData() {
+  return Promise.all([
+    fetchMangasToBrowseCount().then(({ count }) => count ?? 0),
+    fetchReadingNowMangasCount().then(({ count }) => count ?? 0),
+    fetchUpdatedMangasCount().then(({ count }) => count ?? 0),
+    fetchMangasFromUserLibraryCount().then(({ count }) => count ?? 0),
+  ]);
+}
 
-// function getCountForItem(item: NavigationSubItemProps, countValues: Awaited<ReturnType<typeof getNavigationData>>) {
-//   if (!item.countKey) {
-//     return null;
-//   }
+function getCountForItem(item: NavigationSubItemProps, countValues: Awaited<ReturnType<typeof getNavigationData>>) {
+  if (!item.countKey) {
+    return null;
+  }
 
-//   const [updatedCount, nextUpCount, inLibraryCount, allMangaCount] = countValues;
-//   switch (item.countKey) {
-//     case 'updated':
-//       return updatedCount;
-//     case 'nextUp':
-//       return nextUpCount;
-//     case 'yourLibrary':
-//       return inLibraryCount;
-//     case 'allManga':
-//       return allMangaCount;
-//     default:
-//       exhaustiveCheck(item.countKey);
-//   }
-// }
+  const [browseCount, readingNowCount, updatedCount, inLibraryCount] = countValues;
+  switch (item.countKey) {
+    case 'browse':
+      return browseCount;
+    case 'updated':
+      return updatedCount;
+    case 'reading-now':
+      return readingNowCount;
+    case 'your-library':
+      return inLibraryCount;
+    default:
+      exhaustiveCheck(item.countKey);
+  }
+}

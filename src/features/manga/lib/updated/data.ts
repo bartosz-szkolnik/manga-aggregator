@@ -80,6 +80,7 @@ export async function fetchUpdatedMangasCount(filter?: string) {
     .select('profile_manga!inner()', { count: 'exact' })
     .eq('profile_manga.profile_id', userId)
     .eq('profile_manga.is_in_library', true)
+    .eq('profile_manga.is_following', true)
     .eq('profile_manga.is_updated', true)
     .ilike('title', `%${filter ?? ''}%`);
 
