@@ -16,8 +16,15 @@ import type { NavigationItemProps } from './navigation-item';
 export const routes = {
   userNotLoggedIn: [
     {
-      title: 'Manga',
+      title: 'Home',
       url: '/',
+      icon: Home,
+      isVisibleFor: ['admin', 'editor', 'viewer'],
+      items: [],
+    },
+    {
+      title: 'Manga',
+      url: '/manga',
       icon: BookOpen,
       defaultOpen: true,
       isVisibleFor: ['admin', 'editor', 'viewer'],
@@ -50,28 +57,28 @@ export const routes = {
       items: [
         {
           title: 'Browse',
-          url: '/browse',
+          url: '/manga/browse',
           description: 'Browse all available mangas',
           countKey: 'allManga' as const,
           icon: BookCopy,
         },
         {
           title: 'Updated',
-          url: '/updated',
+          url: '/manga/updated',
           description: 'View mangas followed by you that have been updated since your last visit',
           countKey: 'updated' as const,
           icon: BellRing,
         },
         {
           title: 'Reading Now',
-          url: '/reading-now',
+          url: '/manga/reading-now',
           description: 'Browse mangas that you currently have marked as "Currently reading"',
           countKey: 'nextUp' as const,
           icon: ArrowDownAZ,
         },
         {
           title: 'Your Library',
-          url: '/your-library',
+          url: '/manga/your-library',
           description: 'Browse all mangas in your Library',
           countKey: 'yourLibrary' as const,
           icon: Library,
