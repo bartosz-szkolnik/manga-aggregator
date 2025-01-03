@@ -4,18 +4,9 @@ import { ChevronsRight } from 'lucide-react';
 import { cn } from '@utils/utils';
 import { Button } from './button';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from './sheet';
-import { useIsMobile } from '@utils/hooks/is-mobile';
+import { KEY_S, useIsMobile, useShortcut } from '@utils/hooks';
 import { saveToCookies } from '@utils/cookies';
-import {
-  ComponentProps,
-  createContext,
-  CSSProperties,
-  forwardRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ComponentProps, createContext, CSSProperties, forwardRef, useCallback, useContext, useState } from 'react';
 
 type SidebarContext = {
   state: 'open' | 'closed';
@@ -45,17 +36,11 @@ const SidebarLayout = forwardRef<
   }, []);
 
   const state = open ? 'open' : 'closed';
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        onOpenChange(!open);
-      }
-    };
 
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [open, onOpenChange]);
+  useShortcut(`Command+${KEY_S}`, event => {
+    event.preventDefault();
+    onOpenChange(!open);
+  });
 
   return (
     <SidebarContext.Provider value={{ state, open, setOpen: onOpenChange }}>

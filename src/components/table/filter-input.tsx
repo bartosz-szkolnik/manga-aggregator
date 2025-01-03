@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../ui/form';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { useDebounce } from '@utils/hooks/debounce';
+import { useDebounce } from '@utils/hooks';
 
 const DELAY_300MS = 300;
 let VALUE_ENTERED = false;

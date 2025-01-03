@@ -2,22 +2,16 @@
 
 import { Dialog } from '@components/ui/dialog';
 import { AddMangaToDatabaseDialogContent } from '@manga/components/common/add-manga-to-database';
-import { useEffect, useState } from 'react';
+import { KEY_A, useShortcut } from '@utils/hooks';
+import { useState } from 'react';
 
 export function AddMangaViaShortcut() {
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'a' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen(open => !open);
-      }
-    };
-
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, []);
+  useShortcut(`Command+${KEY_A}`, event => {
+    event.preventDefault();
+    setOpen(open => !open);
+  });
 
   return (
     open && (

@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { Link } from '@components/ui/link';
 import { cn } from '@utils/utils';
-import { useIsMobile } from '@utils/hooks/is-mobile';
+import { useIsMobile } from '@utils/hooks';
 import { useSidebar } from '@components/ui/sidebar';
 
 export type NavigationLinkProps = {
