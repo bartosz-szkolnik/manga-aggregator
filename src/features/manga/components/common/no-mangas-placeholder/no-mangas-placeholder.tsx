@@ -8,14 +8,14 @@ import { BookOpenText } from 'lucide-react';
 type NoMangaPlaceholderProps = {
   text?: string;
   description?: string;
-  showAllAvailableMangaLink?: boolean;
+  showBrowseMangaLink?: boolean;
   showYourLibraryLink?: boolean;
 };
 
 export function NoMangaPlaceholder({
   text = 'No mangas found',
   description = 'If you want more, you can browse for new mangas in our "All Available Manga" section. Or you can go directly to MangaDex to browse there and add it to our database.',
-  showAllAvailableMangaLink = true,
+  showBrowseMangaLink = true,
   showYourLibraryLink = true,
 }: NoMangaPlaceholderProps) {
   return (
@@ -26,7 +26,7 @@ export function NoMangaPlaceholder({
         <p className="mb-4 mt-2 text-sm text-muted-foreground">{description}</p>
         <div className="flex flex-wrap justify-center gap-4">
           {showYourLibraryLink && <YourLibraryLink />}
-          {showAllAvailableMangaLink && <AllAvailableMangaLink />}
+          {showBrowseMangaLink && <BrowseMangaLink />}
           <OpenMangaDexButton />
           <AddMangaToDatabaseDialog smallButton={true} />
         </div>
@@ -35,17 +35,17 @@ export function NoMangaPlaceholder({
   );
 }
 
-function AllAvailableMangaLink() {
+function BrowseMangaLink() {
   return (
-    <Link href={'/all-manga'} className={cn(buttonVariants({ variant: 'link' }))}>
-      Go to All Manga
+    <Link href={'/manga/browse'} className={cn(buttonVariants({ variant: 'link' }))}>
+      Go to Browse Manga
     </Link>
   );
 }
 
 function YourLibraryLink() {
   return (
-    <Link href={'/your-library'} className={cn(buttonVariants({ variant: 'link' }))}>
+    <Link href={'/manga/your-library'} className={cn(buttonVariants({ variant: 'link' }))}>
       Go to Your Library
     </Link>
   );

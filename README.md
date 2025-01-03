@@ -6,7 +6,7 @@ This little app was built to check and notify me (and you) when some new chapter
 
 Build with Next.js, React, TypeScript, Supabase, Tailwind and Shadcn/ui.
 
-You can try out the current version [here](https://manga-aggregator.vercel.app/all-manga)
+You can try out the current version [here](https://manga-aggregator.vercel.app)
 
 <!-- TODO add image of how the app looks -->
 

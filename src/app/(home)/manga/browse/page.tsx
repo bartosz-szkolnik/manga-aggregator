@@ -45,7 +45,7 @@ export default async function Page(props: PageProps) {
         {!count ? (
           <NoMangaPlaceholder
             description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
-            showAllAvailableMangaLink={false}
+            showBrowseMangaLink={false}
           />
         ) : (
           <>
