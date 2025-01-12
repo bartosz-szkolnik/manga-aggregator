@@ -54,7 +54,7 @@ export function ThemeCustomizer({ defaultColor }: { defaultColor: string }) {
 }
 
 function Customizer({ color, setColor }: { color: Color; setColor: (value: Color) => void }) {
-  const { setTheme: setMode, theme: mode, resolvedTheme } = useTheme();
+  const { setTheme, theme, resolvedTheme } = useTheme();
 
   return (
     <div className="flex flex-col space-y-4 md:space-y-6">
@@ -62,19 +62,19 @@ function Customizer({ color, setColor }: { color: Color; setColor: (value: Color
         <div className="space-y-1.5">
           <Label className="text-xs">Color</Label>
           <div className="grid grid-cols-3 gap-2">
-            {BASE_COLORS.map(theme => {
-              const isActive = theme.name === color;
+            {BASE_COLORS.map(baseColor => {
+              const isActive = baseColor.name === color;
 
               return (
                 <Button
                   variant={'outline'}
                   size="sm"
-                  key={theme.name}
-                  onClick={() => setColor(theme.name)}
+                  key={baseColor.name}
+                  onClick={() => setColor(baseColor.name)}
                   className={cn('justify-start', isActive && 'border-2 border-primary')}
                   style={
                     {
-                      '--theme-primary': `hsl(${theme?.activeColor[resolvedTheme === 'dark' ? 'dark' : 'light']})`,
+                      '--theme-primary': `hsl(${baseColor?.activeColor[resolvedTheme === 'dark' ? 'dark' : 'light']})`,
                     } as CSSProperties
                   }
                 >
@@ -85,7 +85,7 @@ function Customizer({ color, setColor }: { color: Color; setColor: (value: Color
                   >
                     {isActive && <Check className="h-4 w-4 text-white" />}
                   </span>
-                  {theme.label}
+                  {baseColor.label}
                 </Button>
               );
             })}
@@ -98,8 +98,8 @@ function Customizer({ color, setColor }: { color: Color; setColor: (value: Color
               <Button
                 variant={'outline'}
                 size="sm"
-                onClick={() => setMode('light')}
-                className={cn(mode === 'light' && 'border-2 border-primary')}
+                onClick={() => setTheme('light')}
+                className={cn(theme === 'light' && 'border-2 border-primary')}
               >
                 <Sun className="mr-2 h-[1.2rem] w-[1.2rem]" />
                 Light
@@ -107,8 +107,8 @@ function Customizer({ color, setColor }: { color: Color; setColor: (value: Color
               <Button
                 variant={'outline'}
                 size="sm"
-                onClick={() => setMode('dark')}
-                className={cn(mode === 'dark' && 'border-2 border-primary')}
+                onClick={() => setTheme('dark')}
+                className={cn(theme === 'dark' && 'border-2 border-primary')}
               >
                 <Moon className="mr-2 h-[1.2rem] w-[1.2rem]" />
                 Dark
@@ -116,8 +116,8 @@ function Customizer({ color, setColor }: { color: Color; setColor: (value: Color
               <Button
                 variant={'outline'}
                 size="sm"
-                onClick={() => setMode('system')}
-                className={cn(mode === 'system' && 'border-2 border-primary')}
+                onClick={() => setTheme('system')}
+                className={cn(theme === 'system' && 'border-2 border-primary')}
               >
                 <Monitor className="mr-2 h-[1.2rem] w-[1.2rem]" />
                 System

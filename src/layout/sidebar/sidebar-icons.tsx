@@ -1,11 +1,12 @@
 'use client';
 
 import { Button } from '@components/ui/button';
-import { ChevronLeft, ChevronRight, Search, ChevronsLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSidebar } from '@components/ui/sidebar';
 import { ThemeCustomizer } from '@layout/theme';
 import { HelperDialogIcon } from '@lib/helper-dialog';
+import { CommandPrompt } from '@components/command-prompt';
 
 export function SidebarIcons({ defaultColor }: { defaultColor: string }) {
   const router = useRouter();
@@ -22,9 +23,7 @@ export function SidebarIcons({ defaultColor }: { defaultColor: string }) {
       <Button variant={'ghost'} size="icon" onClick={() => router.forward()}>
         <ChevronRight />
       </Button>
-      <Button disabled variant={'ghost'} size="icon">
-        <Search />
-      </Button>
+      <CommandPrompt />
       <ThemeCustomizer defaultColor={defaultColor} />
       <HelperDialogIcon />
     </div>
