@@ -30,18 +30,10 @@ export function MangaArtwork({ manga }: MangaArtworkProps) {
 
   return (
     <Sheet key={mangadexId}>
-      <MangaFigure
-        title={title}
-        imageUrl={imageUrl}
-        mangadexId={mangadexId}
-        className="min-w-[250px] max-w-[550px] md:max-w-[350px]"
-        width={250}
-        height={350}
-        chaptersBehind={chaptersBehind}
-      />
+      <MangaFigure title={title} imageUrl={imageUrl} mangadexId={mangadexId} chaptersBehind={chaptersBehind} />
       <MangaSheet mangaDexId={mangadexId} title={title} description={description}>
         <div className="mt-4">
-          <MangaPortrait imageUrl={imageUrl} title={title} width={210} height={280} />
+          <MangaPortrait imageUrl={imageUrl} title={title} size="lg" />
         </div>
         <div className="mt-4 grid gap-4 py-4">
           <OpenMangaDexButton id={mangadexId} className="w-full" />

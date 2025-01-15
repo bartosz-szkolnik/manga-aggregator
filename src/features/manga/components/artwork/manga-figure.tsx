@@ -10,26 +10,17 @@ type MangaFigureProps = {
   imageUrl: string;
   mangadexId: string;
   aspectRatio?: 'portrait' | 'square';
-  width?: number;
-  height?: number;
   chaptersBehind?: number;
   className?: string;
 };
 
 export function MangaFigure(props: MangaFigureProps) {
-  const { title, imageUrl, mangadexId, width, height, aspectRatio = 'portrait', className, chaptersBehind = 0 } = props;
+  const { title, imageUrl, mangadexId, aspectRatio = 'portrait', className, chaptersBehind = 0 } = props;
 
   return (
     <figure className={cn('space-y-3', className)}>
       <SheetTriggerWithMetaKey className="w-full" customOnClick={() => openMangaDex(mangadexId)}>
-        <MangaPortrait
-          imageUrl={imageUrl}
-          title={title}
-          width={width}
-          height={height}
-          aspectRatio={aspectRatio}
-          showAnimation
-        />
+        <MangaPortrait imageUrl={imageUrl} title={title} aspectRatio={aspectRatio} showAnimation size="responsive" />
       </SheetTriggerWithMetaKey>
       <figcaption className="space-y-1 text-sm">
         <SheetTriggerWithMetaKey className="w-full" customOnClick={() => openMangaDex(mangadexId)}>

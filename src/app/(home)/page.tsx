@@ -40,15 +40,7 @@ export default async function HomePage() {
             {data.map(manga => (
               <div key={manga.id} className="snap-start">
                 <figure className="w-[250px] shrink-0">
-                  <MangaPortrait
-                    imageUrl={manga.imageUrl}
-                    title={manga.title}
-                    className="w-[250px]"
-                    aspectRatio="portrait"
-                    width={250}
-                    height={330}
-                    showAnimation
-                  />
+                  <MangaPortrait imageUrl={manga.imageUrl} title={manga.title} showAnimation />
                   <figcaption className="break space-y-1 pt-2 text-muted-foreground">
                     {/* <span className="font-semibold text-foreground">{manga.title}</span> */}
                     <h3 className="text-center text-base font-medium leading-none">{manga.title}</h3>

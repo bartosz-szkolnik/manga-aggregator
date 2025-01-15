@@ -37,8 +37,7 @@ export function MangaDataForm({ submitAction, state, closeModal }: MangaDataForm
           <MangaPortrait
             imageUrl={`https://mangadex.org/covers/${data.mangaId}/${data.mangaCover}`}
             title={getMangaTitle(title)}
-            width={50}
-            height={130}
+            size="lg"
             aspectRatio={'portrait'}
           />
         </div>

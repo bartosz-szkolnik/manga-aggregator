@@ -36,7 +36,7 @@ export function MangaTableSheet({ manga }: MangaTableSheetProps) {
       </SheetTrigger>
       <MangaSheet mangaDexId={mangadexId} title={title} description={description}>
         <div className="mt-4">
-          <MangaPortrait imageUrl={manga.imageUrl} title={manga.title} width={210} height={280} />
+          <MangaPortrait imageUrl={manga.imageUrl} title={manga.title} size="lg" />
         </div>
         <div className="mt-4 grid gap-4 py-4">
           <OpenMangaDexButton id={mangadexId} className="w-full"></OpenMangaDexButton>
