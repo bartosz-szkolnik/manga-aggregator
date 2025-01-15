@@ -3,6 +3,7 @@
 import { MangaGridResponse } from '@manga/lib/types';
 import { useEffect, useRef, useState } from 'react';
 import { MangaArtwork } from '@manga/components/artwork';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type MangaGridProps = {
   response: MangaGridResponse;
@@ -11,6 +12,17 @@ type MangaGridProps = {
 
 export function MangaGrid({ response: { data, total, offset }, loadMoreMangasAction }: MangaGridProps) {
   const [state, setState] = useState({ data, hasMore: offset < total });
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('page');
+    params.delete('size');
+
+    router.replace(`${pathname}?${params}`);
+  }, [pathname, router, searchParams]);
 
   async function handleLoadMore() {
     if (!state.hasMore) {

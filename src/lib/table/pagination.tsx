@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Pagination,
   PaginationContent,
@@ -10,17 +12,32 @@ import {
   PaginationLast,
 } from '@components/table/pagination';
 import { generatePages } from '@utils/pagination';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 type TablePaginationProps = {
   page: number;
   amountOfPages: number;
   filter: string;
   size: number;
+  tab: string;
 };
 
-export function TablePagination({ page, amountOfPages, filter, size }: TablePaginationProps) {
-  const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
+export function TablePagination({ page, amountOfPages, ...props }: TablePaginationProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (!params.has('page')) {
+      params.set('page', '1');
+    }
+
+    router.replace(`${pathname}?${params}`);
+  }, [pathname, router, searchParams]);
+
+  const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
   if (amountOfPages < 2) {
     return null;
   }
@@ -34,10 +51,10 @@ export function TablePagination({ page, amountOfPages, filter, size }: TablePagi
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationFirst disabled={firstDisabled} replace href={{ query: { page: 1, size, filter } }} />
+          <PaginationFirst disabled={firstDisabled} replace href={{ query: { ...props, page: 1 } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { page: page - 1, size, filter } }} />
+          <PaginationPrevious disabled={previousDisabled} replace href={{ query: { ...props, page: page - 1 } }} />
         </PaginationItem>
         {pages.map((pageOrEllipsis, index) => {
           if (pageOrEllipsis === 'ellipsis') {
@@ -55,7 +72,7 @@ export function TablePagination({ page, amountOfPages, filter, size }: TablePagi
               <PaginationLink
                 isActive={page === pageOrEllipsis}
                 replace
-                href={{ query: { page: pageOrEllipsis, size, filter } }}
+                href={{ query: { ...props, page: pageOrEllipsis } }}
               >
                 {pageOrEllipsis}
               </PaginationLink>
@@ -64,10 +81,10 @@ export function TablePagination({ page, amountOfPages, filter, size }: TablePagi
         })}
 
         <PaginationItem>
-          <PaginationNext disabled={nextDisabled} replace href={{ query: { page: page + 1, size, filter } }} />
+          <PaginationNext disabled={nextDisabled} replace href={{ query: { ...props, page: page + 1 } }} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLast disabled={lastDisabled} replace href={{ query: { page: amountOfPages + 1, size, filter } }} />
+          <PaginationLast disabled={lastDisabled} replace href={{ query: { ...props, page: amountOfPages } }} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

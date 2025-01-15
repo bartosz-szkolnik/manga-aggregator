@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { logger } from '@utils/server/logger';
-import { TablePageSizeSelect, TablePagination, TitleFilter } from '@lib/table';
+import { TablePaginationContrainer, TitleFilter } from '@lib/table';
 import { fetchMangasForAdminDashboard } from '@admin-dashboard/lib/data';
 import { AdminDashboardMangaTable } from '@admin-dashboard/components/table';
 
@@ -12,7 +12,7 @@ type AdminDashboardProps = {
 
 export default async function AdminDashboardPage(props: AdminDashboardProps) {
   const params = await props.searchParams;
-  const { error, data, size, page, amountOfPages } = await fetchMangasForAdminDashboard({ ...params });
+  const { error, data, size, page, amountOfPages, count } = await fetchMangasForAdminDashboard({ ...params });
 
   if (error) {
     logger.error(error.message);
@@ -27,14 +27,12 @@ export default async function AdminDashboardPage(props: AdminDashboardProps) {
           <p className="text-sm text-muted-foreground">Here you can do everything.</p>
         </div>
       </div>
-      <div className="flex md:justify-end">
+      <div className="flex md:justify-between">
+        Total: {count}
         <TitleFilter />
       </div>
       <AdminDashboardMangaTable data={data} />
-      <div className="flex justify-end">
-        <TablePagination amountOfPages={amountOfPages} page={page} filter={params.filter} size={size} />
-        <TablePageSizeSelect size={size} />
-      </div>
+      <TablePaginationContrainer amountOfPages={amountOfPages} page={page} filter={params.filter} size={size} />
     </div>
   );
 }

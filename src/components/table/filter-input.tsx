@@ -2,65 +2,54 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../ui/form';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useDebounce } from '@utils/hooks';
 
-const DELAY_300MS = 300;
-let VALUE_ENTERED = false;
-
-export function FilterInput({ onlyFilterSearchParam }: { onlyFilterSearchParam: boolean }) {
-  const searchParams = useSearchParams();
-  const [, value] = searchParams.toString().split(`filter=`);
-
-  const pathname = usePathname();
+export function FilterInput() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [filter, setFilter] = useState(value ?? '');
-  const debouncedFilter = useDebounce(filter, DELAY_300MS);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (onlyFilterSearchParam) {
-        params.set(name, value);
-        return params.toString();
-      }
-
-      const oldFilter = params.get('filter');
-      if (oldFilter !== value) {
-        params.set('page', '1');
-      }
-      params.set('size', params.get('size') ?? '10');
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams, onlyFilterSearchParam],
-  );
-
-  function handleFilterChange(e: FormEvent<HTMLInputElement>) {
-    VALUE_ENTERED = true;
-    setFilter(e.currentTarget.value);
-  }
+  const [value, setValue] = useState(searchParams.get('filter') ?? '');
+  const debouncedFilter = useDebounce(value);
 
   useEffect(() => {
-    const newQueryString = createQueryString('filter', debouncedFilter);
-    // TODO is there a better way to handle it?
-    if (!VALUE_ENTERED) {
-      return;
-    }
+    const params = new URLSearchParams(searchParams.toString());
+    const newQueryString = assignSearchParams(params, debouncedFilter);
+    router.replace(`${pathname}?${newQueryString}`);
+  }, [debouncedFilter, router, pathname, searchParams]);
 
-    router.replace(pathname + '?' + newQueryString);
-  }, [debouncedFilter, router, createQueryString, pathname]);
+  function handleFilterChange(e: FormEvent<HTMLInputElement>) {
+    setValue(e.currentTarget.value);
+  }
 
   return (
-    <div>
-      <Input
-        type="search"
-        value={filter}
-        onChange={handleFilterChange}
-        placeholder="Any manga that you fancy right now?"
-      ></Input>
-    </div>
+    <Input
+      type="search"
+      value={value}
+      onChange={handleFilterChange}
+      placeholder="Any manga that you fancy right now?"
+    />
   );
+}
+
+function assignSearchParams(params: URLSearchParams, value: string) {
+  const oldValue = params.get('filter');
+  const page = params.get('page');
+  const size = params.get('size');
+
+  if (!value) {
+    params.delete('filter');
+  } else {
+    params.set('filter', value);
+  }
+
+  if (page) {
+    params.set('page', oldValue === value ? page : '1');
+  }
+  if (size) {
+    params.set('size', size);
+  }
+
+  return params.toString();
 }

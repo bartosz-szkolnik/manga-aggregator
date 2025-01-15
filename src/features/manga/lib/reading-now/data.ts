@@ -71,7 +71,7 @@ export async function fetchReadingNowMangasToTable({ count, filter, size, page }
   return {
     data: mapData(data),
     size: calculatedSize,
-    page: calculatedSize,
+    page: calculatedPage,
     amountOfPages,
   } satisfies MangaTableResponse;
 }

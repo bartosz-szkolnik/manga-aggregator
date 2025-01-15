@@ -27,13 +27,13 @@ export async function fetchMangasForAdminDashboard({ filter, page, size }: GetDa
   const { from, to } = getPagination(calculatedPage, calculatedSize);
 
   if (count === 0) {
-    return { data: [], size: 10, amountOfPages: 0, page: 1 } satisfies MangaTableResponse;
+    return { data: [], size: 10, amountOfPages: 0, page: 1, count } satisfies MangaTableResponse & { count: number };
   }
 
   const { data, error } = await supabase
     .from('manga')
     .select('*')
-    .ilike('title', `%${filter}%`)
+    .ilike('title', `%${filter ?? ''}%`)
     .order('id', { ascending: true })
     .range(from, to);
 
@@ -41,6 +41,11 @@ export async function fetchMangasForAdminDashboard({ filter, page, size }: GetDa
     return { error };
   }
 
-  const mangas = mapArrayToCamelCase(data).map(p => ({ ...p, hasProfileManga: false }));
-  return { data: mangas, size: calculatedSize, page: calculatedSize, amountOfPages } satisfies MangaTableResponse;
+  return {
+    data: mapArrayToCamelCase(data).map(p => ({ ...p, hasProfileManga: false })),
+    size: calculatedSize,
+    page: calculatedPage,
+    amountOfPages,
+    count: count ?? 0,
+  } satisfies MangaTableResponse & { count: number };
 }

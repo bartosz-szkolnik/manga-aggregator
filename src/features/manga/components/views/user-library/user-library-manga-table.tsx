@@ -1,6 +1,6 @@
 import { logger } from '@utils/server/logger';
 import { fetchMangasFromUserLibraryToTable } from '@manga/lib/user-library/data';
-import { TablePageSizeSelect, TablePagination } from '@lib/table';
+import { TablePaginationContrainer } from '@lib/table';
 import { MangaTable } from '@manga/components/table';
 
 type UserLibraryMangaTableProps = {
@@ -23,10 +23,7 @@ export async function UserLibraryMangaTable(props: UserLibraryMangaTableProps) {
   return (
     <>
       <MangaTable data={data} />
-      <div className="flex flex-col justify-end gap-4 md:flex-row">
-        <TablePagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} />
-        <TablePageSizeSelect size={size} />
-      </div>
+      <TablePaginationContrainer amountOfPages={amountOfPages} filter={filter} page={page} size={size} />
     </>
   );
 }

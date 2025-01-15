@@ -26,7 +26,7 @@ export function MangaQueryTabs({ tab, count, children }: MangaQueryTabsProps) {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TitleFilter onlyFilterSearchParam />
+        <TitleFilter />
       </div>
       {children}
     </QueryTabs>
