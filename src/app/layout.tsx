@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="en" className={defaultColor} suppressHydrationWarning>
-      <body className={cn('font-sans antialiased', inter.variable)}>
+      <body className={cn('overflow-x-hidden font-sans antialiased', inter.variable)}>
         <ServiceWorkerProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             {children}
