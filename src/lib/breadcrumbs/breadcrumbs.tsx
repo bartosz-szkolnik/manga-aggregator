@@ -12,6 +12,8 @@ import { capitalizeFirstLetter } from '@utils/utils';
 import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
 
+// TODO: This probably needs some work to avoid those hacks
+
 export function Breadcrumbs() {
   const pathname = usePathname();
   const [, ...parts] = pathname.split('/');
@@ -37,14 +39,21 @@ export function Breadcrumbs() {
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {parts.map(path => (
-          <Fragment key={path}>
-            <BreadcrumbItem>
-              <BreadcrumbLink href={'../' + path}>{getBreadcrumbText(path)}</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-          </Fragment>
-        ))}
+        {parts.map((path, index, arr) => {
+          const length = arr.length - index;
+          const backString = Array.from({ length })
+            .map(() => '../')
+            .join('');
+
+          return (
+            <Fragment key={path}>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={backString + path}>{getBreadcrumbText(path)}</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </Fragment>
+          );
+        })}
         <BreadcrumbItem>
           <BreadcrumbPage>{getBreadcrumbText(last)}</BreadcrumbPage>
         </BreadcrumbItem>

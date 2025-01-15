@@ -4,6 +4,8 @@ import { createBrowserClient } from '@utils/supabase/client';
 import { useCommandState } from 'cmdk';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useCommandPrompt } from '../command-prompt-context';
+import { closeCommandPrompt } from '../command-prompt-reducer';
 
 const DELAY_300MS = 300;
 
@@ -17,6 +19,7 @@ type Manga = {
 export function CommandPromptMangaPage() {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<Manga[]>([]);
+  const { dispatch } = useCommandPrompt();
 
   const search = useCommandState(state => state.search);
   const debounced = useDebounce(search, DELAY_300MS);
@@ -35,6 +38,7 @@ export function CommandPromptMangaPage() {
   }, [debounced]);
 
   function handleSelect(mangaId: string) {
+    dispatch(closeCommandPrompt());
     redirect(`/manga/details/${mangaId}`);
   }
 
