@@ -29,7 +29,7 @@ export function TablePagination({ page, amountOfPages, ...props }: TablePaginati
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams);
     if (!params.has('page')) {
       params.set('page', '1');
     }

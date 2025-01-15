@@ -18,7 +18,7 @@ export function TablePaginationContrainer({ size, amountOfPages, filter, page }:
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams);
     if (!params.has('size')) {
       params.set('size', '10');
     }

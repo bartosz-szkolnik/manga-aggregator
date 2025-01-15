@@ -36,7 +36,6 @@ export function FilterInput() {
 function assignSearchParams(params: URLSearchParams, value: string) {
   const oldValue = params.get('filter');
   const page = params.get('page');
-  const size = params.get('size');
 
   if (!value) {
     params.delete('filter');
@@ -46,9 +45,6 @@ function assignSearchParams(params: URLSearchParams, value: string) {
 
   if (page) {
     params.set('page', oldValue === value ? page : '1');
-  }
-  if (size) {
-    params.set('size', size);
   }
 
   return params.toString();

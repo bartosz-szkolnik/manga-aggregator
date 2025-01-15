@@ -11,7 +11,7 @@ export function TablePageSizeSelect({ size }: { size: number }) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams);
     if (!params.has('size')) {
       params.set('size', '10');
     }
