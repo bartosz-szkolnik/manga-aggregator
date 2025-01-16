@@ -20,7 +20,7 @@ export default async function AdminDashboardPage(props: AdminDashboardProps) {
   }
 
   return (
-    <div className="flex flex-col flex-wrap gap-8 px-4 py-6 lg:px-8">
+    <main className="flex flex-col flex-wrap gap-8 px-4 py-6 lg:px-8">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Admin Dashboard</h2>
@@ -33,6 +33,6 @@ export default async function AdminDashboardPage(props: AdminDashboardProps) {
       </div>
       <AdminDashboardMangaTable data={data} />
       <TablePaginationContrainer amountOfPages={amountOfPages} page={page} filter={params.filter} size={size} />
-    </div>
+    </main>
   );
 }

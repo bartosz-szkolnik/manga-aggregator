@@ -14,7 +14,7 @@ export default async function NotificationsSettingsPage() {
 
   const isUnsubscribed = JSON.stringify(data.subscriptions) === '[]';
   return (
-    <div className="space-y-6">
+    <main className="space-y-6">
       <div>
         <h3 className="text-lg font-medium">Notifications</h3>
         <p className="text-sm text-muted-foreground">Configure how you receive your notifications.</p>
@@ -22,6 +22,6 @@ export default async function NotificationsSettingsPage() {
       <Separator />
       <NotificationsSwitch defaultSubscribed={!isUnsubscribed} />
       <SingularNotificationsSwitch receiveSingularNotifications={data?.receiveSingularNotifications ?? true} />
-    </div>
+    </main>
   );
 }
