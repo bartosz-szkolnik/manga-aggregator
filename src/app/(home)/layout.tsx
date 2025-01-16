@@ -1,5 +1,5 @@
 import { SidebarLayout, SidebarTrigger } from '@components/ui/sidebar';
-import { fetchProfile } from '@home/lib/data';
+import { fetchProfile } from '@lib/profile/data';
 import { Sidebar } from '@layout/sidebar';
 import { Breadcrumbs } from '@lib/breadcrumbs';
 import { HelperDialog } from '@lib/helper-dialog';
@@ -20,13 +20,13 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
     <div className="flex max-h-screen md:bg-gradient-to-r md:from-gradient-from md:to-gradient-to">
       <SidebarLayout defaultOpen={defaultOpen}>
         <Sidebar className="px-2 py-6" defaultColor={defaultColor} />
-        <main className="grid max-h-screen w-full grid-rows-[auto_1fr] rounded-md bg-background shadow-lg shadow-slate-400 dark:shadow-none md:m-3">
+        <div className="grid max-h-screen w-full grid-rows-[auto_1fr] rounded-md bg-background shadow-lg shadow-slate-400 dark:shadow-none md:m-3">
           <div className="ml-4 mt-4 flex">
             <SidebarTrigger />
             <Breadcrumbs />
           </div>
           {children}
-        </main>
+        </div>
       </SidebarLayout>
       <HelperDialog defaultOpen={!helperModalOpenedPreviously} />
       <Suspense fallback={<div />}>
@@ -38,5 +38,9 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
 
 async function AddMangaViaShortcutContainer() {
   const { profile } = await fetchProfile();
-  return <div>{verifyAccess(profile).includes('add') && <AddMangaViaShortcut />}</div>;
+  if (!profile || !verifyAccess(profile).includes('add')) {
+    return null;
+  }
+
+  return <AddMangaViaShortcut />;
 }

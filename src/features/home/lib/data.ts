@@ -48,15 +48,6 @@ export async function fetchMangasPlannedToReadCount() {
   return count;
 }
 
-export async function fetchProfile() {
-  const { userId, profile } = await createServerClient();
-  if (!userId) {
-    return unauthorized();
-  }
-
-  return { profile: propertiesToCamelCase(profile) };
-}
-
 function mapData(data: UnCamelCasedManga[]): Manga[] {
   return mapArrayToCamelCase(data).map(({ ...rest }) => {
     return { ...rest, hasProfileManga: false };
