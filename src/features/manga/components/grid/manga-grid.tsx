@@ -38,7 +38,7 @@ export function MangaGrid({ response: { data, total, offset }, loadMoreMangasAct
 
   return (
     <>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8 pb-4 md:gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8 pb-4 md:gap-4">
         {state.data.map(manga => (
           <MangaArtwork key={manga.id} manga={manga} />
         ))}
