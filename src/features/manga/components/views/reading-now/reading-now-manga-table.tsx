@@ -1,7 +1,7 @@
-import { logger } from '@utils/server/logger';
 import { fetchReadingNowMangasToTable } from '@manga/lib/reading-now/data';
 import { TablePaginationContrainer } from '@lib/table';
 import { MangaTable } from '@manga/components/table';
+import { ServerError } from '@components/common/error/error.server';
 
 type ReadingNowMangaTableProps = {
   filter: string;
@@ -15,9 +15,7 @@ export async function ReadingNowMangaTable(props: ReadingNowMangaTableProps) {
   const { error, data, size, page, amountOfPages } = await fetchReadingNowMangasToTable({ ...props });
 
   if (error) {
-    // TODO: Make better errors
-    logger.error(error);
-    return <p>Some kind of error occured</p>;
+    return <ServerError error={error} />;
   }
 
   return (

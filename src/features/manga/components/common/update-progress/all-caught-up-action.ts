@@ -1,12 +1,13 @@
 'use server';
 
 import { Manga } from '@manga/types';
+import { setRefetchMangaUseCookieToTrue } from '@manga/utils/refetch-manga/refetch-manga.server';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
 
-export async function allCaughtUp(mangaId: Manga['id']) {
+export async function allCaughtUp(mangaId: Manga['id'], setCookie?: boolean) {
   const { supabase, userId } = await createServerClient();
 
   if (!userId) {
@@ -40,6 +41,10 @@ export async function allCaughtUp(mangaId: Manga['id']) {
       logger.error(error);
       return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<ActionResult>;
     }
+  }
+
+  if (setCookie) {
+    await setRefetchMangaUseCookieToTrue();
   }
 
   revalidatePath('/');

@@ -21,21 +21,26 @@ type TablePaginationProps = {
   filter: string;
   size: number;
   tab: string;
+  setPageParam?: boolean;
 };
 
-export function TablePagination({ page, amountOfPages, ...props }: TablePaginationProps) {
+export function TablePagination({ page, amountOfPages, setPageParam = true, ...props }: TablePaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    if (!setPageParam) {
+      return;
+    }
+
     const params = new URLSearchParams(searchParams);
     if (!params.has('page')) {
       params.set('page', '1');
     }
 
     router.replace(`${pathname}?${params}`);
-  }, [pathname, router, searchParams]);
+  }, [pathname, router, searchParams, setPageParam]);
 
   const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
   if (amountOfPages < 2) {

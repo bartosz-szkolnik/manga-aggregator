@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ErrorMessage, Form, FormControl, Label, SubmitButton } from '@components/ui/form';
 import { ChangePrioritySelect } from '@manga/components/common/change-priority';
 import { ChangeReadingStatusSelect } from '@manga/components/common/change-reading-status';
-import { ReadingStatus, Priority } from '@manga/types';
 import { useState, useActionState } from 'react';
 import { updateProgress } from './update-progress-action';
 import { AllCaughtUpButton } from './all-caught-up-button';
@@ -13,28 +12,25 @@ import { FormActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
 import { ChangeLatestChapterRead } from '@manga/components/common/change-latest-chapter-read';
+import { CombinedManga } from '@manga/lib/types';
 
 export type UpdateProgressFormProps = {
-  readingStatus: ReadingStatus;
-  latestChapterRead: string;
-  latestChapter: string;
-  priority: Priority;
-  mangaId: string;
+  manga: CombinedManga;
+  setCookie?: boolean;
 };
 
-export function UpdateProgressForm({
-  readingStatus,
-  latestChapterRead,
-  latestChapter,
-  priority,
-  mangaId,
-}: UpdateProgressFormProps) {
+export function UpdateProgressForm({ manga, setCookie = false }: UpdateProgressFormProps) {
+  const { readingStatus, id: mangaId, mangaStatus } = manga;
+  const priority = manga.priority ?? 'normal';
+  const latestChapter = manga.latestChapter ?? '0';
+  const latestChapterRead = manga.latestChapterRead ?? '0';
+
   const [open, setOpen] = useState(false);
   const [latestChapterValue, setLatestChapterRead] = useState(latestChapterRead);
   const [readingStatusValue, setReadingStatus] = useState(readingStatus ?? 'want to read');
 
   const [errors = null, submitAction] = useActionState(async (_: unknown, formData: FormData) => {
-    const { error } = await updateProgress(formData, mangaId);
+    const { error } = await updateProgress(formData, mangaId, setCookie);
     if (error) {
       return handleErrors(error);
     }
@@ -42,6 +38,14 @@ export function UpdateProgressForm({
     setOpen(false);
     toast.success('Your progress has been updated!');
   }, null);
+
+  function handleAllCaughtUpSuccess() {
+    setOpen(false);
+    setLatestChapterRead(latestChapter);
+
+    const newReadingStatus = mangaStatus === 'completed' ? 'finished reading' : readingStatus;
+    setReadingStatus(newReadingStatus ?? 'reading');
+  }
 
   if (!open) {
     return (
@@ -51,7 +55,7 @@ export function UpdateProgressForm({
     );
   }
 
-  const isCaughtUp = latestChapter <= latestChapterRead;
+  const isCaughtUp = Number(latestChapter) <= Number(latestChapterRead);
   return (
     <div className="flex items-center justify-center [&>div]:w-full">
       <Card>
@@ -65,7 +69,12 @@ export function UpdateProgressForm({
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="grid gap-4">
-              <AllCaughtUpButton isCaughtUp={isCaughtUp} mangaId={mangaId} onSuccess={() => setOpen(false)} />
+              <AllCaughtUpButton
+                isCaughtUp={isCaughtUp}
+                mangaId={mangaId}
+                onSuccess={handleAllCaughtUpSuccess}
+                setCookie={setCookie}
+              />
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />

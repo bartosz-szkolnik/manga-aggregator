@@ -22,8 +22,13 @@ import {
 } from './add-manga-to-database-state';
 import { revalidatePath } from 'next/cache';
 import { getMangaDescription, getMangaTitle } from '@manga/utils';
+import { setRefetchMangaUseCookieToTrue } from '@manga/utils/refetch-manga/refetch-manga.server';
 
-export async function addMangaToDatabase(previousState: AddMangaToDatabaseState, formData: FormData) {
+export async function addMangaToDatabase(
+  previousState: AddMangaToDatabaseState,
+  formData: FormData,
+  setCookie?: boolean,
+) {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return { type: 'MANGA_ID', error: 'NOT_SIGNED_IN_ERROR' } satisfies MangaIdState;
@@ -64,6 +69,11 @@ export async function addMangaToDatabase(previousState: AddMangaToDatabaseState,
         const addedMangaId = await insertMangaToDatabase(supabase, parsedData, data);
 
         const isClose = formData.get('close');
+
+        if (setCookie) {
+          await setRefetchMangaUseCookieToTrue();
+        }
+
         revalidatePath('/');
         if (isClose) {
           return { type: 'MANGA_DATA_CLOSE_MODAL' } satisfies MangaDataCloseModalState;
@@ -83,6 +93,11 @@ export async function addMangaToDatabase(previousState: AddMangaToDatabaseState,
 
         const data = parseProfileMangaData(formData);
         await insertProfileMangaToDatabase(supabase, userId, addedMangaId, data);
+
+        if (setCookie) {
+          await setRefetchMangaUseCookieToTrue();
+        }
+
         revalidatePath('/');
         return { type: 'PROFILE_MANGA_DATA_SUCCESS', error: null } satisfies ProfileMangaDataSuccessState;
       });

@@ -19,19 +19,19 @@ import { exhaustiveCheck } from '@utils/utils';
 import { ActionButton } from '@components/ui/form';
 import { getRandomCommonClosingMessage } from '@lib/dialog-closing-messages';
 
-export function AddMangaToUserLibraryButton({
-  mangaId,
-  className,
-  isInLibrary,
-}: {
+type AddMangaToUserLibraryButtonProps = {
   mangaId: string;
   className?: string;
   isInLibrary: boolean;
-}) {
+  setCookie?: boolean;
+};
+
+export function AddMangaToUserLibraryButton(props: AddMangaToUserLibraryButtonProps) {
+  const { mangaId, className, isInLibrary, setCookie } = props;
   const [open, setOpen] = useState(false);
 
   const [, submitAddAction] = useActionState(async () => {
-    const { error } = await addToUserLibrary(mangaId, isInLibrary);
+    const { error } = await addToUserLibrary(mangaId, isInLibrary, setCookie);
     if (error) {
       return handleErrors(error);
     }
@@ -40,7 +40,7 @@ export function AddMangaToUserLibraryButton({
   }, null);
 
   const [, submitRemoveAction] = useActionState(async () => {
-    const { error } = await addToUserLibrary(mangaId, isInLibrary);
+    const { error } = await addToUserLibrary(mangaId, isInLibrary, setCookie);
     setOpen(false);
     if (error) {
       return handleErrors(error);

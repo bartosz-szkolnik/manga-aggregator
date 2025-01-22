@@ -1,7 +1,7 @@
 import { MangaTable } from '@manga/components/table';
 import { fetchAllMangasToBrowseToTable } from '@manga/lib/browse/data';
-import { logger } from '@utils/server/logger';
 import { TablePaginationContrainer } from '@lib/table';
+import { ServerError } from '@components/common/error/error.server';
 
 type BrowseMangaTableProps = {
   filter: string;
@@ -15,9 +15,7 @@ export async function BrowseMangaTable(props: BrowseMangaTableProps) {
   const { error, data, amountOfPages, page, size } = await fetchAllMangasToBrowseToTable({ ...props });
 
   if (error) {
-    // TODO: Make better errors
-    logger.error(error);
-    return <p>Some kind of error occured</p>;
+    return <ServerError error={error} />;
   }
 
   return (

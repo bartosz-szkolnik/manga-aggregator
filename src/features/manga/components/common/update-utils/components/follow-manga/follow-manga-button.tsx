@@ -23,13 +23,14 @@ type FollowMangaButton = {
   mangaId: string;
   className?: string;
   isFollowing: boolean;
+  setCookie?: boolean;
 };
 
-export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMangaButton) {
+export function FollowMangaButton({ mangaId, className, isFollowing, setCookie }: FollowMangaButton) {
   const [open, setOpen] = useState(false);
 
   const [, submitFollowAction] = useActionState(async () => {
-    const { error } = await followManga(mangaId, isFollowing);
+    const { error } = await followManga(mangaId, isFollowing, setCookie);
     if (error) {
       return handleErrors(error);
     }
@@ -38,7 +39,7 @@ export function FollowMangaButton({ mangaId, className, isFollowing }: FollowMan
   }, null);
 
   const [, submitUnfollowAction] = useActionState(async () => {
-    const { error } = await followManga(mangaId, isFollowing);
+    const { error } = await followManga(mangaId, isFollowing, setCookie);
     setOpen(false);
     if (error) {
       return handleErrors(error);

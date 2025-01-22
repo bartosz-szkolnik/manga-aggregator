@@ -1,12 +1,13 @@
 'use server';
 
 import { Manga } from '@manga/types';
+import { setRefetchMangaUseCookieToTrue } from '@manga/utils/refetch-manga/refetch-manga.server';
 import { logger } from '@utils/server/logger';
 import { createServerClient } from '@utils/supabase/server';
 import { ActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
 
-export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
+export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean, setCookie = false) {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return { success: false, error: 'NOT_SIGNED_IN_ERROR' } satisfies Awaited<ActionResult>;
@@ -20,6 +21,10 @@ export async function favoriteManga(mangaId: Manga['id'], isFavorite: boolean) {
   if (error) {
     logger.error(error);
     return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<ActionResult>;
+  }
+
+  if (setCookie) {
+    await setRefetchMangaUseCookieToTrue();
   }
 
   revalidatePath('/');

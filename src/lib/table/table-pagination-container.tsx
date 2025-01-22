@@ -12,7 +12,7 @@ type TablePaginationContrainerProps = {
   filter: string;
 };
 
-export function TablePaginationContrainer({ size, amountOfPages, filter, page }: TablePaginationContrainerProps) {
+export function TablePaginationContrainer({ size, ...props }: TablePaginationContrainerProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -31,8 +31,8 @@ export function TablePaginationContrainer({ size, amountOfPages, filter, page }:
 
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row">
-      <TablePagination amountOfPages={amountOfPages} page={page} filter={filter} size={size} tab="table" />
-      <TablePageSizeSelect size={size} />
+      <TablePagination {...props} size={size} tab="table" setPageParam={false} />
+      <TablePageSizeSelect size={size} setSizeParam={false} />
     </div>
   );
 }

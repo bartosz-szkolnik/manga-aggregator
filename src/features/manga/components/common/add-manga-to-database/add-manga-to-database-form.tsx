@@ -6,15 +6,19 @@ import { addMangaToDatabase } from './add-manga-to-database-action';
 import { toast } from 'sonner';
 import { AddMangaToDatabaseState, matchState, WithoutAppErrors } from './add-manga-to-database-state';
 import { MangaDataForm, MangaIdForm, ProfileMangaDataForm } from './components';
+import { useSearchParams } from 'next/navigation';
 
 type AddMangaToDatabaseDialogFormProps = {
   closeModal: HandlerFnOptionalParam;
 };
 
 export function AddMangaToDatabaseDialogForm({ closeModal }: AddMangaToDatabaseDialogFormProps) {
+  const searchParams = new URLSearchParams(useSearchParams());
+  const isInGrid = searchParams.get('tab') === 'grid';
+
   const [state, submitAction] = useActionState(
     async (previousState: AddMangaToDatabaseState, formData: FormData) => {
-      const state = await addMangaToDatabase(previousState, formData);
+      const state = await addMangaToDatabase(previousState, formData, isInGrid);
 
       if ((state.type === 'PROFILE_MANGA_DATA' && state.error === null) || state.type === 'MANGA_DATA_CLOSE_MODAL') {
         toast.success('We have added this manga to our database.');

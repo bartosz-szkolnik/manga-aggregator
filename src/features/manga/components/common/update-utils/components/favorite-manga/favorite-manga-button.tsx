@@ -23,13 +23,14 @@ type FavoriteMangaButtonProps = {
   mangaId: string;
   className?: string;
   isFavorite: boolean;
+  setCookie?: boolean;
 };
 
-export function FavoriteMangaButton({ mangaId, className, isFavorite }: FavoriteMangaButtonProps) {
+export function FavoriteMangaButton({ mangaId, className, isFavorite, setCookie = false }: FavoriteMangaButtonProps) {
   const [open, setOpen] = useState(false);
 
   const [, submitFavoriteAction] = useActionState(async () => {
-    const { error } = await favoriteManga(mangaId, isFavorite);
+    const { error } = await favoriteManga(mangaId, isFavorite, setCookie);
     if (error) {
       return handleErrors(error);
     }
@@ -38,7 +39,7 @@ export function FavoriteMangaButton({ mangaId, className, isFavorite }: Favorite
   }, null);
 
   const [, submitUnfavoriteAction] = useActionState(async () => {
-    const { error } = await favoriteManga(mangaId, isFavorite);
+    const { error } = await favoriteManga(mangaId, isFavorite, setCookie);
     if (error) {
       return handleErrors(error);
     }

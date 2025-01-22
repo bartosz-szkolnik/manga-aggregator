@@ -14,14 +14,15 @@ type AllCaughtUpButtonProps = {
   mangaId: Manga['id'];
   isCaughtUp: boolean;
   onSuccess: HandlerFnOptionalParam;
+  setCookie?: boolean;
 };
 
-export function AllCaughtUpButton({ mangaId, isCaughtUp, onSuccess }: AllCaughtUpButtonProps) {
+export function AllCaughtUpButton({ mangaId, isCaughtUp, onSuccess, setCookie = false }: AllCaughtUpButtonProps) {
   const [pending, startTransition] = useTransition();
 
   function handleClick() {
     startTransition(async () => {
-      const { error } = await allCaughtUp(mangaId);
+      const { error } = await allCaughtUp(mangaId, setCookie);
       if (error) {
         handleErrors(error);
       } else {

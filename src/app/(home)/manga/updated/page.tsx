@@ -1,5 +1,4 @@
 import { Separator } from '@components/ui/separator';
-import { logger } from '@utils/server/logger';
 import { NoMangaPlaceholder } from '@manga/components/common/no-mangas-placeholder';
 import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
 import { Metadata } from 'next';
@@ -9,6 +8,7 @@ import { Suspense } from 'react';
 import { UpdatedMangaGrid, UpdatedMangaTable } from '@manga/components/views/updated';
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { LazyTableTabProps } from '@utils/pagination';
+import { ServerError } from '@components/common/error/error.server';
 
 export const metadata: Metadata = { title: 'Updated' };
 
@@ -23,16 +23,9 @@ type PageProps = {
 
 export default async function Page(props: PageProps) {
   const { filter = '', size = '10', page = '1', tab = 'grid' } = await props.searchParams;
-  const { count, error } = await fetchUpdatedMangasCount();
-
-  if (error) {
-    // TODO: Make better errors
-    logger.error(error);
-    return <p>Some kind of error occured</p>;
-  }
 
   return (
-    <>
+    <main>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <MangaPageHeader
           heading="Updated for You"
@@ -44,28 +37,48 @@ export default async function Page(props: PageProps) {
         </div>
       </div>
       <Separator className="my-4" />
-
-      <MangaQueryTabs tab={tab} count={count ?? 0}>
-        {!count ? (
-          <NoMangaPlaceholder text="You are all caught up! Good job!" />
-        ) : (
-          <>
-            <LazyGridTab tab={tab} filter={filter} />
-            <LazyTableTab tab={tab} filter={filter} page={page} size={size} count={count} />
-          </>
-        )}
-      </MangaQueryTabs>
-    </>
+      {/* TODO: Add Tabs skeleton */}
+      <Suspense fallback={<p>Loading...</p>}>
+        <QueryTabs filter={filter} page={page} size={size} tab={tab} />
+      </Suspense>
+    </main>
   );
 }
 
-async function LazyGridTab({ tab, filter }: { tab: string; filter: string }) {
+type QueryTabsProps = {
+  tab: string;
+  filter: string;
+  page: string;
+  size: string;
+};
+
+async function QueryTabs({ tab, filter, page, size }: QueryTabsProps) {
+  const { count, error } = await fetchUpdatedMangasCount();
+  if (error) {
+    return <ServerError error={error} />;
+  }
+
+  return (
+    <MangaQueryTabs tab={tab} count={count ?? 0}>
+      {!count ? (
+        <NoMangaPlaceholder text="You are all caught up! Good job!" />
+      ) : (
+        <>
+          <LazyGridTab tab={tab} filter={filter} count={count} />
+          <LazyTableTab tab={tab} filter={filter} page={page} size={size} count={count} />
+        </>
+      )}
+    </MangaQueryTabs>
+  );
+}
+
+async function LazyGridTab({ tab, ...props }: { tab: string; filter: string; count: number }) {
   if (tab === 'grid') {
     return (
       <TabsContent value="grid">
         {/* TODO Add MangaGrid Skeleton */}
         <Suspense fallback={<p>Loading...</p>}>
-          <UpdatedMangaGrid filter={filter} />
+          <UpdatedMangaGrid {...props} />
         </Suspense>
       </TabsContent>
     );

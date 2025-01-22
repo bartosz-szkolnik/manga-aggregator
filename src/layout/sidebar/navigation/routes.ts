@@ -31,7 +31,7 @@ export const routes = {
       items: [
         {
           title: 'Browse',
-          url: '/manga/browse',
+          url: '/manga/browse?tab=grid',
           description: 'Browse all available mangas',
           icon: BookCopy,
         },
@@ -56,28 +56,28 @@ export const routes = {
       items: [
         {
           title: 'Browse',
-          url: '/manga/browse',
+          url: '/manga/browse?tab=grid',
           description: 'Browse all available mangas',
           countKey: 'browse',
           icon: BookCopy,
         },
         {
           title: 'Updated',
-          url: '/manga/updated',
+          url: '/manga/updated?tab=grid',
           description: 'View mangas followed by you that have been updated since your last visit',
           countKey: 'updated',
           icon: BellRing,
         },
         {
           title: 'Reading Now',
-          url: '/manga/reading-now',
+          url: '/manga/reading-now?tab=grid',
           description: 'Browse mangas that you currently have marked as "Currently reading"',
           countKey: 'reading-now',
           icon: ArrowDownAZ,
         },
         {
           title: 'Your Library',
-          url: '/manga/your-library',
+          url: '/manga/your-library?tab=grid',
           description: 'Browse all mangas in your Library',
           countKey: 'your-library',
           icon: Library,

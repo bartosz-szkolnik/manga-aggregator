@@ -1,6 +1,5 @@
 import { TabsContent } from '@components/ui/tabs';
 import { NoMangaPlaceholder } from '@manga/components/common/no-mangas-placeholder';
-import { logger } from '@utils/server/logger';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Separator } from '@components/ui/separator';
@@ -8,8 +7,8 @@ import { fetchMangasToBrowseCount } from '@manga/lib/browse/data';
 import { BrowseMangaGrid, BrowseMangaTable } from '@manga/components/views/browse';
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { LazyTableTabProps } from '@utils/pagination';
-import { verifyAccess } from '@auth/utils';
-import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-database';
+import { AddMangaButtonIfAllowed } from '@manga/components/common/add-manga-button-if-allowed';
+import { ServerError } from '@components/common/error/error.server';
 
 export const metadata: Metadata = { title: 'Browse' };
 
@@ -24,47 +23,61 @@ type PageProps = {
 
 export default async function Page(props: PageProps) {
   const { filter = '', size = '10', page = '1', tab = 'grid' } = await props.searchParams;
-  const { count, profile, error } = await fetchMangasToBrowseCount(filter);
-
-  if (error) {
-    // TODO: Make better errors
-    logger.error(error);
-    return <p>Some kind of error occured</p>;
-  }
 
   return (
-    <>
+    <main>
       <div className="flex flex-wrap justify-between gap-4">
         <MangaPageHeader heading="All Available Manga" subheading="Here's a list of all available manga." />
         <div className="mb-6 ml-2 flex items-center">
-          {verifyAccess(profile).includes('add') && <AddMangaToDatabaseDialog className="ml-auto mr-4" />}
+          <AddMangaButtonIfAllowed />
         </div>
       </div>
       <Separator className="my-4" />
-      <MangaQueryTabs tab={tab} count={count ?? 0}>
-        {!count ? (
-          <NoMangaPlaceholder
-            description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
-            showBrowseMangaLink={false}
-          />
-        ) : (
-          <>
-            <LazyGridTab tab={tab} filter={filter} />
-            <LazyTableTab tab={tab} filter={filter} page={page} size={size} count={count} />
-          </>
-        )}
-      </MangaQueryTabs>
-    </>
+      {/* TODO: Add Tabs skeleton */}
+      <Suspense fallback={<p>Loading...</p>}>
+        <QueryTabs filter={filter} page={page} size={size} tab={tab} />
+      </Suspense>
+    </main>
   );
 }
 
-async function LazyGridTab({ tab, filter }: { tab: string; filter: string }) {
+type QueryTabsProps = {
+  tab: string;
+  filter: string;
+  page: string;
+  size: string;
+};
+
+async function QueryTabs({ tab, filter, page, size }: QueryTabsProps) {
+  const { count, error } = await fetchMangasToBrowseCount(filter);
+  if (error) {
+    return <ServerError error={error} />;
+  }
+
+  return (
+    <MangaQueryTabs tab={tab} count={count ?? 0}>
+      {!count ? (
+        <NoMangaPlaceholder
+          description="If you want some, you can go directly to MangaDex to browse there and add it to our database."
+          showBrowseMangaLink={false}
+        />
+      ) : (
+        <>
+          <LazyGridTab tab={tab} filter={filter} count={count} />
+          <LazyTableTab tab={tab} filter={filter} page={page} size={size} count={count} />
+        </>
+      )}
+    </MangaQueryTabs>
+  );
+}
+
+async function LazyGridTab({ tab, ...props }: { tab: string; filter: string; count: number }) {
   if (tab === 'grid') {
     return (
       <TabsContent value="grid">
         {/* TODO Add MangaGrid Skeleton */}
         <Suspense fallback={<p>Loading...</p>}>
-          <BrowseMangaGrid filter={filter} />
+          <BrowseMangaGrid {...props} />
         </Suspense>
       </TabsContent>
     );

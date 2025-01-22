@@ -5,19 +5,23 @@ import { FormControl, Label } from '@components/ui/form';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-export function TablePageSizeSelect({ size }: { size: number }) {
+export function TablePageSizeSelect({ size, setSizeParam = true }: { size: number; setSizeParam?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    if (!setSizeParam) {
+      return;
+    }
+
     const params = new URLSearchParams(searchParams);
     if (!params.has('size')) {
       params.set('size', '10');
     }
 
     router.replace(`${pathname}?${params}`);
-  }, [pathname, router, searchParams]);
+  }, [pathname, router, searchParams, setSizeParam]);
 
   return (
     <FormControl className="w-[100px]" controlName="page-size">

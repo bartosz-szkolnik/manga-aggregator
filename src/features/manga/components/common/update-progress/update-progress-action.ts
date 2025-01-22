@@ -5,8 +5,9 @@ import { updateProgressSchema } from './update-progress-schema';
 import { createServerClient } from '@utils/supabase/server';
 import { FormActionResult } from '@utils/types';
 import { revalidatePath } from 'next/cache';
+import { setRefetchMangaUseCookieToTrue } from '@manga/utils/refetch-manga/refetch-manga.server';
 
-export async function updateProgress(formData: FormData, mangaId: string) {
+export async function updateProgress(formData: FormData, mangaId: string, setCookie?: boolean) {
   const { supabase, userId } = await createServerClient();
 
   if (!userId) {
@@ -33,6 +34,10 @@ export async function updateProgress(formData: FormData, mangaId: string) {
       logger.error(error);
       return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<FormActionResult>;
     }
+  }
+
+  if (setCookie) {
+    await setRefetchMangaUseCookieToTrue();
   }
 
   revalidatePath('/');
