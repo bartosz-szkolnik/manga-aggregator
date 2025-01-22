@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../ui/form';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useDebounce } from '@utils/hooks';
 
 export function FilterInput() {
@@ -11,16 +11,14 @@ export function FilterInput() {
   const searchParams = useSearchParams();
 
   const [value, setValue] = useState(searchParams.get('filter') ?? '');
-  const debouncedFilter = useDebounce(value);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    const newQueryString = assignSearchParams(params, debouncedFilter);
-    router.replace(`${pathname}?${newQueryString}`);
-  }, [debouncedFilter, router, pathname, searchParams]);
+  const debounced = useDebounce((newQueryString: URLSearchParams) => router.replace(`${pathname}?${newQueryString}`));
 
   function handleFilterChange(e: FormEvent<HTMLInputElement>) {
     setValue(e.currentTarget.value);
+
+    const params = new URLSearchParams(searchParams);
+    const newQueryString = assignSearchParams(params, e.currentTarget.value);
+    debounced(newQueryString);
   }
 
   return (
@@ -47,5 +45,5 @@ function assignSearchParams(params: URLSearchParams, value: string) {
     params.set('page', oldValue === value ? page : '1');
   }
 
-  return params.toString();
+  return params;
 }

@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import { useCommandPrompt } from '../command-prompt-context';
 import { closeCommandPrompt } from '../command-prompt-reducer';
 
-const DELAY_300MS = 300;
-
 type Manga = {
   id: string;
   title: string;
@@ -22,20 +20,20 @@ export function CommandPromptMangaPage() {
   const { dispatch } = useCommandPrompt();
 
   const search = useCommandState(state => state.search);
-  const debounced = useDebounce(search, DELAY_300MS);
+  const debouncedFetchManga = useDebounce(fetchManga);
 
   useEffect(() => {
     async function getItems() {
       setLoading(true);
 
-      const mangas = await fetchManga(debounced);
+      const mangas = await debouncedFetchManga(search);
       setItems(mangas);
 
       setLoading(false);
     }
 
     getItems();
-  }, [debounced]);
+  }, [debouncedFetchManga, search]);
 
   function handleSelect(mangaId: string) {
     dispatch(closeCommandPrompt());
