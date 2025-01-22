@@ -64,3 +64,8 @@ export type Reveal<T> = { [K in keyof T]: T[K] } & {};
 export function mapArrayToCamelCase<O extends Record<string, unknown>>(arr: O[]) {
   return arr.map(p => propertiesToCamelCase(p));
 }
+
+export function updateSearchParamsShallowly(params: URLSearchParams) {
+  const [pageUrl] = window.location.href.split('?');
+  window.history.replaceState('', '', `${pageUrl}?${params}`);
+}

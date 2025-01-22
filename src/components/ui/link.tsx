@@ -50,5 +50,6 @@ function isActive(pathname: string, href: string, match?: string[]) {
     return pathname === '/' || match?.some(href => pathname.includes(href));
   }
 
-  return pathname.startsWith(href);
+  const [first] = href.split('?');
+  return pathname.startsWith(first);
 }

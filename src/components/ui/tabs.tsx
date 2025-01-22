@@ -19,7 +19,7 @@ const QueryTabs = ({ queryName, ...props }: QueryTabsProps) => {
   const setValue = (value: string) => {
     const params = new URLSearchParams(searchParams);
     params.set(queryName, value);
-    router.replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params}`);
   };
 
   return <TabsPrimitive.Root onValueChange={value => setValue(value)} {...props} />;

@@ -3,7 +3,7 @@
 import { MangaGridResponse } from '@manga/lib/types';
 import { useEffect, useRef, useState } from 'react';
 import { MangaArtwork } from '@manga/components/artwork';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import {
   setHowManyMangasToRefetch,
   setRefetchMangaUseCookieToFalse,
@@ -12,6 +12,7 @@ import { AddMangaToUserLibraryButton } from '../common/update-utils/components/a
 import { FollowMangaButton } from '../common/update-utils/components/follow-manga';
 import { FavoriteMangaButton } from '../common/update-utils/components/favorite-manga';
 import { UpdateProgressForm } from '../common/update-progress';
+import { updateSearchParamsShallowly } from '@utils/utils';
 
 type MangaGridProps = {
   response: MangaGridResponse;
@@ -21,10 +22,6 @@ type MangaGridProps = {
 export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
   const { data, total, offset } = response;
   const [state, setState] = useState({ data, hasMore: offset < total });
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const [previousResponse, setPreviousResponse] = useState(response);
   if (previousResponse !== response) {
@@ -37,16 +34,18 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
     }
   }
 
+  const searchParams = useSearchParams();
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
+
     params.delete('page');
     params.delete('size');
     if (!params.has('tab')) {
       params.set('tab', 'grid');
     }
 
-    router.replace(`${pathname}?${params}`);
-  }, [pathname, router, searchParams]);
+    updateSearchParamsShallowly(params);
+  }, [searchParams]);
 
   async function handleLoadMore() {
     if (!state.hasMore) {

@@ -12,7 +12,8 @@ import {
   PaginationLast,
 } from '@components/table/pagination';
 import { generatePages } from '@utils/pagination';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { updateSearchParamsShallowly } from '@utils/utils';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 type TablePaginationProps = {
@@ -25,8 +26,6 @@ type TablePaginationProps = {
 };
 
 export function TablePagination({ page, amountOfPages, setPageParam = true, ...props }: TablePaginationProps) {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -39,8 +38,8 @@ export function TablePagination({ page, amountOfPages, setPageParam = true, ...p
       params.set('page', '1');
     }
 
-    router.replace(`${pathname}?${params}`);
-  }, [pathname, router, searchParams, setPageParam]);
+    updateSearchParamsShallowly(params);
+  }, [searchParams, setPageParam]);
 
   const pages = amountOfPages > 1 ? generatePages(page, amountOfPages) : [];
   if (amountOfPages < 2) {

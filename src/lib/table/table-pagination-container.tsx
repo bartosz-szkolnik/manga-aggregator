@@ -1,9 +1,10 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { TablePageSizeSelect } from './page-size-select';
 import { TablePagination } from './pagination';
 import { useEffect } from 'react';
+import { updateSearchParamsShallowly } from '@utils/utils';
 
 type TablePaginationContrainerProps = {
   size: number;
@@ -13,8 +14,6 @@ type TablePaginationContrainerProps = {
 };
 
 export function TablePaginationContrainer({ size, ...props }: TablePaginationContrainerProps) {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -26,8 +25,8 @@ export function TablePaginationContrainer({ size, ...props }: TablePaginationCon
       params.set('page', '1');
     }
 
-    router.replace(`${pathname}?${params}`);
-  }, [pathname, router, searchParams]);
+    updateSearchParamsShallowly(params);
+  }, [searchParams]);
 
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row">

@@ -13,9 +13,9 @@ export default async function HomeLayout({ children }: { children: ReactNode }) 
 
   const sidebarState = cookie.get('sidebar:state');
   const defaultColor = cookie.get('color')?.value ?? 'zinc';
-  const defaultOpen = sidebarState !== undefined ? sidebarState.value === 'true' : true;
   const helperModalOpenedPreviously = cookie.get('helper-modal')?.value === 'true';
 
+  const defaultOpen = sidebarState !== undefined ? sidebarState.value === 'true' : true;
   return (
     <div className="flex max-h-screen md:bg-gradient-to-r md:from-gradient-from md:to-gradient-to">
       <SidebarLayout defaultOpen={defaultOpen}>

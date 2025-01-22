@@ -40,11 +40,10 @@ export function PageSizeSelect({ size, className }: { size: string; className?: 
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams);
       params.set('page', '1');
       params.set(name, value);
-      params.set('filter', params.get('filter') ?? '');
-      return params.toString();
+      return params;
     },
     [searchParams],
   );
