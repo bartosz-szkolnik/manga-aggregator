@@ -4,10 +4,7 @@ import { createServerClient } from '@utils/supabase/server';
 import { mapArrayToCamelCase, propertiesToCamelCase } from '@utils/utils';
 
 export async function fetchRecommendedMangas(offset = 0) {
-  const { supabase, userId, profile } = await createServerClient();
-  if (!userId) {
-    return unauthorized();
-  }
+  const { supabase, profile } = await createServerClient();
 
   const { data, error } = await supabase
     .from('manga')

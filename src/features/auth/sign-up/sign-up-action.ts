@@ -15,7 +15,11 @@ export async function signUp(formData: FormData) {
 
   const { supabase } = await createServerClient();
   {
-    const { error } = await supabase.auth.signUp(data);
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: { emailRedirectTo: 'https://manga-aggregator.vercel.app/auth/confirm' },
+    });
     if (error) {
       if (error.message === 'User already registered') {
         return { success: false, error: 'USER_ALREADY_REGISTERED' } satisfies Awaited<FormActionResult>;

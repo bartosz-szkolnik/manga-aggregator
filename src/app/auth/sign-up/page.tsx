@@ -4,14 +4,27 @@ import { cn } from '@utils/utils';
 import { buttonVariants } from '@components/ui/button';
 import { ArrowBigLeft, LogIn } from 'lucide-react';
 import { SignUpForm } from '@auth/sign-up';
+import { fetchProfile } from '@lib/profile/data';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { ThemeCustomizer } from '@layout/theme';
 
 export const metadata: Metadata = { title: 'Sign up' };
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const cookie = await cookies();
+  const defaultColor = cookie.get('color')?.value ?? 'zinc';
+
+  const { profile } = await fetchProfile();
+  if (profile) {
+    redirect('/');
+  }
+
   return (
     <div className="container relative grid h-full flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="absolute right-4 top-4 md:right-8 md:top-8">
         <div className="flex gap-4">
+          <ThemeCustomizer defaultColor={defaultColor} buttonVariant="outline" />
           <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
             <ArrowBigLeft className="mr-2 h-5 w-5" />
             Go back to app

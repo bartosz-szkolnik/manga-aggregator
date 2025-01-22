@@ -13,7 +13,12 @@ import { saveToCookies } from '@utils/cookies';
 
 const COLOR_COOKIE_KEY = 'color';
 
-export function ThemeCustomizer({ defaultColor }: { defaultColor: string }) {
+type ThemeCustomizerProps = {
+  defaultColor: string;
+  buttonVariant?: 'ghost' | 'outline';
+};
+
+export function ThemeCustomizer({ defaultColor, buttonVariant = 'ghost' }: ThemeCustomizerProps) {
   const [color, setColor] = useState<Color>(getProperColor(defaultColor));
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export function ThemeCustomizer({ defaultColor }: { defaultColor: string }) {
     <div className="flex items-center gap-2">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant={'ghost'} size="icon" className="md:hidden">
+          <Button variant={buttonVariant} size="icon" className="md:hidden">
             <Palette />
           </Button>
         </SheetTrigger>
@@ -40,7 +45,7 @@ export function ThemeCustomizer({ defaultColor }: { defaultColor: string }) {
       <div className="hidden items-center md:flex">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant={'ghost'} size="icon">
+            <Button variant={buttonVariant} size="icon">
               <Palette />
             </Button>
           </PopoverTrigger>

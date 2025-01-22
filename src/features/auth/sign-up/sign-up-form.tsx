@@ -11,7 +11,7 @@ export function SignUpForm() {
     const { error, success } = await signUp(formData);
 
     if (success) {
-      toast.success('You have been signed up... ');
+      toast.success('Please check your email.');
     } else {
       return handleErrors(error);
     }
