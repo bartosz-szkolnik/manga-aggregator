@@ -1,5 +1,6 @@
 import { QueryTabs, TabsList, TabsTrigger } from '@components/ui/tabs';
 import { TitleFilter } from '@lib/table';
+import { getTheCtrlSymbol, getTheMetaSymbol } from '@utils/common';
 import { LayoutGrid, Table } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -12,7 +13,7 @@ type MangaQueryTabsProps = {
 export function MangaQueryTabs({ tab, count, children }: MangaQueryTabsProps) {
   return (
     <QueryTabs defaultValue={tab} queryName="tab">
-      <div className="mb-10 mt-6 flex flex-wrap items-center justify-between gap-8">
+      <div className="mb-8 mt-4 flex flex-wrap items-center justify-between gap-8">
         <div className="flex flex-col justify-center gap-2">
           Total: {count}
           <TabsList>
@@ -28,6 +29,14 @@ export function MangaQueryTabs({ tab, count, children }: MangaQueryTabsProps) {
         </div>
         <TitleFilter />
       </div>
+      {tab === 'grid' && (
+        <p className="mb-2 hidden md:block">
+          <strong className="text-sm text-muted-foreground">
+            If you click with the {getTheMetaSymbol()}/{getTheCtrlSymbol()} button pressed, you can open any of them
+            directly on MangaDex.
+          </strong>
+        </p>
+      )}
       {children}
     </QueryTabs>
   );
