@@ -67,5 +67,5 @@ export function mapArrayToCamelCase<O extends Record<string, unknown>>(arr: O[])
 
 export function updateSearchParamsShallowly(params: URLSearchParams) {
   const [pageUrl] = window.location.href.split('?');
-  window.history.replaceState('', '', `${pageUrl}?${params}`);
+  window.history.replaceState(null, '', `${pageUrl}?${params}`);
 }

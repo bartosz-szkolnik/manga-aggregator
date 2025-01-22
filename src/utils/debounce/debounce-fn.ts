@@ -3,7 +3,7 @@
 
 import { DebouncedFunction, FunctionWithArguments } from './debounce-model';
 
-export const DELAY_300MS = 1000;
+export const DELAY_300MS = 300;
 
 export function debounce<F extends FunctionWithArguments>(fn: F, delayInMs = DELAY_300MS) {
   let timer: ReturnType<typeof setTimeout>;
