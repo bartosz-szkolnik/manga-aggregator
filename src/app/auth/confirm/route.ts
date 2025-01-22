@@ -1,5 +1,3 @@
-// this code will work after the email confirmation is implemented, right now it's not used
-
 import { type EmailOtpType } from '@supabase/supabase-js';
 import { type NextRequest } from 'next/server';
 import { createServerClient } from '@utils/supabase/server';
@@ -14,10 +12,7 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const { supabase } = await createServerClient();
 
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    });
+    const { error } = await supabase.auth.verifyOtp({ type, token_hash });
     if (!error) {
       // redirect user to specified redirect URL or root of app
       redirect(next);

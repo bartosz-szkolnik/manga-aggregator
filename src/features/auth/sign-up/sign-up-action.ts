@@ -8,25 +8,23 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function signUp(formData: FormData) {
-  const { error, data } = authFormSchema.safeParse(Object.fromEntries(formData));
-  if (error) {
-    return { success: false, error: error.issues } satisfies Awaited<FormActionResult>;
+  const { error: parseError, data } = authFormSchema.safeParse(Object.fromEntries(formData));
+  if (parseError) {
+    return { success: false, error: parseError.issues } satisfies Awaited<FormActionResult>;
   }
 
   const { supabase } = await createServerClient();
-  {
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: { emailRedirectTo: 'https://manga-aggregator.vercel.app/auth/confirm' },
-    });
-    if (error) {
-      if (error.message === 'User already registered') {
-        return { success: false, error: 'USER_ALREADY_REGISTERED' } satisfies Awaited<FormActionResult>;
-      } else {
-        logger.error(error);
-        return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<FormActionResult>;
-      }
+  const { error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: { emailRedirectTo: 'https://manga-aggregator.vercel.app' },
+  });
+  if (error) {
+    if (error.message === 'User already registered') {
+      return { success: false, error: 'USER_ALREADY_REGISTERED' } satisfies Awaited<FormActionResult>;
+    } else {
+      logger.error(error);
+      return { success: false, error: 'SOMETHING_WENT_WRONG' } satisfies Awaited<FormActionResult>;
     }
   }
 
