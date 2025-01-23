@@ -6,12 +6,13 @@ import { cn } from '@utils/utils';
 import { Button } from '@components/ui/button';
 import { Label } from '@components/ui/form/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@components/ui/popover';
-import { useState, useEffect, CSSProperties } from 'react';
-import { Sheet, SheetContent, SheetTrigger } from '@components/ui/sheet';
+import { useState, CSSProperties } from 'react';
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@components/ui/sheet';
 import { BASE_COLORS, Color } from './base-colors';
 import { saveToCookies } from '@utils/cookies';
 
 const COLOR_COOKIE_KEY = 'color';
+const baseColors = BASE_COLORS.map(p => p.name);
 
 type ThemeCustomizerProps = {
   defaultColor: string;
@@ -19,16 +20,20 @@ type ThemeCustomizerProps = {
 };
 
 export function ThemeCustomizer({ defaultColor, buttonVariant = 'ghost' }: ThemeCustomizerProps) {
-  const [color, setColor] = useState<Color>(getProperColor(defaultColor));
+  const [color, setColor] = useState(getProperColor(defaultColor));
 
-  useEffect(() => {
+  function handleChangeColor(nextColor: Color) {
+    const previousColor = color;
+
     const rootElement = document.documentElement;
+    if (previousColor && baseColors.includes(previousColor)) {
+      rootElement.classList.remove(previousColor);
+    }
 
-    rootElement.classList.add(color);
-    saveToCookies(COLOR_COOKIE_KEY, color);
-
-    return () => rootElement.classList.remove(color);
-  }, [color]);
+    rootElement.classList.add(nextColor);
+    saveToCookies(COLOR_COOKIE_KEY, nextColor);
+    setColor(nextColor);
+  }
 
   return (
     <div className="flex items-center gap-2">
@@ -39,7 +44,11 @@ export function ThemeCustomizer({ defaultColor, buttonVariant = 'ghost' }: Theme
           </Button>
         </SheetTrigger>
         <SheetContent showCloseChevron={false} className="p-6 pt-0" side="bottom">
-          <Customizer color={color} setColor={setColor} />
+          <SheetTitle className="sr-only">Color & theme Customizer</SheetTitle>
+          <SheetDescription className="sr-only">
+            You can change the theme and colors of the application. Have some fun!
+          </SheetDescription>
+          <Customizer color={color} setColor={handleChangeColor} />
         </SheetContent>
       </Sheet>
       <div className="hidden items-center md:flex">
@@ -50,7 +59,7 @@ export function ThemeCustomizer({ defaultColor, buttonVariant = 'ghost' }: Theme
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="z-40 w-[400px] rounded-[12px] bg-background p-6">
-            <Customizer color={color} setColor={setColor} />
+            <Customizer color={color} setColor={handleChangeColor} />
           </PopoverContent>
         </Popover>
       </div>
