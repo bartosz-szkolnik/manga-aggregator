@@ -22,6 +22,7 @@ sw.addEventListener('push', event => {
           body: 'Click here to open it.',
           icon: `${self.location.origin}/favicon.ico`,
           data: { id: mangaId, type },
+          badge: `${self.location.origin}/favicon.ico`,
           silent: true,
         });
       }
@@ -29,6 +30,7 @@ sw.addEventListener('push', event => {
       return sw.registration.showNotification(`${mangaName} has a new chapter!`, {
         body: 'Click here to open it.',
         icon: `${self.location.origin}/favicon.ico`,
+        badge: `${self.location.origin}/favicon.ico`,
         data: { id: mangaId },
         silent: true,
       });
