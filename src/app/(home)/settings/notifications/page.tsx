@@ -1,3 +1,4 @@
+import { ServerError } from '@components/common/error/error.server';
 import { Separator } from '@components/ui/separator';
 import { NotificationsSwitch, SingularNotificationsSwitch } from '@settings/components/sending-notifications';
 import { fetchNotificationsData } from '@settings/lib/notifications/data';
@@ -9,7 +10,7 @@ export default async function NotificationsSettingsPage() {
   const { data, error } = await fetchNotificationsData();
 
   if (error) {
-    return <p>Some kind of error occured...</p>;
+    return <ServerError error={error} />;
   }
 
   const isUnsubscribed = JSON.stringify(data.subscriptions) === '[]';
@@ -19,7 +20,7 @@ export default async function NotificationsSettingsPage() {
         <h3 className="text-lg font-medium">Notifications</h3>
         <p className="text-sm text-muted-foreground">Configure how you receive your notifications.</p>
       </div>
-      <Separator />
+      <Separator className="my-4" />
       <NotificationsSwitch defaultSubscribed={!isUnsubscribed} />
       <SingularNotificationsSwitch receiveSingularNotifications={data?.receiveSingularNotifications ?? true} />
     </main>

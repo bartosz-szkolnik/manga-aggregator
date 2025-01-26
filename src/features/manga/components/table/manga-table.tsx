@@ -14,10 +14,10 @@ export function MangaTable({ data }: MangaTableProps) {
     <Table className="my-8">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[500px]">Title</TableHead>
+          <TableHead className="w-[500px] min-w-[300px]">Title</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Latest chapter</TableHead>
-          <TableHead>How far you are</TableHead>
+          <TableHead className="min-w-[100px]">How far you are</TableHead>
           <TableHead>Reading status</TableHead>
           <TableHead className="text-right"></TableHead>
         </TableRow>

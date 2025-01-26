@@ -19,7 +19,7 @@ const containerVariants = cva('relative w-full overflow-hidden rounded-md shadow
       // md: 'w-[210px] h-[280px]',
       // lg: 'w-[250px] h-[350px]',
       // xl: 'w-[400px] h-[500px]',
-      responsive: 'min-w-[250px] min-h-[550px] md:min-h-[330px] max-w-[550px] md:max-w-[515px] lg:max-w-[350px]',
+      responsive: 'min-w-[125px] min-h-[275px] md:min-h-[330px] max-w-[550px] md:max-w-[515px] lg:max-w-[350px]',
     },
     defaultVariants: {
       size: 'default',

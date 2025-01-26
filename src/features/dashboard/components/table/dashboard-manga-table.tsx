@@ -10,13 +10,13 @@ type AdminDashboardMangaTableProps = {
   data: RowManga;
 };
 
-export function AdminDashboardMangaTable({ data }: AdminDashboardMangaTableProps) {
+export async function AdminDashboardMangaTable({ data }: AdminDashboardMangaTableProps) {
   return (
     <Table className="my-8">
       <TableCaption>All the Manga in this app is available in this place.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[500px]">Title</TableHead>
+          <TableHead className="w-[500px] min-w-[300px]">Title</TableHead>
           <TableHead>Status</TableHead>
           <TableHead className="text-right"></TableHead>
         </TableRow>

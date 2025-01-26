@@ -1,6 +1,7 @@
+import { SimpleLayoutSkeleton } from '@components/skeletons/simple-layout';
 import { Separator } from '@components/ui/separator';
 import { Metadata } from 'next';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: {
@@ -18,7 +19,9 @@ export default async function SettingsLayout({ children }: { children: ReactNode
           <p className="text-muted-foreground">Manage your account settings.</p>
         </div>
         <Separator className="my-6" />
-        <div className="flex-1 lg:max-w-2xl">{children}</div>
+        <div className="flex-1 lg:max-w-2xl">
+          <Suspense fallback={<SimpleLayoutSkeleton />}>{children}</Suspense>
+        </div>
       </div>
     </div>
   );

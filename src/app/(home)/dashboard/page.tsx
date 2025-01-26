@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
-import { logger } from '@utils/server/logger';
 import { TablePaginationContrainer, TitleFilter } from '@lib/table';
 import { fetchMangasForAdminDashboard } from '@admin-dashboard/lib/data';
 import { AdminDashboardMangaTable } from '@admin-dashboard/components/table';
+import { ServerError } from '@components/common/error/error.server';
+import { Separator } from '@components/ui/separator';
 
 export const metadata: Metadata = { title: 'Admin Dashboard' };
 
@@ -15,18 +16,18 @@ export default async function AdminDashboardPage(props: AdminDashboardProps) {
   const { error, data, size, page, amountOfPages, count } = await fetchMangasForAdminDashboard({ ...params });
 
   if (error) {
-    logger.error(error.message);
-    return <p>Some kind of error occured</p>;
+    return <ServerError error={error} />;
   }
 
   return (
-    <main className="flex flex-col flex-wrap gap-8 px-4 py-6 lg:px-8">
+    <main className="flex flex-col flex-wrap gap-8">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Admin Dashboard</h2>
           <p className="text-sm text-muted-foreground">Here you can do everything.</p>
         </div>
       </div>
+      <Separator />
       <div className="flex md:justify-between">
         Total: {count}
         <TitleFilter />

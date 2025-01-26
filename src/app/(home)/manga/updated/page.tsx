@@ -9,6 +9,8 @@ import { UpdatedMangaGrid, UpdatedMangaTable } from '@manga/components/views/upd
 import { MangaPageHeader, MangaQueryTabs } from '@manga/components/common';
 import { LazyTableTabProps } from '@utils/pagination';
 import { ServerError } from '@components/common/error/error.server';
+import { MangaGridSkeleton } from '@components/skeletons/manga';
+import { MangaTableSkeleton, QueryTabsSkeleton } from '@components/skeletons';
 
 export const metadata: Metadata = { title: 'Updated' };
 
@@ -17,7 +19,7 @@ type PageProps = {
     filter: string;
     size?: string;
     page?: string;
-    tab?: string;
+    tab?: 'grid' | 'table';
   }>;
 };
 
@@ -37,8 +39,7 @@ export default async function Page(props: PageProps) {
         </div>
       </div>
       <Separator className="my-4" />
-      {/* TODO: Add Tabs skeleton */}
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<QueryTabsSkeleton tab={tab} />}>
         <QueryTabs filter={filter} page={page} size={size} tab={tab} />
       </Suspense>
     </main>
@@ -76,8 +77,7 @@ async function LazyGridTab({ tab, ...props }: { tab: string; filter: string; cou
   if (tab === 'grid') {
     return (
       <TabsContent value="grid">
-        {/* TODO Add MangaGrid Skeleton */}
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<MangaGridSkeleton />}>
           <UpdatedMangaGrid {...props} />
         </Suspense>
       </TabsContent>
@@ -89,8 +89,7 @@ async function LazyTableTab({ tab, ...props }: LazyTableTabProps) {
   if (tab === 'table') {
     return (
       <TabsContent value="table">
-        {/* TODO Add MangaTable Skeleton */}
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<MangaTableSkeleton />}>
           <UpdatedMangaTable {...props} />
         </Suspense>
       </TabsContent>

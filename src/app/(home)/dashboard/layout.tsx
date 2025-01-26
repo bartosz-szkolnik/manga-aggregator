@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
 
-export default async function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function AdminDashboardLayout({ children }: { children: ReactNode }) {
   return <div className="overflow-auto px-4 py-4 lg:px-8">{children}</div>;
 }

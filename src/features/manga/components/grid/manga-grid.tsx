@@ -13,6 +13,7 @@ import { FollowMangaButton } from '../common/update-utils/components/follow-mang
 import { FavoriteMangaButton } from '../common/update-utils/components/favorite-manga';
 import { UpdateProgressForm } from '../common/update-progress';
 import { updateSearchParamsShallowly } from '@utils/utils';
+import { MangasSkeleton } from '@components/skeletons';
 
 type MangaGridProps = {
   response: MangaGridResponse;
@@ -21,12 +22,12 @@ type MangaGridProps = {
 
 export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
   const { data, total, offset } = response;
-  const [state, setState] = useState({ data, hasMore: offset < total });
+  const [state, setState] = useState({ data, hasMore: offset < total, loading: false });
 
   const [previousResponse, setPreviousResponse] = useState(response);
   if (previousResponse !== response) {
     setPreviousResponse(response);
-    setState({ data, hasMore: offset < total });
+    setState({ data, hasMore: offset < total, loading: false });
 
     setRefetchMangaUseCookieToFalse();
     if (data.length <= 10) {
@@ -52,10 +53,13 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
       return;
     }
 
+    setState(state => ({ ...state, loading: true }));
+
     const response = await loadMoreMangasAction(state.data.length);
     setState(curr => ({
       data: [...curr.data, ...response.data],
       hasMore: response.offset + response.data.length < response.total,
+      loading: false,
     }));
 
     const totalLength = state.data.length + response.data.length;
@@ -64,7 +68,7 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
 
   return (
     <>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8 pb-4 md:gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 pb-4 md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:gap-4 lg:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
         {state.data.map(manga => {
           const { id, isFavorite, isFollowing, isInLibrary: isInUserLibrary } = manga;
 
@@ -77,6 +81,7 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
             </MangaArtwork>
           );
         })}
+        {state.loading && <MangasSkeleton />}
       </div>
       <MangasLoader onLoad={handleLoadMore} />
     </>
