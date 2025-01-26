@@ -26,7 +26,7 @@ import {
 } from '@utils/hooks';
 import { State } from '@2048/types';
 import { Minus, Plus, RefreshCw, Undo } from 'lucide-react';
-import { useSwipe } from '@utils/hooks/swipe';
+import { useSwipe } from '@utils/hooks';
 
 export function Game() {
   const [state, dispatch] = useReducer(reducer, initialState);

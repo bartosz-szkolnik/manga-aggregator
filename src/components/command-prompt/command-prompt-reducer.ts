@@ -1,6 +1,6 @@
 import { exhaustiveCheck } from '@utils/utils';
 
-type CommandPromptActionKind =
+type CommandPromptActionType =
   | 'openCommandPrompt'
   | 'toggleCommandPrompt'
   | 'closeCommandPrompt'
@@ -14,7 +14,7 @@ type CommandPromptActionKind =
   | 'openMangaPage';
 
 export type CommandPromptAction<T = unknown> = {
-  type: CommandPromptActionKind;
+  type: CommandPromptActionType;
   payload?: T;
 };
 
