@@ -4,6 +4,7 @@ import { AddMangaToDatabaseDialog } from '@manga/components/common/add-manga-to-
 import { User } from '@supabase/supabase-js';
 import { Profile as ProfileType } from '@manga/types';
 import { SignOutButton } from '@auth/sign-out';
+import { NavigationLink } from './navigation/navigation-link';
 
 type SidebarContentsProps = {
   user?: User | null;
@@ -36,7 +37,9 @@ export async function SidebarContents({ profile, user }: SidebarContentsProps) {
 function Title() {
   return (
     <p className="tracking-light mb-6 mt-2 truncate px-4 text-center text-2xl text-[1.7rem] font-semibold">
-      Manga Aggregator
+      <NavigationLink href="/2048" className="cursor-default" usePlainNextLink>
+        Manga Aggregator
+      </NavigationLink>
     </p>
   );
 }

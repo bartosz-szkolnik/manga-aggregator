@@ -29,7 +29,8 @@
       "@auth/*": ["./src/features/auth/*"],
       "@manga/*": ["./src/features/manga/*"],
       "@admin-dashboard/*": ["./src/features/dashboard/*"],
-      "@settings/*": ["./src/features/settings/*"]
+      "@settings/*": ["./src/features/settings/*"],
+      "@2048/*": ["./src/features/2048/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

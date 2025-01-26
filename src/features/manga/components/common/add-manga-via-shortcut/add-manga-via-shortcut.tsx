@@ -2,7 +2,8 @@
 
 import { Dialog } from '@components/ui/dialog';
 import { AddMangaToDatabaseDialogContent } from '@manga/components/common/add-manga-to-database';
-import { KEY_A, useShortcut } from '@utils/hooks';
+import { KEY_A, KONAMI_CODE, useShortcut } from '@utils/hooks';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 
 export function AddMangaViaShortcut() {
@@ -11,6 +12,12 @@ export function AddMangaViaShortcut() {
   useShortcut(`Command+${KEY_A}`, event => {
     event.preventDefault();
     setOpen(open => !open);
+  });
+
+  // TODO: Find a better place to place it
+  useShortcut(KONAMI_CODE, event => {
+    event.preventDefault();
+    redirect('/2048');
   });
 
   return (

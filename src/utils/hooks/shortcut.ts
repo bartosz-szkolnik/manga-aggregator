@@ -6,6 +6,13 @@ export const KEY_A = 'a';
 export const KEY_S = 's';
 export const KEY_K = 'k';
 export const KEY_ESCAPE = 'Escape';
+export const KONAMI_CODE = 'ArrowUp+ArrowUp+ArrowDown+ArrowDown+ArrowLeft+ArrowRight+ArrowLeft+ArrowRight+b+a';
+export const KEY_ARROW_LEFT = 'ArrowLeft';
+export const KEY_ARROW_RIGHT = 'ArrowRight';
+export const KEY_ARROW_UP = 'ArrowUp';
+export const KEY_ARROW_DOWN = 'ArrowDown';
+export const KEY_ENTER = 'Enter';
+export const KEY_BACKSPACE = 'Backspace';
 
 export function useShortcut(
   shortcut: string,
