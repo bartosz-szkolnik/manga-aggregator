@@ -9,7 +9,7 @@ import { useState } from 'react';
 export function AddMangaViaShortcut() {
   const [open, setOpen] = useState(false);
 
-  useShortcut(`Command+${KEY_A}`, event => {
+  useShortcut(`Meta+${KEY_A}`, event => {
     event.preventDefault();
     setOpen(open => !open);
   });

@@ -69,3 +69,12 @@ export function updateSearchParamsShallowly(params: URLSearchParams) {
   const [pageUrl] = window.location.href.split('?');
   window.history.replaceState(null, '', `${pageUrl}?${params}`);
 }
+
+export function detectOperatingSystem() {
+  const agent = navigator.userAgent;
+  if (agent.indexOf('Win') != -1) return 'Windows';
+  if (agent.indexOf('Mac') != -1) return 'MacOS';
+  if (agent.indexOf('X11') != -1) return 'UNIX';
+  if (agent.indexOf('Linux') != -1) return 'Linux';
+  return 'Unknown';
+}

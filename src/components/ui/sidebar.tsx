@@ -37,7 +37,7 @@ const SidebarLayout = forwardRef<
 
   const state = open ? 'open' : 'closed';
 
-  useShortcut(`Command+${KEY_S}`, event => {
+  useShortcut(`Meta+${KEY_S}`, event => {
     event.preventDefault();
     onOpenChange(!open);
   });

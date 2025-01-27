@@ -36,7 +36,7 @@ export function CommandPrompt() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const page = state.pages[state.pages.length - 1];
 
-  useShortcut(`Command+${KEY_K}`, event => {
+  useShortcut(`Meta+${KEY_K}`, event => {
     event.preventDefault();
     dispatch(toggleCommandPrompt());
   });
