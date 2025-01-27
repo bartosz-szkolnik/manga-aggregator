@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from 'react';
 import { revokeSubscription, subscribe } from './notifications-actions';
 import { FormControl, Label, Switch, Description } from '@components/ui/form';
+import { InstallPrompt } from './install-prompt';
 
 // Firstly I check whether the subscription in database is present, after that I do the checking with the pushManager
 // If the subscription in the database was missing, but the pushManager was returning a Subscription from it's memory,
@@ -12,12 +13,13 @@ let checkedOnce = false;
 export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: boolean }) {
   const [, startTransition] = useTransition();
   const [isSubscribed, setIsSubscribed] = useState(false);
+
   // Custom pending because transition doesn't cover all of the necessary actions performed
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
     getPushManager()
-      .then(manager => manager.getSubscription())
+      .then(manager => manager?.getSubscription())
       .then(subscription => {
         if (!checkedOnce) {
           setIsSubscribed(defaultSubscribed);
@@ -30,6 +32,7 @@ export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: 
   const handleSubscribe = async () => {
     setPending(true);
     checkedOnce = true;
+
     const manager = await getPushManager();
     const subscription = await manager.subscribe({
       userVisibleOnly: true,
@@ -46,12 +49,13 @@ export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: 
   const handleRevoke = async () => {
     setPending(true);
     checkedOnce = true;
+
     const manager = await getPushManager();
     const subscription = await manager.getSubscription();
     await subscription?.unsubscribe();
 
     startTransition(async () => {
-      await revokeSubscription(subscription?.endpoint!);
+      await revokeSubscription(subscription?.endpoint);
       setPending(false);
     });
   };
@@ -60,7 +64,8 @@ export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: 
     <FormControl controlName="receive-notifications" controlType="switch">
       <div>
         <Label>Manga Updates</Label>
-        <Description>Do you want to receive notifications for Manga updates?</Description>
+        <Description className="mr-4">Do you want to receive notifications for Manga updates?</Description>
+        <InstallPrompt />
       </div>
       <Switch
         disabled={pending}
@@ -72,5 +77,5 @@ export function NotificationsSwitch({ defaultSubscribed }: { defaultSubscribed: 
 }
 
 async function getPushManager() {
-  return navigator.serviceWorker.ready.then(sw => sw.pushManager);
+  return navigator.serviceWorker?.ready.then(sw => sw.pushManager);
 }

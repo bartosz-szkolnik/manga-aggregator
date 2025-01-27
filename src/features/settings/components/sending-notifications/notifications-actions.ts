@@ -31,7 +31,7 @@ export async function subscribe(subscription: PushSubscriptionJSON) {
   return { success: true } satisfies Awaited<ActionResult>;
 }
 
-export async function revokeSubscription(endpoint: string) {
+export async function revokeSubscription(endpoint?: string) {
   const { supabase, userId } = await createServerClient();
   if (!userId) {
     return { success: false, error: 'NOT_SIGNED_IN_ERROR' } satisfies Awaited<ActionResult>;

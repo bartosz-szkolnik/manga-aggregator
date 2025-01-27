@@ -7,11 +7,11 @@ import { ActionResultErrors } from '@utils/types';
 import { toast } from 'sonner';
 import { exhaustiveCheck } from '@utils/utils';
 
-export function SingularNotificationsSwitch({
-  receiveSingularNotifications,
-}: {
+type SingularNotificationsSwitchProps = {
   receiveSingularNotifications: boolean;
-}) {
+};
+
+export function SingularNotificationsSwitch({ receiveSingularNotifications }: SingularNotificationsSwitchProps) {
   const [pending, startTransition] = useTransition();
 
   function handleChange() {
