@@ -13,7 +13,7 @@ import { FollowMangaButton } from '../common/update-utils/components/follow-mang
 import { FavoriteMangaButton } from '../common/update-utils/components/favorite-manga';
 import { UpdateProgressForm } from '../common/update-progress';
 import { updateSearchParamsShallowly } from '@utils/utils';
-import { MangasSkeleton } from '@components/skeletons';
+import { MangasInRowSkeleton } from '@components/skeletons';
 
 type MangaGridProps = {
   response: MangaGridResponse;
@@ -80,7 +80,7 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
             </MangaArtwork>
           );
         })}
-        {state.loading && <MangasSkeleton total={total} fetchedAmount={state.data.length} />}
+        {state.loading && <MangasInRowSkeleton total={total} fetchedAmount={state.data.length} />}
       </div>
       {!state.loading && <MangasLoader onLoad={handleLoadMore} />}
     </>

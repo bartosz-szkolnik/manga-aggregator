@@ -13,16 +13,21 @@ export function MangaResponsiveSkeleton() {
   );
 }
 
-export function MangasSkeleton({ total, fetchedAmount }: { total: number; fetchedAmount: number }) {
-  return Array(clamp(total - fetchedAmount, 0, 10))
-    .fill(null)
-    .map((_, i) => <MangaResponsiveSkeleton key={i} />);
+export function MangasInRowSkeleton({ total, fetchedAmount }: { total: number; fetchedAmount: number }) {
+  const amount = clamp(total - fetchedAmount, 0, 10);
+  return createArray(amount, (_, i) => <MangaResponsiveSkeleton key={i} />);
 }
 
-export function MangaGridSkeleton() {
+export function MangaGridSkeleton({ total = 10 }: { total?: number }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 pb-4 md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:gap-4 lg:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-      <MangasSkeleton fetchedAmount={0} total={10} />
+      {createArray(total, (_, i) => (
+        <MangaResponsiveSkeleton key={i} />
+      ))}
     </div>
   );
+}
+
+function createArray<T>(total: number, callback: (el: unknown, index: number) => T) {
+  return Array(total).fill(null).map(callback);
 }

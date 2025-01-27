@@ -1,5 +1,5 @@
-import { LoadingSpinner } from '@components/common/loading-spinner';
+import { MangaLayoutSkeleton } from '@components/skeletons';
 
 export default function Loading() {
-  return <LoadingSpinner />;
+  return <MangaLayoutSkeleton />;
 }

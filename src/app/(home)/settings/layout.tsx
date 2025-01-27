@@ -1,4 +1,4 @@
-import { SimpleLayoutSkeleton } from '@components/skeletons/simple-layout';
+import { SimpleLayoutSkeleton } from '@components/skeletons';
 import { Separator } from '@components/ui/separator';
 import { Metadata } from 'next';
 import { ReactNode, Suspense } from 'react';
