@@ -12,5 +12,9 @@ export function ErrorMessage({ className }: { className?: string }) {
     return null;
   }
 
-  return <p className={cn('text-sm font-medium text-destructive', className)}>{error.message}</p>;
+  return (
+    <p aria-live="polite" className={cn('text-sm font-medium text-destructive', className)}>
+      {error.message}
+    </p>
+  );
 }
