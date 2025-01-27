@@ -1,4 +1,5 @@
 import { Skeleton } from '@components/ui/skeleton';
+import { clamp } from '@utils/utils';
 
 export function MangaResponsiveSkeleton() {
   return (
@@ -12,8 +13,8 @@ export function MangaResponsiveSkeleton() {
   );
 }
 
-export function MangasSkeleton() {
-  return Array(10)
+export function MangasSkeleton({ total, fetchedAmount }: { total: number; fetchedAmount: number }) {
+  return Array(clamp(total - fetchedAmount, 0, 10))
     .fill(null)
     .map((_, i) => <MangaResponsiveSkeleton key={i} />);
 }
@@ -21,7 +22,7 @@ export function MangasSkeleton() {
 export function MangaGridSkeleton() {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 pb-4 md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:gap-4 lg:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-      <MangasSkeleton />
+      <MangasSkeleton fetchedAmount={0} total={10} />
     </div>
   );
 }

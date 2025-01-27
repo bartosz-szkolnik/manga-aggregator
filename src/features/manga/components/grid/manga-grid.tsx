@@ -49,12 +49,11 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
   }, [searchParams]);
 
   async function handleLoadMore() {
-    if (!state.hasMore) {
+    if (!state.hasMore || state.loading) {
       return;
     }
 
     setState(state => ({ ...state, loading: true }));
-
     const response = await loadMoreMangasAction(state.data.length);
     setState(curr => ({
       data: [...curr.data, ...response.data],
@@ -81,9 +80,9 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
             </MangaArtwork>
           );
         })}
-        {state.loading && <MangasSkeleton />}
+        {state.loading && <MangasSkeleton total={total} fetchedAmount={state.data.length} />}
       </div>
-      <MangasLoader onLoad={handleLoadMore} />
+      {!state.loading && <MangasLoader onLoad={handleLoadMore} />}
     </>
   );
 }
