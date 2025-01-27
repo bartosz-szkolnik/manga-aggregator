@@ -22,17 +22,17 @@ sw.addEventListener('push', event => {
           body: 'Click here to open it.',
           icon: `${self.location.origin}/favicon.ico`,
           data: { id: mangaId, type },
-          badge: `${self.location.origin}/favicon.ico`,
-          silent: true,
+          badge: `${self.location.origin}/badge.png`,
+          vibrate: [100, 50, 100],
         });
       }
 
       return sw.registration.showNotification(`${mangaName} has a new chapter!`, {
         body: 'Click here to open it.',
         icon: `${self.location.origin}/favicon.ico`,
-        badge: `${self.location.origin}/favicon.ico`,
+        badge: `${self.location.origin}/badge.png`,
         data: { id: mangaId },
-        silent: true,
+        vibrate: [100, 50, 100],
       });
     }),
   );
