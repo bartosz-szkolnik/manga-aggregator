@@ -1,4 +1,5 @@
 import { fetchMangaDetails } from '@manga/lib/details/data';
+import { notFound } from 'next/navigation';
 
 type PageProps = {
   params: Promise<{
@@ -8,11 +9,15 @@ type PageProps = {
 
 export default async function MangaDetails({ params }: PageProps) {
   const { mangaId } = await params;
-  const { title } = await fetchMangaDetails(mangaId);
+  const { data, error } = await fetchMangaDetails(mangaId);
+
+  if (error) {
+    return notFound();
+  }
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">{data.title}</h1>
       <p className="text-sm text-muted-foreground">Nothing to see here yet mate.</p>
     </>
   );
