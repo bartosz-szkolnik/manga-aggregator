@@ -8,10 +8,10 @@ import {
   setHowManyMangasToRefetch,
   setRefetchMangaUseCookieToFalse,
 } from '@manga/utils/refetch-manga/refetch-manga.client';
-import { AddMangaToUserLibraryButton } from '../common/update-utils/components/add-manga-to-user-library';
-import { FollowMangaButton } from '../common/update-utils/components/follow-manga';
-import { FavoriteMangaButton } from '../common/update-utils/components/favorite-manga';
-import { UpdateProgressForm } from '../common/update-progress';
+import { AddMangaToUserLibraryButton } from '@manga/components/common/add-manga-to-user-library';
+import { FollowMangaButton } from '@manga/components/common/follow-manga';
+import { FavoriteMangaButton } from '@manga/components/common/favorite-manga';
+import { UpdateProgressForm } from '@manga/components/common/update-progress';
 import { updateSearchParamsShallowly } from '@utils/utils';
 import { MangasInRowSkeleton } from '@components/skeletons';
 

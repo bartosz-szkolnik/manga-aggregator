@@ -1,13 +1,13 @@
-import { MangaPortrait, MangaSheet } from '../artwork';
+import { MangaPortrait, MangaSheet } from '@manga/components/artwork';
 import { Sheet, SheetTrigger } from '@components/ui/sheet';
 import { Button } from '@components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { OpenMangaDexButton } from '@manga/components/common/open-mangadex-button';
 import { UpdateProgressForm } from '@manga/components/common/update-progress';
 import { MangaTableResponse } from '@manga/lib/types';
-import { AddMangaToUserLibraryButton } from '../common/update-utils/components/add-manga-to-user-library';
-import { FollowMangaButton } from '../common/update-utils/components/follow-manga';
-import { FavoriteMangaButton } from '../common/update-utils/components/favorite-manga';
+import { AddMangaToUserLibraryButton } from '@manga/components/common/add-manga-to-user-library';
+import { FollowMangaButton } from '@manga/components/common/follow-manga';
+import { FavoriteMangaButton } from '@manga/components/common/favorite-manga';
 
 type MangaTableSheetProps = {
   manga: MangaTableResponse['data'][number];
