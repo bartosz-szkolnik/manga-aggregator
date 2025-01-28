@@ -30,7 +30,8 @@
       "@manga/*": ["./src/features/manga/*"],
       "@admin-dashboard/*": ["./src/features/dashboard/*"],
       "@settings/*": ["./src/features/settings/*"],
-      "@2048/*": ["./src/features/2048/*"]
+      "@2048/*": ["./src/features/2048/*"],
+      "@test/*": ["./test/"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
