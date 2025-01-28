@@ -22,13 +22,18 @@ export function CardSkeleton() {
 export function CardsSkeleton() {
   return (
     <>
-      <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+      <div className="md:hidden">
+        <Skeleton className="my-4 flex h-[48px] w-full items-center justify-center">Loading statistics...</Skeleton>
       </div>
-      <Separator className="my-4" />
+      <div className="hidden md:block">
+        <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+        <Separator className="my-4" />
+      </div>
     </>
   );
 }

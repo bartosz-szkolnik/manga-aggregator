@@ -1,23 +1,5 @@
-import { Manga, Profile, UnCamelCasedManga } from '@manga/types';
 import { unauthorized } from '@auth/utils';
 import { createServerClient } from '@utils/supabase/server';
-import { mapArrayToCamelCase, propertiesToCamelCase } from '@utils/utils';
-
-export async function fetchRecommendedMangas(offset = 0) {
-  const { supabase, profile } = await createServerClient();
-
-  const { data, error } = await supabase
-    .from('manga')
-    .select('*', { count: 'exact' })
-    .order('id', { ascending: true })
-    .range(offset, offset + 9);
-
-  if (error) {
-    return { error };
-  }
-
-  return { data: mapData(data), profile: propertiesToCamelCase(profile) } satisfies { data: Manga[]; profile: Profile };
-}
 
 export async function fetchMangasReadCount() {
   const { supabase, userId } = await createServerClient();
@@ -43,10 +25,4 @@ export async function fetchMangasPlannedToReadCount() {
     .select('', { count: 'exact' })
     .match({ reading_status: 'want to read', profile_id: userId });
   return count;
-}
-
-function mapData(data: UnCamelCasedManga[]): Manga[] {
-  return mapArrayToCamelCase(data).map(({ ...rest }) => {
-    return { ...rest, hasProfileManga: false };
-  });
 }

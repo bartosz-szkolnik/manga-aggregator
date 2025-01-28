@@ -13,7 +13,7 @@ import { FollowMangaButton } from '@manga/components/common/follow-manga';
 import { FavoriteMangaButton } from '@manga/components/common/favorite-manga';
 import { UpdateProgressForm } from '@manga/components/common/update-progress';
 import { updateSearchParamsShallowly } from '@utils/utils';
-import { MangasInRowSkeleton } from '@components/skeletons';
+import { ResponsiveMangasInRowSkeleton } from '@components/skeletons';
 
 type MangaGridProps = {
   response: MangaGridResponse;
@@ -72,7 +72,7 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
           const { id, isFavorite, isFollowing, isInLibrary: isInUserLibrary } = manga;
 
           return (
-            <MangaArtwork key={id} manga={manga}>
+            <MangaArtwork key={id} manga={manga} sizeOfMangas="responsive">
               <AddMangaToUserLibraryButton mangaId={id} isInLibrary={isInUserLibrary ?? false} setCookie />
               {isInUserLibrary && <FollowMangaButton mangaId={id} isFollowing={isFollowing ?? false} setCookie />}
               {isInUserLibrary && <FavoriteMangaButton mangaId={id} isFavorite={isFavorite ?? false} setCookie />}
@@ -80,7 +80,7 @@ export function MangaGrid({ response, loadMoreMangasAction }: MangaGridProps) {
             </MangaArtwork>
           );
         })}
-        {state.loading && <MangasInRowSkeleton total={total} fetchedAmount={state.data.length} />}
+        {state.loading && <ResponsiveMangasInRowSkeleton total={total} fetchedAmount={state.data.length} />}
       </div>
       {!state.loading && <MangasLoader onLoad={handleLoadMore} />}
     </>

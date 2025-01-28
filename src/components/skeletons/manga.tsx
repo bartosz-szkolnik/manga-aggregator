@@ -1,6 +1,28 @@
 import { Skeleton } from '@components/ui/skeleton';
 import { clamp } from '@utils/utils';
 
+export function MangaSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Skeleton className="h-[330px] min-w-[250px] max-w-[250px]" />
+      <div className="mt-1 flex flex-col gap-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+      </div>
+    </div>
+  );
+}
+
+export function MangasInRowSkeleton() {
+  return (
+    <div className="flex space-x-4 overflow-hidden pb-4">
+      {createArray(10, (_, i) => (
+        <MangaSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
 export function MangaResponsiveSkeleton() {
   return (
     <div className="flex flex-col gap-4">
@@ -13,7 +35,7 @@ export function MangaResponsiveSkeleton() {
   );
 }
 
-export function MangasInRowSkeleton({ total, fetchedAmount }: { total: number; fetchedAmount: number }) {
+export function ResponsiveMangasInRowSkeleton({ total, fetchedAmount }: { total: number; fetchedAmount: number }) {
   const amount = clamp(total - fetchedAmount, 0, 10);
   return createArray(amount, (_, i) => <MangaResponsiveSkeleton key={i} />);
 }

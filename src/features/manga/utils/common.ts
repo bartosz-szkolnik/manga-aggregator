@@ -18,3 +18,16 @@ export function getMangaDescription(description: Description) {
     'No description available...'
   );
 }
+
+export function getMangaChaptersBehind(
+  latestChapter: string | null | undefined,
+  latestChapterRead: string | null | undefined,
+) {
+  const latest = Number(latestChapter ?? 0);
+  const latestRead = Number(latestChapterRead ?? 0);
+  if (Number.isInteger(latest) && Number.isInteger(latestRead)) {
+    return Number(latest ?? 0) - Number(latestRead ?? 0);
+  }
+
+  return (Math.trunc(latest * 10) - Math.trunc(latestRead * 10)) / 10;
+}
